@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <LangVersion>11</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="NCore" Version="2.2.0.8" />
+        <PackageReference Include="OAuth" Version="1.0.3" />
+        <PackageReference Include="TweetinviAPI" Version="5.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ITC.Application\ITC.Application.csproj" />
+        <ProjectReference Include="..\ITC.Domain\ITC.Domain.csproj" />
+        <ProjectReference Include="..\ITC.Infra.CrossCutting.Identity\ITC.Infra.CrossCutting.Identity.csproj" />
+        <ProjectReference Include="..\ITC.Infra.Data\ITC.Infra.Data.csproj" />
+    </ItemGroup>
+
+</Project>

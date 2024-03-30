@@ -1,0 +1,160 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <AssemblyVersion>1.1.0.1</AssemblyVersion>
+        <FileVersion>1.1.0.1</FileVersion>
+        <LangVersion>11</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DocumentationFile>bin\ITC.Service.API.xml</DocumentationFile>
+        <OutputPath>bin\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DocumentationFile>ITC.Service.API.xml</DocumentationFile>
+        <OutputPath>bin\Release\netcoreapp3.1\</OutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Aspose.Words" Version="20.1.0" />
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+        <PackageReference Include="BarcodeLib" Version="2.2.6" />
+        <PackageReference Include="EPPlus" Version="5.2.1" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+        <PackageReference Include="NCore" Version="2.2.0.8" />
+        <PackageReference Include="OAuth" Version="1.0.3" />
+        <PackageReference Include="QRCoder" Version="1.3.9" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
+        <PackageReference Include="System.IO.FileSystem.AccessControl" Version="6.0.0-preview.5.21301.5" />
+        <PackageReference Include="System.IO.Packaging" Version="4.7.0" />
+        <PackageReference Include="TweetinviAPI" Version="5.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ITC.Application\ITC.Application.csproj" />
+        <ProjectReference Include="..\ITC.CrossCutting.IoC\ITC.Infra.CrossCutting.IoC.csproj" />
+        <ProjectReference Include="..\ITC.Infra.CrossCutting.Bus\ITC.Infra.CrossCutting.Bus.csproj" />
+        <ProjectReference Include="..\ITC.Infra.CrossCutting.Identity\ITC.Infra.CrossCutting.Identity.csproj" />
+        <ProjectReference Include="..\RateLimitRequest\RateLimitRequest.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot\Document\Outsave" />
+        <Folder Include="wwwroot\Document\Template\" />
+        <Folder Include="wwwroot\images\" />
+        <Folder Include="wwwroot\Uploads\FileFolder" />
+        <Folder Include="wwwroot\Uploads\Img\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="NPOI">
+            <HintPath>..\..\..\..\..\A_DLL\NPOI.dll</HintPath>
+        </Reference>
+        <Reference Include="Xceed.Document.NETCore">
+            <HintPath>Libs\Xceed.Document.NETCore.dll</HintPath>
+        </Reference>
+        <Reference Include="Xceed.Words.NETCore">
+            <HintPath>Libs\Xceed.Words.NETCore.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-osedlhklmd\638003386589397962.pdf" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-anvikiuurn\638003076345127796.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-anvikiuurn\Acceptance Lette 1.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-bpepqvuqev\638003071374605475.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-bpepqvuqev\Acceptance Lette 1.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-bsdjmdmkvb\638003032745668193.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-cukoopktri\128x128.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-cukoopktri\500x320.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-cukoopktri\638012915631409794.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-cukoopktri\64x64.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-dkftjocrua\638003064356864542.docx" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-eaojqubdaf\638003053138351753.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-evnoaqhuia\128x128.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-evnoaqhuia\500x320.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-evnoaqhuia\638012920545348559.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-evnoaqhuia\64x64.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-fjfigvqfjk\638003030002478408.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-foucqgoern\128x128.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-foucqgoern\500x320.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-foucqgoern\638012907402570223.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-foucqgoern\64x64.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-frkgpjjonu\128x128.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-frkgpjjonu\500x320.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-frkgpjjonu\638012919984968776.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-frkgpjjonu\64x64.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-gmosrbnmtv\128x128.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-gmosrbnmtv\500x320.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-gmosrbnmtv\638012915346136444.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-gmosrbnmtv\64x64.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-gqvvtaumhs\638003074378376924.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-gqvvtaumhs\Acceptance Lette 1.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-iakrrhabgk\638003031723729305.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-iegjqqkuqu\128x128.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-iegjqqkuqu\500x320.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-iegjqqkuqu\638012918360247653.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-iegjqqkuqu\64x64.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-inomamrdqa\638003029702482745.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-iouctinkgl\128x128.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-iouctinkgl\500x320.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-iouctinkgl\638012914696918888.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-iouctinkgl\64x64.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-kcniqlbqaa\638003070914456719.doc" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-lfqilcnkqk\638003032681916749.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-mcihimutlh\638003167035428194.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-mcihimutlh\FILE_20220803_141144_download (8).pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-mfojjmoapn\128x128.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-mfojjmoapn\500x320.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-mfojjmoapn\638003077003058271.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-mfojjmoapn\64x64.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-mnvksnbico\638003030799123757.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-nkmajdrqlu\128x128.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-nkmajdrqlu\500x320.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-nkmajdrqlu\638010279202923472.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-nkmajdrqlu\64x64.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-qphicuknps\638003049744603366.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-qqtccmlkoj\638003053222082471.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-rjpjilbkgo\128x128.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-rjpjilbkgo\500x320.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-rjpjilbkgo\638012919299844111.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-rjpjilbkgo\64x64.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-rpqkgsdilj\638003050143227787.png" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-sephpvhoau\638003076271655797.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-sephpvhoau\Acceptance Lette 1.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-sfcovpfomi\17_2018_TT_BGDDT_d8d82f93bf.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-sfcovpfomi\638003166640758013.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-suubmhdkoi\638003065370704011.docx" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-thdojqabvv\638003167158504004.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\0cfd4951-aec3-4f4a-be35-f1911e88f809\fol-thdojqabvv\FILE_20220803_141144_download (8).pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-cshufvbknd\638012083247153636.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-cshufvbknd\Acceptance Lette 1.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-etjqqadupf\638012066884272306.jpg" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-fejjaujmvf\638013286181269456.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-fejjaujmvf\Acceptance Lette 1.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-lkgomapcjt\638012081398041091.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-lkgomapcjt\Acceptance Lette 1.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-rcvddejkrd\638013274526535043.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-rcvddejkrd\Acceptance Lette 1.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-rgvnarkitb\638017009354186083.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-rgvnarkitb\QD_DieuLeBoi2022.signed.signed.signed.pdf.pdf" />
+        <_ContentIncludedByDefault Remove="wwwroot\Uploads\FileFolder\c3fd75ea-c67a-42d6-ab12-5e5510d91bf1\fol-spuobpgpkf\638013282145372948.png" />
+    </ItemGroup>
+
+
+</Project>

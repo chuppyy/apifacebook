@@ -1,0 +1,100 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <LangVersion>11</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="Migrations\20200803025314_ThemKhoiHoc.cs" />
+        <Compile Remove="Migrations\20200803025314_ThemKhoiHoc.Designer.cs" />
+        <Compile Remove="Migrations\20200803100535_ThemLopHoc1.cs" />
+        <Compile Remove="Migrations\20200803100535_ThemLopHoc1.Designer.cs" />
+        <Compile Remove="Migrations\20200804035746_EditRoomTable2.cs" />
+        <Compile Remove="Migrations\20200804035746_EditRoomTable2.Designer.cs" />
+        <Compile Remove="Migrations\20200804134633_SuaMonHoc.cs" />
+        <Compile Remove="Migrations\20200804134633_SuaMonHoc.Designer.cs" />
+        <Compile Remove="Migrations\20200804135331_EditDbSubject.cs" />
+        <Compile Remove="Migrations\20200804135331_EditDbSubject.Designer.cs" />
+        <Compile Remove="Migrations\20200807063916_AddLessonEquipment.cs" />
+        <Compile Remove="Migrations\20200807063916_AddLessonEquipment.Designer.cs" />
+        <Compile Remove="Migrations\20200810034556_addBorrow.cs" />
+        <Compile Remove="Migrations\20200810034556_addBorrow.Designer.cs" />
+        <Compile Remove="Migrations\20200810034927_addBorrow.cs" />
+        <Compile Remove="Migrations\20200810034927_addBorrow.Designer.cs" />
+        <Compile Remove="Migrations\20200817014334_EditFixingTable2.cs" />
+        <Compile Remove="Migrations\20200817014334_EditFixingTable2.Designer.cs" />
+        <Compile Remove="Migrations\20201007065617_addStoredEvent_07_10.cs" />
+        <Compile Remove="Migrations\20201007065617_addStoredEvent_07_10.Designer.cs" />
+        <Compile Remove="Migrations\20201008032854_AddStoredEvent_08_10.cs" />
+        <Compile Remove="Migrations\20201008032854_AddStoredEvent_08_10.Designer.cs" />
+        <Compile Remove="Migrations\20201008034651_AddStoredEvent2_0810.cs" />
+        <Compile Remove="Migrations\20201008034651_AddStoredEvent2_0810.Designer.cs" />
+        <Compile Remove="Migrations\20201127041413_addSubjectEducationlevel.cs" />
+        <Compile Remove="Migrations\20201127041413_addSubjectEducationlevel.Designer.cs" />
+        <Compile Remove="Migrations\20210910003844_AddOrganizationStructure.cs" />
+        <Compile Remove="Migrations\20210910003844_AddOrganizationStructure.Designer.cs" />
+        <Compile Remove="Migrations\20210920074307_AddBussinessTable.cs" />
+        <Compile Remove="Migrations\20210920074307_AddBussinessTable.Designer.cs" />
+        <Compile Remove="Migrations\20211006002042_nhatcx_fixParent_Feature.cs" />
+        <Compile Remove="Migrations\20211006002042_nhatcx_fixParent_Feature.Designer.cs" />
+        <Compile Remove="Migrations\20211007071255_AdđateLicense.cs" />
+        <Compile Remove="Migrations\20211007071255_AdđateLicense.Designer.cs" />
+        <Compile Remove="Migrations\20211013020916_AddEquipmentTable.cs" />
+        <Compile Remove="Migrations\20211013020916_AddEquipmentTable.Designer.cs" />
+        <Compile Remove="Migrations\20211108062806_add_EmailSystem.cs" />
+        <Compile Remove="Migrations\20211108062806_add_EmailSystem.Designer.cs" />
+        <Compile Remove="Migrations\20211222041747_add_ScienTechnology.cs" />
+        <Compile Remove="Migrations\20211222041747_add_ScienTechnology.Designer.cs" />
+        <Compile Remove="Migrations\20220111152710_up_templatePoint.cs" />
+        <Compile Remove="Migrations\20220111152710_up_templatePoint.Designer.cs" />
+        <Compile Remove="Migrations\20220213152056_fix_SubjectManagerDetail.cs" />
+        <Compile Remove="Migrations\20220213152056_fix_SubjectManagerDetail.Designer.cs" />
+        <Compile Remove="Migrations\20220213152251_fix_SubjectManagerDetail.cs" />
+        <Compile Remove="Migrations\20220213152251_fix_SubjectManagerDetail.Designer.cs" />
+        <Compile Remove="Migrations\20220213153231_fix_SubjectManagerDetail2.cs" />
+        <Compile Remove="Migrations\20220213153231_fix_SubjectManagerDetail2.Designer.cs" />
+        <Compile Remove="Migrations\20220213154409_fix_SubjectManagerDetail3.cs" />
+        <Compile Remove="Migrations\20220213154409_fix_SubjectManagerDetail3.Designer.cs" />
+        <Compile Remove="Migrations\20220411061353_add_authority.cs" />
+        <Compile Remove="Migrations\20220411061353_add_authority.Designer.cs" />
+        <Compile Remove="Migrations\20220717145351_up_typeId_NewsMagaer.cs" />
+        <Compile Remove="Migrations\20220717145351_up_typeId_NewsMagaer.Designer.cs" />
+        <Compile Remove="Migrations\20220717145732_up_typeId_NewsMagaer.cs" />
+        <Compile Remove="Migrations\20220717145732_up_typeId_NewsMagaer.Designer.cs" />
+        <Compile Remove="Migrations\20220912134451_up_MetaTitle_NewsGroupType.cs" />
+        <Compile Remove="Migrations\20220912134451_up_MetaTitle_NewsGroupType.Designer.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.0.123" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.6" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.6" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.6" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.6" />
+        <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
+        <PackageReference Include="NCore" Version="2.2.0.8" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+        <PackageReference Include="OAuth" Version="1.0.3" />
+        <PackageReference Include="TweetinviAPI" Version="5.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ITC.Domain\ITC.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Migrations\" />
+    </ItemGroup>
+
+</Project>

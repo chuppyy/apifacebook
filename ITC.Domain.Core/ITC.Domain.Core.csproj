@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <LangVersion>11</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\.editorconfig" Link=".editorconfig" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Coravel" Version="5.0.2" />
+        <PackageReference Include="FluentValidation" Version="9.0.1" />
+        <PackageReference Include="Hangfire" Version="1.8.6" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
+        <PackageReference Include="MediatR" Version="8.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="NCore" Version="2.2.0.8" />
+        <PackageReference Include="OAuth" Version="1.0.3" />
+        <PackageReference Include="System.ComponentModel" Version="4.3.0" />
+        <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+        <PackageReference Include="System.IO.FileSystem.AccessControl" Version="6.0.0-preview.5.21301.5" />
+        <PackageReference Include="TweetinviAPI" Version="5.0.4" />
+    </ItemGroup>
+
+</Project>

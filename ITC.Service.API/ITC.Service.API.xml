@@ -1,0 +1,3075 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ITC.Service.API</name>
+    </assembly>
+    <members>
+        <member name="T:ITC.Service.API.Configurations.AppSettings">
+            <summary>
+                AppSettings
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Configurations.AppSettings.Expiration">
+            <summary>
+                Expiration
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Configurations.AppSettings.Issuer">
+            <summary>
+                Issuer
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Configurations.AppSettings.Secret">
+            <summary>
+                Secret
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Configurations.AppSettings.ValidAt">
+            <summary>
+                ValidAt
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Configurations.AutoMapperConfig">
+            <summary>
+                AutoMapperConfig
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.AutoMapperConfig.AddAutoMapperConfiguration(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                AddAutoMapperConfiguration
+            </summary>
+            <param name="services"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:ITC.Service.API.Configurations.DatabaseConfig">
+            <summary>
+                DatabaseConfig
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.DatabaseConfig.AddDatabaseSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+                AddDatabaseSetup
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:ITC.Service.API.Configurations.DependencyInjectionConfig">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.DependencyInjectionConfig.AddDependencyInjectionSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:ITC.Service.API.Configurations.HangFileConfig">
+            <summary>
+                HangFileConfig
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.HangFileConfig.AddHangFileSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+                AddHangFileSetup
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:ITC.Service.API.Configurations.IdentitySetup">
+            <summary>
+                IdentitySetup
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.IdentitySetup.AddAuthSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                AddAuthSetup
+            </summary>
+            <param name="services"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.IdentitySetup.AddIdentitySetup(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+                AddIdentitySetup
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:ITC.Service.API.Configurations.ETCUserClaimsPrincipalFactory">
+            <inheritdoc />
+        </member>
+        <member name="M:ITC.Service.API.Configurations.ETCUserClaimsPrincipalFactory.#ctor(ITC.Infra.CrossCutting.Identity.Queries.IManageRoleQueries,ITC.Domain.Core.Bus.IMediatorHandler,Microsoft.AspNetCore.Identity.UserManager{ITC.Infra.CrossCutting.Identity.Models.ApplicationUser},Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Identity.IdentityOptions})">
+            <summary>
+            </summary>
+            <param name="manageRoleQueries"></param>
+            <param name="bus"></param>
+            <param name="userManager"></param>
+            <param name="optionsAccessor"></param>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.ETCUserClaimsPrincipalFactory.GenerateClaimsAsync(ITC.Infra.CrossCutting.Identity.Models.ApplicationUser)">
+            <summary>
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Configurations.Policies">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Configurations.Policies.Administrator">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.Policies.GetPolicyName(System.String,ITC.Infra.CrossCutting.Identity.Authorization.TypeAudit)">
+            <summary>
+            </summary>
+            <param name="moduleIdentity"></param>
+            <param name="typeAudit"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Configurations.SwaggerConfig">
+            <summary>
+                SwaggerConfig
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.SwaggerConfig.AddSwaggerConfiguration(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                AddSwaggerConfiguration
+            </summary>
+            <param name="services"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:ITC.Service.API.Configurations.SwaggerConfig.UseSwaggerSetup(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+                UseSwaggerSetup
+            </summary>
+            <param name="app"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.AccountController">
+            <summary>
+                Tài khoản
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AccountController.#ctor(ITC.Infra.CrossCutting.Identity.Extensions.CustomUserManager{ITC.Infra.CrossCutting.Identity.Models.ApplicationUser},ITC.Infra.CrossCutting.Identity.Interfaces.IAccountRepository,ITC.Domain.Interfaces.IUser,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+            </summary>
+            <param name="userManager"></param>
+            <param name="accountRepository"></param>
+            <param name="user"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AccountController.Addsession">
+            <summary>
+                Lấy số bản ghi tài khoản của hệ thống
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AccountController.ChangPassword(ITC.Application.ViewModels.ManageRole.ChangePasswordAccountViewModel)">
+            <summary>
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.LoginStoredEvent">
+            <summary>
+                LoginStoredEvent
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.LoginStoredEvent.#ctor(ITC.Infra.CrossCutting.Identity.Models.ApplicationUser,System.String,System.String)">
+            <summary>
+                LoginStoredEvent
+            </summary>
+            <param name="user"></param>
+            <param name="unitUserId"></param>
+            <param name="ipAddress"></param>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.ApiController">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.#ctor(MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <inheritdoc />
+        </member>
+        <member name="P:ITC.Service.API.Controllers.ApiController.Notifications">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.AddIdentityErrors(Microsoft.AspNetCore.Identity.IdentityResult)">
+            <summary>
+            </summary>
+            <param name="result"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.CustomResponse(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
+            <summary>
+            </summary>
+            <param name="modelState"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.CustomResponse(System.Object)">
+            <summary>
+            </summary>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.LoginResponse(System.Object,System.Object,System.Object,System.Object)">
+            <summary>
+                Trả về kết quả đăng nhập
+            </summary>
+            <param name="aToken"></param>
+            <param name="rToken"></param>
+            <param name="aUserFile"></param>
+            <param name="rRoles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.LoginResponseV3(System.Boolean,System.String,System.Object,System.Object,System.Object,System.Object)">
+            <summary>
+                Trả về kết quả đăng nhập
+            </summary>
+            <param name="aToken"></param>
+            <param name="rToken"></param>
+            <param name="aUserFile"></param>
+            <param name="rRoles"></param>
+            <param name="isError"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.IsValidOperation">
+            <summary>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.NotifyError(System.String,System.String)">
+            <summary>
+            </summary>
+            <param name="code"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.NotifyModelStateErrors">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.Response(System.Object)">
+            <summary>
+                Response
+            </summary>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.NResponseCommand(System.Nullable{System.Boolean},System.Object)">
+            <summary>
+            </summary>
+            <param name="isResult">Giá trị đúng sai</param>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.NResponse(System.Object)">
+            <summary>
+            </summary>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ApiController.NResponseBadRequest(System.Object)">
+            <summary>
+            </summary>
+            <param name="result"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.AuthorityManager.AuthorityManagerSystemController">
+            <summary>
+                Phân quyền
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.AuthorityManagerSystemController.#ctor(MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler,ITC.Domain.Interfaces.IUser,ITC.Application.AppService.AuthorityManager.AuthorityManagerSystem.IAuthorityManagerAppService,ITC.Application.AppService.AuthorityManager.MenuManagerSystem.IMenuManagerAppService)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+            <param name="user"></param>
+            <param name="authorityManagerAppService"></param>
+            <param name="menuManagerAppService"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.AuthorityManagerSystemController.Add(ITC.Domain.Core.ModelShare.AuthorityManager.AuthorityManagerSystems.AuthorityManagerSystemEventModel)">
+            <summary>
+                Thêm mới quyền sử dụng
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.AuthorityManagerSystemController.Edit(ITC.Domain.Core.ModelShare.AuthorityManager.AuthorityManagerSystems.AuthorityManagerSystemEventModel)">
+            <summary>
+                Sửa quyền sử dụng
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.AuthorityManagerSystemController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa quyền sử dụng
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.AuthorityManagerSystemController.GetById(System.Guid)">
+            <summary>
+                Lấy quyền sử dụng theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.AuthorityManagerSystemController.GetPaging(System.String,System.Int32,System.Int32)">
+            <summary>
+                [Phân trang] Danh sách quyền sử dụng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.AuthorityManagerSystemController.GetCombobox(System.String,System.Nullable{System.Guid})">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.AuthorityManagerSystemController.GetFeatureByAuthorities(System.String)">
+            <summary>
+                [Treeview] Trả về danh sách quyền sử dụng theo authority để phân quyền
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController">
+            <summary>
+                Menu Admin
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.#ctor(ITC.Domain.Interfaces.IUser,ITC.Application.AppService.AuthorityManager.MenuManagerSystem.IMenuManagerAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="user"></param>
+            <param name="menuManagerAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.Add(ITC.Domain.Core.ModelShare.AuthorityManager.MenuManagerEventModel)">
+            <summary>
+                Thêm mới
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.Edit(ITC.Domain.Core.ModelShare.AuthorityManager.MenuManagerEventModel)">
+            <summary>
+                Sửa thông tin menu
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.Delete(System.Guid)">
+            <summary>
+                Xóa menu
+            </summary>
+            <param name="ids">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.GetById(System.Guid)">
+            <summary>
+                Lấy menu theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.GetTreeViewRoot(System.Int32)">
+            <summary>
+                [Treeview] Trả về Root
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.GetPagingAuthorities(System.Guid,System.Guid,System.String,System.Int32,System.Int32)">
+            <summary>
+                [Phân trang] Danh sách quyền sử dụng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.Add(ITC.Domain.Core.ModelShare.AuthorityManager.AuthoritiesMenuManagerEventModel)">
+            <summary>
+                Thêm mới phân quyền
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.EditAuthorities(ITC.Domain.Core.ModelShare.AuthorityManager.AuthoritiesMenuManagerEventModel)">
+            <summary>
+                Sửa thông tin menu
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.GetCombobox(System.Guid,System.Guid)">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.GetAuthoritiesById(System.Guid)">
+            <summary>
+                Lấy dữ liệu quyền sử dụng theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.DeleteAuthorities(System.String,System.Guid,System.Guid)">
+            <summary>
+                Xóa quyền sử dụng
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <param name="projectId"></param>
+            <param name="companyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.GetPermissionByAuthorities(System.Guid)">
+            <summary>
+                Lấy dữ liệu quyền truy cập theo ID chức năng đã được cấp
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.UpdatePermissionByAuthorities(ITC.Domain.Core.ModelShare.AuthorityManager.SortMenuPermissionByAuthoritiesModel)">
+            <summary>
+                Cập nhật giá trị quyền
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.MenuManagerController.V2023GetVersionMenu">
+            <summary>
+                Danh sách phiên bản chức năng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.AuthorityManager.PermissonDefaultController">
+            <summary>
+                Quyền mặc định
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.PermissonDefaultController.#ctor(ITC.Application.AppService.AuthorityManager.MenuManagerSystem.IMenuManagerAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="appService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.PermissonDefaultController.GetPermission(System.Int32)">
+            <summary>
+                Danh sách quyền mặc định
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.AuthorityManager.PermissonDefaultController.GetPermissionDefault(System.Int32)">
+            <summary>
+                Danh sách quyền mặc định
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.FroalaController">
+            <inheritdoc />
+        </member>
+        <member name="M:ITC.Service.API.Controllers.FroalaController.#ctor(MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <inheritdoc />
+        </member>
+        <member name="T:ITC.Service.API.Controllers.GeneralController">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.GeneralController.#ctor(MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+            </summary>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.GeneralController.GetYears">
+            <summary>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.HomeManagers.NewsController">
+            <inheritdoc />
+        </member>
+        <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.#ctor(ITC.Application.AppService.NewsManagers.NewsContentManagers.INewsContentAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <inheritdoc />
+        </member>
+        <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.GetNewsDetail(System.String)">
+            <summary>
+                Dữ liệu chi tiết bài viết
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.ListNews(ITC.Domain.Core.ModelShare.HomeManager.NewsGroupMainEvent)">
+            <summary>
+                Danh sách bài viết
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.NewsLife(System.String)">
+            <summary>
+                Danh sách bài viết từ cơ sở dữ liệu khác
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.Identitties.QueryDataController">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.Identitties.QueryDataController.#ctor(ITC.Infra.CrossCutting.Identity.Queries.IManageRoleQueries,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+            </summary>
+            <param name="manageRoleQueries"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.Identitties.QueryDataController.Get(ITC.Domain.Core.ModelShare.QueryDataViewModel)">
+            <summary>
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController">
+            <summary>
+                Phân quyền quản trị toàn hệ thống
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.#ctor(MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler,ITC.Domain.Interfaces.IUser,ITC.Application.AppService.AuthorityManager.AuthorityManagerSystem.IAuthorityManagerAppService,ITC.Application.AppService.AuthorityManager.MenuManagerSystem.IMenuManagerAppService)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+            <param name="user"></param>
+            <param name="authorityManagerAppService"></param>
+            <param name="menuManagerAppService"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.Add(ITC.Domain.Core.ModelShare.AuthorityManager.AuthorityManagerSystems.AuthorityManagerSystemEventModel)">
+            <summary>
+                Thêm mới quyền sử dụng
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.Edit(ITC.Domain.Core.ModelShare.AuthorityManager.AuthorityManagerSystems.AuthorityManagerSystemEventModel)">
+            <summary>
+                Sửa quyền sử dụng
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa quyền sử dụng
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.GetById(System.Guid)">
+            <summary>
+                Lấy quyền sử dụng theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.GetPaging(System.String,System.Int32,System.Int32,System.Guid,System.Int32)">
+            <summary>
+                [Phân trang] Danh sách quyền sử dụng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.GetCombobox(System.String,System.Nullable{System.Guid})">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.V202301GetFeatureByAuthorities(System.Guid)">
+            <summary>
+                [Treeview] Trả về danh sách quyền sử dụng theo authority để phân quyền
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.V202301GetFeatureByAuthoritiesParent(System.Guid,System.Guid)">
+            <summary>
+                Trả về các chức năng theo parrentId
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.V202301GetPermissionDefaultByMenu(System.Guid,System.Guid,System.Int32)">
+            <summary>
+                Trả về giá trị mặc định của chức năng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.AuthorityAllSystemManagerController.UpdatePermissionMenu(ITC.Domain.Core.ModelShare.AuthorityManager.AuthorityManagerSystems.AuthorityManagerSystemUpdatePermissionEventModel)">
+            <summary>
+                Cập nhật quyền sử dụng menu
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController">
+            <summary>
+                Chức năng hệ thống
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.#ctor(ITC.Domain.Interfaces.IUser,ITC.Application.AppService.AuthorityManager.MenuManagerSystem.IMenuManagerAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="user"></param>
+            <param name="menuManagerAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.Add(ITC.Domain.Core.ModelShare.AuthorityManager.MenuManagerEventModel)">
+            <summary>
+                Thêm mới
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.Edit(ITC.Domain.Core.ModelShare.AuthorityManager.MenuManagerEventModel)">
+            <summary>
+                Sửa thông tin menu
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.Delete(System.Guid)">
+            <summary>
+                Xóa menu
+            </summary>
+            <param name="ids">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.GetById(System.Guid)">
+            <summary>
+                Lấy menu theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.GetPagingAuthorities(System.Guid,System.Guid,System.String,System.Int32,System.Int32)">
+            <summary>
+                [Phân trang] Danh sách quyền sử dụng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.Add(ITC.Domain.Core.ModelShare.AuthorityManager.AuthoritiesMenuManagerEventModel)">
+            <summary>
+                Thêm mới phân quyền
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.EditAuthorities(ITC.Domain.Core.ModelShare.AuthorityManager.AuthoritiesMenuManagerEventModel)">
+            <summary>
+                Sửa thông tin menu
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.GetCombobox(System.Guid,System.Guid)">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.GetAuthoritiesById(System.Guid)">
+            <summary>
+                Lấy dữ liệu quyền sử dụng theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.DeleteAuthorities(System.String,System.Guid,System.Guid)">
+            <summary>
+                Xóa quyền sử dụng
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <param name="projectId"></param>
+            <param name="companyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.GetPermissionByAuthorities(System.Guid)">
+            <summary>
+                Lấy dữ liệu quyền truy cập theo ID chức năng đã được cấp
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.UpdatePermissionByAuthorities(ITC.Domain.Core.ModelShare.AuthorityManager.SortMenuPermissionByAuthoritiesModel)">
+            <summary>
+                Cập nhật giá trị quyền
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ITPhoNui.FunctionSystemManagerController.V2023GetVersionMenu">
+            <summary>
+                Danh sách phiên bản chức năng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.LoggerController">
+            <summary>
+                Lấy file ghi log
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.LoggerController.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+            </summary>
+            <param name="env"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.LoggerController.GetFileLog(System.String)">
+            <summary>
+                Lấy file ghi log
+            </summary>
+            <param name="dateLog">Ngày ghi log, định dạng yyyy-mm-dd. Nếu để trống sẽ lấy file log ngày hiện tại</param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.LoginController">
+            <inheritdoc />
+        </member>
+        <member name="M:ITC.Service.API.Controllers.LoginController.#ctor(ITC.Infra.CrossCutting.Identity.Extensions.CustomUserManager{ITC.Infra.CrossCutting.Identity.Models.ApplicationUser},Microsoft.AspNetCore.Identity.SignInManager{ITC.Infra.CrossCutting.Identity.Models.ApplicationUser},ITC.Infra.CrossCutting.Identity.Queries.IManageRoleQueries,ITC.Infra.CrossCutting.Identity.Interfaces.IAccountRepository,ITC.Application.Interfaces.ManageRole.ITokenAppService,ITC.Application.AppService.AuthorityManager.MenuManagerSystem.IMenuManagerAppService,ITC.Application.AppService.CompanyManagers.StaffManagers.IStaffManagerAppService,Microsoft.Extensions.Options.IOptions{ITC.Service.API.Configurations.AppSettings},MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <inheritdoc />
+        </member>
+        <member name="M:ITC.Service.API.Controllers.LoginController.Login(ITC.Application.ViewModels.Account.LoginViewModel)">
+            <summary>
+                Đăng nhập
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.LoginController.RefreshToken(ITC.Application.ViewModels.ManageRole.TokenViewModel)">
+            <summary>
+            </summary>
+            <param name="tokenApiModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.LoginController.Logout(ITC.Application.ViewModels.ManageRole.LogoutViewModel)">
+            <summary>
+                Đăng xuất hệ thống
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.LoginController.GenerateJwt(System.String)">
+            <summary>
+                GenerateJwt
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.LoginController.ReissuePassword(ITC.Application.ViewModels.ManageRole.ResetPasswordViewModel)">
+            <summary>
+                Cấp lại mật khẩu
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsAttackController">
+            <summary>
+                Đính kèm bài viết
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsAttackController.#ctor(ITC.Application.AppService.NewsManagers.NewsAttackManagers.INewsAttackAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsAttackAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsAttackController.GetPaging(System.Guid)">
+            <summary>
+                Danh sách file đính kèm
+            </summary>
+            <param name="id">mã bài viết</param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsContentController">
+            <summary>
+                Bài viết
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.#ctor(ITC.Application.AppService.NewsManagers.NewsContentManagers.INewsContentAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsContentAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.Add(ITC.Domain.Core.ModelShare.NewsManagers.NewsContentManagers.NewsContentEventModel)">
+            <summary>
+                Thêm mới Bài viết
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.Edit(ITC.Domain.Core.ModelShare.NewsManagers.NewsContentManagers.NewsContentEventModel)">
+            <summary>
+                Sửa Bài viết
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa Bài viết
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.GetById(System.Guid)">
+            <summary>
+                Lấy Bài viết theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.GetPaging(ITC.Domain.Core.ModelShare.NewsManagers.NewsContentManagers.NewsContentPagingModel)">
+            <summary>
+                [Phân trang] Danh sách bài viết
+            </summary>
+            <param name="model">model dữ liệu nhận từ FE</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.GetPagingAuto(ITC.Domain.Core.ModelShare.NewsManagers.NewsContentManagers.NewsContentPagingModel)">
+            <summary>
+                [Phân trang] Danh sách bài viết đăng tự động
+            </summary>
+            <param name="model">model dữ liệu nhận từ FE</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.GetComboboxNewsContentType">
+            <summary>
+                [Combobox] NewsContentType
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.GetComboboxNewsContent(ITC.Domain.Core.ModelShare.NewsManagers.NewsContentManagers.NewsContentPagingModel)">
+            <summary>
+                [Combobox] Danh sách bài viết
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.NewsAuthor">
+            <summary>
+                [Combobox] Danh sách tác giả
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.CopyLink(System.Guid)">
+            <summary>
+                [Combobox] Copy link
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.ReadLink(System.String)">
+            <summary>
+                Đọc dữ liệu từ link 
+            </summary>
+            <param name="id">Đường dẫn</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.PostNews(ITC.Domain.Core.ModelShare.NewsManagers.NewsContentManagers.PostNewFaceEvent)">
+            <summary>
+                Đăng bài lên facebook 
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.UpdateTimePost(ITC.Domain.Core.ModelShare.NewsManagers.NewsContentManagers.NewsContentUpdateTimeAutoPostModel)">
+            <summary>
+                Cập nhật thời gian đăng bài tự động
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.GetScheduleConfig">
+            <summary>
+                Lấy cấu hình lập lịch
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsContentController.GetScheduleSave(System.Int32)">
+            <summary>
+                Lưu cấu hình lập lịch
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsDomainController">
+            <summary>
+                loại nhóm tin
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsDomainController.#ctor(ITC.Application.AppService.NewsManagers.NewsDomainManagers.INewsDomainAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsDomainAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsDomainController.Add(ITC.Domain.Core.ModelShare.NewsManagers.NewsDomainManagers.NewsDomainEventModel)">
+            <summary>
+                Thêm mới loại nhóm tin
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsDomainController.Edit(ITC.Domain.Core.ModelShare.NewsManagers.NewsDomainManagers.NewsDomainEventModel)">
+            <summary>
+                Sửa loại nhóm tin
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsDomainController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa loại nhóm tin
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsDomainController.GetById(System.Guid)">
+            <summary>
+                Lấy loại nhóm tin theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsDomainController.GetPaging(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách loại nhóm tin
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsDomainController.GetCombobox(System.String)">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsDomainController.GetScheduleConfig">
+            <summary>
+                Lấy cấu hình lập lịch
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsDomainController.GetScheduleSave(System.Int32)">
+            <summary>
+                Lưu cấu hình lập lịch
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsGithubController">
+            <summary>
+                NewsGithub
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGithubController.#ctor(ITC.Application.AppService.NewsManagers.NewsGithubManagers.INewsGithubAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsGithubAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGithubController.Add(ITC.Domain.Core.ModelShare.NewsManagers.NewsGithubManagers.NewsGithubEventModel)">
+            <summary>
+                Thêm mới NewsGithub
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGithubController.Edit(ITC.Domain.Core.ModelShare.NewsManagers.NewsGithubManagers.NewsGithubEventModel)">
+            <summary>
+                Sửa NewsGithub
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGithubController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa NewsGithub
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGithubController.GetById(System.Guid)">
+            <summary>
+                Lấy NewsGithub theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGithubController.GetPaging(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách NewsGithub
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGithubController.GetCombobox(System.String)">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsGroupController">
+            <summary>
+                Nhóm tin
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupController.#ctor(ITC.Application.AppService.NewsManagers.NewsGroupManagers.INewsGroupAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsGroupAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupController.Add(ITC.Domain.Core.ModelShare.NewsManagers.NewsGroupManagers.NewsGroupEventModel)">
+            <summary>
+                Thêm mới Nhóm tin
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupController.Edit(ITC.Domain.Core.ModelShare.NewsManagers.NewsGroupManagers.NewsGroupEventModel)">
+            <summary>
+                Sửa Nhóm tin
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa Nhóm tin
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupController.GetById(System.Guid)">
+            <summary>
+                Lấy Nhóm tin theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupController.GetTreeViewRoot(System.String,System.Guid,System.Boolean)">
+            <summary>
+                [Treeview] Trả về tree-view
+            </summary>
+            <param name="vSearch">Giá trị tìm kiếm</param>
+            <param name="newsGroupTypeId">Mã loại nhóm tin</param>
+            <param name="isAll">Hiển thị tất cả</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupController.GetTreeViewModal(System.String,System.Guid,System.Boolean)">
+            <summary>
+                [Treeview-Modal] Trả về tree-view
+            </summary>
+            <param name="vSearch">Giá trị tìm kiếm</param>
+            <param name="newsGroupTypeId">Mã loại nhóm tin</param>
+            <param name="isAll">Hiển thị tất cả</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupController.GetVercel">
+            <summary>
+                Danh sách Vercel
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupController.GetDomainVercel">
+            <summary>
+                Thay đổi Domain Vercel
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsGroupTypeController">
+            <summary>
+                loại nhóm tin
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupTypeController.#ctor(ITC.Application.AppService.NewsManagers.NewsGroupTypeManagers.INewsGroupTypeAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsGroupTypeAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupTypeController.Add(ITC.Domain.Core.ModelShare.NewsManagers.NewsGroupTypeManagers.NewsGroupTypeEventModel)">
+            <summary>
+                Thêm mới loại nhóm tin
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupTypeController.Edit(ITC.Domain.Core.ModelShare.NewsManagers.NewsGroupTypeManagers.NewsGroupTypeEventModel)">
+            <summary>
+                Sửa loại nhóm tin
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupTypeController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa loại nhóm tin
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupTypeController.GetById(System.Guid)">
+            <summary>
+                Lấy loại nhóm tin theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupTypeController.GetPaging(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách loại nhóm tin
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsGroupTypeController.GetCombobox(System.String)">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentController">
+            <summary>
+                Tuyển duụng
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentController.#ctor(ITC.Application.AppService.NewsManagers.NewsRecruitmentManagers.INewsRecruitmentAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsRecruitmentAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentController.Add(ITC.Domain.Core.ModelShare.NewsManagers.NewsRecruitmentManagers.NewsRecruitmentEventModel)">
+            <summary>
+                Thêm mới Bài viết
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentController.Edit(ITC.Domain.Core.ModelShare.NewsManagers.NewsRecruitmentManagers.NewsRecruitmentEventModel)">
+            <summary>
+                Sửa Bài viết
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa Bài viết
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentController.GetById(System.Guid)">
+            <summary>
+                Lấy Bài viết theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentController.GetPaging(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách bài viết
+            </summary>
+            <param name="model">model dữ liệu nhận từ FE</param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentQuoteController">
+            <summary>
+                Báo giá
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentQuoteController.#ctor(ITC.Application.AppService.NewsManagers.NewsRecruitmentManagers.INewsRecruitmentAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsRecruitmentQuoteAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentQuoteController.Add(ITC.Domain.Core.ModelShare.NewsManagers.NewsRecruitmentManagers.NewsRecruitmentEventModel)">
+            <summary>
+                Thêm mới Bài viết
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentQuoteController.Edit(ITC.Domain.Core.ModelShare.NewsManagers.NewsRecruitmentManagers.NewsRecruitmentEventModel)">
+            <summary>
+                Sửa Bài viết
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentQuoteController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa Bài viết
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentQuoteController.GetById(System.Guid)">
+            <summary>
+                Lấy Bài viết theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsRecruitmentQuoteController.GetPaging(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách bài viết
+            </summary>
+            <param name="model">model dữ liệu nhận từ FE</param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsSeoKeyWordController">
+            <summary>
+                Từ khóa SEO
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsSeoKeyWordController.#ctor(ITC.Application.AppService.NewsManagers.NewsSeoKeyWordManagers.INewsSeoKeyWordAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsSeoKeyWordAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsSeoKeyWordController.Add(ITC.Domain.Core.ModelShare.NewsManagers.NewsSeoKeyWordManagers.NewsSeoKeyWordEventModel)">
+            <summary>
+                Thêm mới từ khóa SEO
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsSeoKeyWordController.Edit(ITC.Domain.Core.ModelShare.NewsManagers.NewsSeoKeyWordManagers.NewsSeoKeyWordEventModel)">
+            <summary>
+                Sửa từ khóa SEO
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsSeoKeyWordController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa từ khóa SEO
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsSeoKeyWordController.GetById(System.Guid)">
+            <summary>
+                Lấy từ khóa SEO theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsSeoKeyWordController.GetPaging(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách từ khóa SEO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsSeoKeyWordController.GetPagingModal(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách từ khóa SEO
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsSeoKeyWordController.GetCombobox(System.String)">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.NewsManagers.NewsViaController">
+            <summary>
+                NewsVia
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsViaController.#ctor(ITC.Application.AppService.NewsManagers.NewsViaManagers.INewsViaAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="newsViaAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsViaController.Add(ITC.Domain.Core.ModelShare.StudyManagers.NewsVia.NewsViaEventModel)">
+            <summary>
+                Thêm mới NewsVia
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsViaController.Edit(ITC.Domain.Core.ModelShare.StudyManagers.NewsVia.NewsViaEventModel)">
+            <summary>
+                Sửa NewsVia
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsViaController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa NewsVia
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsViaController.GetById(System.Guid)">
+            <summary>
+                Lấy NewsVia theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsViaController.GetPaging(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách NewsVia
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.NewsManagers.NewsViaController.GetCombobox(System.String)">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController">
+            <summary>
+                Thư viện hình ảnh
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.#ctor(ITC.Application.AppService.SaleProductManagers.ImageLibraryManager.IImageLibraryManagerAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="imageLibraryManagerAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.Add(ITC.Domain.Core.ModelShare.SaleProductManagers.ImageLibraryManager.ImageLibraryManagerEventModel)">
+            <summary>
+                Thêm mới slide
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.Edit(ITC.Domain.Core.ModelShare.SaleProductManagers.ImageLibraryManager.ImageLibraryManagerEventModel)">
+            <summary>
+                Sửa slide
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa slide
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.GetById(System.Guid)">
+            <summary>
+                Lấy slide theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.GetPaging(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách slide
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.GetPagingDetail(ITC.Domain.Core.ModelShare.SaleProductManagers.ImageLibraryDetailManager.ImageLibraryDetailPagingModel)">
+            <summary>
+                [Phân trang] Danh sách slide - chi tiết
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.GetComboboxSlideTypeView">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.Add(ITC.Domain.Core.ModelShare.SaleProductManagers.ImageLibraryDetailManager.ImageLibraryDetailManagerEventModel)">
+            <summary>
+                Thêm mới slide
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.EditDetail(ITC.Domain.Core.ModelShare.SaleProductManagers.ImageLibraryDetailManager.ImageLibraryDetailManagerEventModel)">
+            <summary>
+                Sửa slide
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController.DeleteDetail(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa slide
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.StudyManagers.MinusWordController">
+            <summary>
+                Từ loại trừ
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.StudyManagers.MinusWordController.#ctor(ITC.Application.AppService.StudyManagers.MinusWord.IMinusWordAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="minusWordAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.StudyManagers.MinusWordController.Add(ITC.Domain.Core.ModelShare.StudyManagers.MinusWord.MinusWordEventModel)">
+            <summary>
+                Thêm mới từ loại trừ
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.StudyManagers.MinusWordController.Edit(ITC.Domain.Core.ModelShare.StudyManagers.MinusWord.MinusWordEventModel)">
+            <summary>
+                Sửa từ loại trừ
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.StudyManagers.MinusWordController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa từ loại trừ
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.StudyManagers.MinusWordController.GetById(System.Guid)">
+            <summary>
+                Lấy từ loại trừ theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.StudyManagers.MinusWordController.GetPaging(NCore.Modals.PagingModel)">
+            <summary>
+                [Phân trang] Danh sách từ loại trừ
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.SystemManagers.HelperController">
+            <summary>
+                Helper
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.HelperController.#ctor(ITC.Application.AppService.SystemManagers.HelperManagers.IHelperAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="helperAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.HelperController.GetComboboxNewsAttack">
+            <summary>
+                [Combobox] Danh sách trạng thái hiển thị nội dung đính kèm trong bảng nội dung
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.HelperController.PutUpdateStatusAsync(NCore.Modals.UpdateStatusHelperModal)">
+            <summary>
+                Cập nhật trạng thái dữ liệu
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.HelperController.GetCheckTime(ITC.Domain.Core.ModelShare.SystemManagers.HelperManagers.CheckTimeModel)">
+            <summary>
+                Kiểm tra thời gian hiệu chỉnh dữ liệu
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.SystemManagers.ServerFileController">
+            <summary>
+                Sever-File
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.#ctor(ITC.Application.AppService.SystemManagers.ServerFileManagers.IServerFileAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="serverFileAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.UploadFile(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+                Upload file
+            </summary>
+            <param name="files">Tên file và dữ liệu upload</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.UploadServerFile(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+                Upload file
+            </summary>
+            <param name="files">Tên file và dữ liệu upload</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.UploadFileAttack(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+                Upload file đính kèm
+            </summary>
+            <param name="files">Tên file và dữ liệu upload</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.UploadFileAttackPeoples(Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+                Upload file đính kèm nhiều người dùng
+            </summary>
+            <param name="files">Tên file và dữ liệu upload</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.GetPaging(System.String,System.Guid)">
+            <summary>
+                Danh sách server-file
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.GetPagingById(System.String)">
+            <summary>
+                Danh sách server-file theo ID
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa file dữ liệu
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.CallDeQuy">
+            <summary>
+                Cập nhật đệ quy dữ liệu
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.Edit(ITC.Domain.Core.ModelShare.SystemManagers.SeverFileManagers.UpdateFileNameModal)">
+            <summary>
+                Cập nhật fileName
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.GetTreeViewRoot(System.String)">
+            <summary>
+                [Treeview] Trả về tree-view
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.Add(ITC.Domain.Core.ModelShare.SystemManagers.SeverFileManagers.FolderServerFileEvent)">
+            <summary>
+                Thêm mới Folder
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.Edit(ITC.Domain.Core.ModelShare.SystemManagers.SeverFileManagers.FolderServerFileEvent)">
+            <summary>
+                Sửa Folder
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.GetByFolderId(System.Guid)">
+            <summary>
+                Lấy dữ liệu thư mục theo ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.ParentUpdate(ITC.Domain.Core.ModelShare.SystemManagers.SeverFileManagers.FolderServerFileEvent)">
+            <summary>
+                Cập nhật mã cha - con
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.GetServerFileDetailPagingDto(System.String,System.Int32,System.Int32,System.String,System.Guid,System.Int32)">
+            <summary>
+                Dữ liệu chi tiết
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.GetById(System.Guid)">
+            <summary>
+                Lấy dữ liệu ServerFile theo ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.UploadDifference(ITC.Domain.Core.ModelShare.SystemManagers.SeverFileManagers.UploadDifferenceEventModal)">
+            <summary>
+                Thêm mới dữ liệu từ đường dẫn khác
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.ViewFile(System.Guid)">
+            <summary>
+                Xem file
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.ViewFileLink(System.Guid)">
+            <summary>
+                Xem file
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.UpdateFileName(ITC.Domain.Core.ModelShare.SystemManagers.SeverFileManagers.UpdateFileNameModal)">
+            <summary>
+                Cập nhật tên file
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.ResizeImageType(ITC.Domain.Core.ModelShare.SystemManagers.SeverFileManagers.ResizeImageModal)">
+            <summary>
+                Trả về danh sách dữ liệu resize image
+            </summary>
+            <param name="model">danh sách dữ liệu nhận từ FE</param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.SystemManagers.SortMenuManagerController">
+            <summary>
+                Sắp xếp menu
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.SortMenuManagerController.#ctor(ITC.Application.AppService.SystemManagers.SortMenuManagers.ISortMenuManagerAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="sortMenuManagerAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.SortMenuManagerController.Edit(ITC.Domain.Core.ModelShare.SystemManagers.SortMenuManagers.SortMenuManagerEventModel)">
+            <summary>
+                Sắp xếp menu
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.SortMenuManagerController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa menu
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.SortMenuManagerController.GetPaging(System.Guid,System.Guid)">
+            <summary>
+                [Phân trang] Danh sách
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.SystemManagers.StaffManagerController">
+            <summary>
+                nhân viên
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.StaffManagerController.#ctor(ITC.Application.AppService.CompanyManagers.StaffManagers.IStaffManagerAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="staffManagerAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.StaffManagerController.UpdateAvatar(ITC.Domain.Core.ModelShare.CompanyManager.StaffManagers.UploadImageStaffEventModel)">
+            <summary>
+                Cập nhật ảnh đại diện
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.SystemManagers.UserManagerController">
+            <summary>
+                người dùng
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.UserManagerController.#ctor(ITC.Application.AppService.CompanyManagers.StaffManagers.IStaffManagerAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+            <summary>
+                Hàm dựng
+            </summary>
+            <param name="staffManagerAppService"></param>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.UserManagerController.Add(ITC.Domain.Core.ModelShare.CompanyManager.StaffManagers.StaffManagerEventModel)">
+            <summary>
+                Thêm mới người dùng
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.UserManagerController.Edit(ITC.Domain.Core.ModelShare.CompanyManager.StaffManagers.StaffManagerEventModel)">
+            <summary>
+                Sửa người dùng
+            </summary>
+            <param name="model">Model menu</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.UserManagerController.Delete(NCore.Modals.DeleteModal)">
+            <summary>
+                Xóa người dùng
+            </summary>
+            <param name="model">danh sách Id xóa</param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.UserManagerController.GetById(System.Guid)">
+            <summary>
+                Lấy người dùng theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.UserManagerController.GetPaging(System.String,System.Int32,System.Int32)">
+            <summary>
+                [Phân trang] Danh sách người dùng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.UserManagerController.GetPagingUserTracing(System.String,System.Int32,System.Int32)">
+            <summary>
+                [Phân trang] Danh sách người dùng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.UserManagerController.GetCombobox(System.String)">
+            <summary>
+                Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.AutoMapperSetup">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.AutoMapperSetup.AddAutoMapperSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            </summary>
+            <param name="services"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.ClaimsPrincipalExtension">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.ClaimsPrincipalExtension.GetRoleIdentity(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            </summary>
+            <param name="principal"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.EnumExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.EnumExtensions.GetDescription(System.Enum)">
+            <summary>
+            </summary>
+            <param name="enu"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.EnumExtensions.GetDisplayName(System.Enum)">
+            <summary>
+            </summary>
+            <param name="enu"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.HelperExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.HelperExtensions.ExportExcel(System.String,System.Collections.Generic.List{System.String[]},System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            </summary>
+            <param name="filePath"></param>
+            <param name="header"></param>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.HelperExtensions.GetContentType(System.String)">
+            <summary>
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.HelperExtensions.GetDisplayName(System.Enum)">
+            <summary>
+            </summary>
+            <param name="enumValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.HelperExtensions.GetMimeTypes">
+            <summary>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.HelperExtensions.InitClient">
+            <summary>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.HelperExtensions.SetTextBookmart(Xceed.Words.NET.DocX,System.String,System.String)">
+            <summary>
+            </summary>
+            <param name="docX"></param>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.LimitedRequestMiddleware">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.LimitedRequestMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.Extensions.Options.IOptions{RateLimitRequest.Models.ClientRateLimitOptions},RateLimitRequest.Store.IRateLimitCounterStore,RateLimitRequest.Store.IClientPolicyStore,RateLimitRequest.Middleware.IRateLimitConfiguration,Microsoft.Extensions.Logging.ILogger{RateLimitRequest.Middleware.ClientRateLimitMiddleware})">
+            <summary>
+            </summary>
+            <param name="next"></param>
+            <param name="options"></param>
+            <param name="counterStore"></param>
+            <param name="policyStore"></param>
+            <param name="config"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.LimitedRequestMiddleware.ReturnQuotaExceededResponse(Microsoft.AspNetCore.Http.HttpContext,RateLimitRequest.Models.RateLimitRule,System.String,ITC.Application.Interfaces.ManageRole.IAccountAppService,ITC.Domain.Interfaces.IUser,ITC.Domain.Core.Bus.IMediatorHandler,Microsoft.AspNetCore.Identity.UserManager{ITC.Infra.CrossCutting.Identity.Models.ApplicationUser})">
+            <summary>
+            </summary>
+            <param name="httpContext"></param>
+            <param name="rule"></param>
+            <param name="retryAfter"></param>
+            <param name="accountAppService"></param>
+            <param name="user"></param>
+            <param name="bus"></param>
+            <param name="userManager"></param>
+        </member>
+        <member name="P:ITC.Service.API.Extensions.LimitedRequestMiddleware.user">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.RouteIdentity">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.ManageRoleController">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.UserTypeIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AddUserType">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.EditUserType">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.DeleteUserType">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.RoleIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.ModuleIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AddModule">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.EditModule">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.FunctionIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AddFuntion">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.EditFuntion">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.PortalIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AddPortal">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.EditPortal">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AccountController">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AccountIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AddAccount">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.EditAccount">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.DeleteAccount">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AccountLogin">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AccountNoneEmail">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.ModuleGroup">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.DepartmentOfEducationIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AddDepartmentOfEducation">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.EditDepartmentOfEducation">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.DeleteDepartmentOfEducation">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.EducationDepartmentIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.AddEducationDepartment">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.EditEducationDepartment">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.DeleteEducationDepartment">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.InboxIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.DetailInbox">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.SentIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.DetailSent">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.NotificationIndex">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RouteIdentity.DetailNotification">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.RoleIdentity">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RoleIdentity.None">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RoleIdentity.Administrator">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RoleIdentity.DepartmentOfEducation">
+            <summary>
+                Sở giáo dục
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RoleIdentity.EducationDepartment">
+            <summary>
+                Phòng giáo cụ
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RoleIdentity.Bussiness">
+            <summary>
+                Trường
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.RoleIdentity.Department">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.AuthorizeHelpers">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.AuthorizeHelpers.HasPermission(System.Collections.Generic.IEnumerable{System.String},System.String,ITC.Infra.CrossCutting.Identity.Authorization.TypeAudit)">
+            <summary>
+            </summary>
+            <param name="value"></param>
+            <param name="moduleIdentity"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.Policies">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.Policies.Administrator">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.Policies.GetPolicyName(System.String,ITC.Infra.CrossCutting.Identity.Authorization.TypeAudit)">
+            <summary>
+            </summary>
+            <param name="moduleIdentity"></param>
+            <param name="typeAudit"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.SessionExtension">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.SessionExtension.GetObjectFromJson``1(Microsoft.AspNetCore.Http.ISession,System.String)">
+            <summary>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="session"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.SessionExtension.SetObjectAsJson``1(Microsoft.AspNetCore.Http.ISession,System.String,``0)">
+            <summary>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="session"></param>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.SessionKey">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.SessionKey.Demo">
+            <summary>
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Extensions.SessionKey.EValuationUnit">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.StringExtention">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.StringExtention.IntToRoman(System.Int32)">
+            <summary>
+            </summary>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.StringExtention.MoneyToString(System.Int32,System.Boolean)">
+            <summary>
+            </summary>
+            <param name="value"></param>
+            <param name="unit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.StringExtention.MoneyToString(System.Double,System.Boolean)">
+            <summary>
+            </summary>
+            <param name="value"></param>
+            <param name="unit"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.TempDataExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.TempDataExtensions.Get``1(Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionary,System.String)">
+            <summary>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="tempData"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.TempDataExtensions.GetJson(Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionary,System.String)">
+            <summary>
+            </summary>
+            <param name="tempData"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.TempDataExtensions.Put``1(Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionary,System.String,``0)">
+            <summary>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="tempData"></param>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.UserActiveMiddleware">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.UserActiveMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.UserActiveMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Identity.UserManager{ITC.Infra.CrossCutting.Identity.Models.ApplicationUser},ITC.Domain.Interfaces.IUser)">
+            <summary>
+            </summary>
+            <param name="context"></param>
+            <param name="userManager"></param>
+            <param name="currentUser"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Extensions.MiddlewareExtentsion">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Extensions.MiddlewareExtentsion.UseUserActivition(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.DocHelper">
+            <summary>
+                Class hỗ trợ xuất file doc
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.DocHelper.SizeLimit">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.DocHelper.RandomString(System.Int32)">
+            <summary>
+                Lấy ngẫu nhiên một chuỗi với độ dài truyền vào
+            </summary>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.DocHelper.AddBookMark(Aspose.Words.Document,System.String,System.String)">
+            <summary>
+                Thêm text vào bookmark văn bản
+            </summary>
+            <param name="doc">Đối tượng doc</param>
+            <param name="bookmarkKey">Key bookmark</param>
+            <param name="value">Giá trị muốn gán vào</param>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.DocHelper.EditCell(Aspose.Words.Document,Aspose.Words.Tables.Row,System.String,System.Int32,System.Boolean,System.Boolean,Aspose.Words.ParagraphAlignment,Aspose.Words.Tables.CellVerticalAlignment)">
+            <summary>
+            </summary>
+            <param name="doc"></param>
+            <param name="row"></param>
+            <param name="content"></param>
+            <param name="index"></param>
+            <param name="isBold"></param>
+            <param name="isItalic"></param>
+            <param name="paragraphAlignment"></param>
+            <param name="cellVerticalAlignment"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.EquipmentHelper">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.EquipmentHelper.MaxDayInMonth(System.Int32,System.Int32)">
+            <summary>
+            </summary>
+            <param name="year"></param>
+            <param name="month"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.ExcelFileHelper">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ExcelFileHelper.ExportExcel(System.String,System.Collections.Generic.List{System.String[]},System.Collections.Generic.IEnumerable{System.Object},System.String,System.String,System.Boolean)">
+            <summary>
+            </summary>
+            <param name="filePath"></param>
+            <param name="header"></param>
+            <param name="values"></param>
+            <param name="unit"></param>
+            <param name="title"></param>
+            <param name="isSchool"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.ExcelHelper">
+            <summary>
+                Class hỗ trợ xuất file excel
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ExcelHelper.IsValidEmail(System.String)">
+            <summary>
+                Kiểm tra email có hợp lệ hay không
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ExcelHelper.ExportExcel(System.String,System.Collections.Generic.List{System.String[]},System.Collections.Generic.IEnumerable{System.Object},System.String)">
+            <summary>
+                Xuất file excel
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ExcelHelper.SetRecordExcel(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Int32)">
+            <summary>
+                Cài đặt định dạng các trường tiêu đề excel
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ExcelHelper.SetTitleExcel(OfficeOpenXml.ExcelWorksheet,System.Int32,System.String,System.String)">
+            <summary>
+                Cài đặt tiêu đề của trang excel
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.GlobalTemplateKey">
+            <summary>
+                Cài đặt một số key màu cho template
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.GlobalTemplateKey.TitleBackgroundColor">
+            <summary>
+                Màu nền tiêu đề
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.GlobalTemplateKey.TitleForegroundColor">
+            <summary>
+                Màu chữ tiêu đề
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.GlobalTemplateKey.FontSizeTitle">
+            <summary>
+                Kích cỡ font chữ tiêu đề
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.GlobalTemplateKey.RecordBackgroundColor">
+            <summary>
+                Màu nền các trường
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.GlobalTemplateKey.RecordForegroundColor">
+            <summary>
+                Màu chữ các trường
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.GlobalTemplateKey.FontSizeRecord">
+            <summary>
+                Kích cỡ font chữ các trường
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.ExportDocHelper">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ExportDocHelper.CheckCellsMerged(Aspose.Words.Document)">
+            <summary>
+            </summary>
+            <param name="doc"></param>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ExportDocHelper.EditCell(Aspose.Words.Document,Aspose.Words.Tables.Row,System.String,System.Int32,System.Boolean,System.Boolean,Aspose.Words.ParagraphAlignment,Aspose.Words.Tables.CellVerticalAlignment)">
+            <summary>
+            </summary>
+            <param name="doc"></param>
+            <param name="row"></param>
+            <param name="content"></param>
+            <param name="index"></param>
+            <param name="isBold"></param>
+            <param name="isItalic"></param>
+            <param name="paragraphAlignment"></param>
+            <param name="cellVerticalAlignment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ExportDocHelper.PrintCellMergeType(Aspose.Words.Tables.Cell)">
+            <summary>
+            </summary>
+            <param name="cell"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.HelperExtension">
+            <summary>
+                HelperExtension
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.HelperExtension.PathImageAccount">
+            <summary>
+                PathImageAccount
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.HelperExtension.PathUpload">
+            <summary>
+                PathUpload
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.HelperExtension.ChuyenSoSangChuoi(System.Double)">
+            <summary>
+            </summary>
+            <param name="so"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.HelperExtension.GetContentType(System.String)">
+            <summary>
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.HelperExtension.GetMimeTypes">
+            <summary>
+                GetMimeTypes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.HelperExtension.ToRoman(System.Int32)">
+            <summary>
+                Chuyển đổi số int sang chữ cái la mã
+            </summary>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.HistoryHelper">
+            <summary>
+                Lịch sử hệ thống
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.HistoryHelper.RegisterHistory">
+            <summary>
+                Đăng ký lịch sử hệ thống
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.LegendColor">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColor.Class">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColor.Color">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.LegendColorsConfig">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColorsConfig.Blue">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColorsConfig.Cyan">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColorsConfig.Green">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColorsConfig.Grey">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColorsConfig.Pink">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColorsConfig.Purple">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColorsConfig.Red">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.LegendColorsConfig.Yellow">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.PagedListDisplayMode">
+            <summary>
+                A tri-state enum that controls the visibility of portions of the PagedList paging control.
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.PagedListDisplayMode.Always">
+            <summary>
+                Always render.
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.PagedListDisplayMode.Never">
+            <summary>
+                Never render.
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Helpers.PagedListDisplayMode.IfNeeded">
+            <summary>
+                Only render when there is data that makes sense to show (context sensitive).
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.PagedListRenderOptions">
+            <summary>
+            </summary>
+            <summary>
+            </summary>
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.PagedListRenderOptions.#ctor">
+            <summary>
+                The default settings render all navigation links and no descriptive text.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.ActiveElementClasses">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.AhrefElementClasses">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.ClassToApplyToFirstListItemInPager">
+            <summary>
+                Specifies a CSS class to append to the first list item in the pager. If null or whitespace is defined, no
+                additional class is added to first list item in list.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.ClassToApplyToLastListItemInPager">
+            <summary>
+                Specifies a CSS class to append to the last list item in the pager. If null or whitespace is defined, no additional
+                class is added to last list item in list.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.ContainerHtmlTag">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DelimiterBetweenPageNumbers">
+            <summary>
+                Text that will appear between each page number. If null or whitespace is specified, no delimiter will be shown.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DisabledElementClasses">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.Display">
+            <summary>
+                If set to Always, always renders the paging control. If set to IfNeeded, render the paging control when there is
+                more than one page.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DisplayEllipsesWhenNotShowingAllPageNumbers">
+            <summary>
+                If true, adds an ellipsis where not all page numbers are being displayed.
+            </summary>
+            <example>
+                "1 2 3 4 5 ...",
+                "... 6 7 8 9 10 ...",
+                "... 11 12 13 14 15"
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DisplayItemSliceAndTotal">
+            <summary>
+                When true, shows the one-based index of the first and last items on the page, and the total number of items in the
+                list.
+            </summary>
+            <example>
+                "Showing items 75 through 100 of 183."
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DisplayLinkToFirstPage">
+            <summary>
+                If set to Always, render a hyperlink to the first page in the list. If set to IfNeeded, render the hyperlink only
+                when the first page isn't visible in the paging control.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DisplayLinkToIndividualPages">
+            <summary>
+                When true, includes hyperlinks for each page in the list.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DisplayLinkToLastPage">
+            <summary>
+                If set to Always, render a hyperlink to the last page in the list. If set to IfNeeded, render the hyperlink only
+                when the last page isn't visible in the paging control.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DisplayLinkToNextPage">
+            <summary>
+                If set to Always, render a hyperlink to the next page of the list. If set to IfNeeded, render the hyperlink only
+                when there is a next page in the list.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DisplayLinkToPreviousPage">
+            <summary>
+                If set to Always, render a hyperlink to the previous page of the list. If set to IfNeeded, render the hyperlink
+                only when there is a previous page in the list.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.DisplayPageCountAndCurrentLocation">
+            <summary>
+                When true, shows the current page number and the total number of pages in the list.
+            </summary>
+            <example>
+                "Page 3 of 8."
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.EllipsesFormat">
+            <summary>
+                The pre-formatted text to display when not all page numbers are displayed at once.
+            </summary>
+            <example>
+                "..."
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.ItemSliceAndTotalFormat">
+            <summary>
+                The pre-formatted text to display when DisplayItemSliceAndTotal is true. Use {0} to reference the first item on the
+                page, {1} for the last item on the page, and {2} for the total number of items across all pages.
+            </summary>
+            <example>
+                "Showing items {0} through {1} of {2}."
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.LiElementClasses">
+            <summary>
+                CSS Classes to append to every &lt;li&gt; element in the paging control.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.LinkToFirstPageFormat">
+            <summary>
+                The pre-formatted text to display inside the hyperlink to the first page. The one-based index of the page (always 1
+                in this case) is passed into the formatting function - use {0} to reference it.
+            </summary>
+            <example>
+                "&lt;&lt; First"
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.LinkToIndividualPageFormat">
+            <summary>
+                The pre-formatted text to display inside the hyperlink to each individual page. The one-based index of the page is
+                passed into the formatting function - use {0} to reference it.
+            </summary>
+            <example>
+                "{0}"
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.LinkToLastPageFormat">
+            <summary>
+                The pre-formatted text to display inside the hyperlink to the last page. The one-based index of the page is passed
+                into the formatting function - use {0} to reference it.
+            </summary>
+            <example>
+                "Last &gt;&gt;"
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.LinkToNextPageFormat">
+            <summary>
+                The pre-formatted text to display inside the hyperlink to the next page. The one-based index of the page is passed
+                into the formatting function - use {0} to reference it.
+            </summary>
+            <example>
+                "Next &gt;"
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.LinkToPreviousPageFormat">
+            <summary>
+                The pre-formatted text to display inside the hyperlink to the previous page. The one-based index of the page is
+                passed into the formatting function - use {0} to reference it.
+            </summary>
+            <example>
+                "&lt; Previous"
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.MaximumPageNumbersToDisplay">
+            <summary>
+                The maximum number of page numbers to display. Null displays all page numbers.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.PageCountAndCurrentLocationFormat">
+            <summary>
+                The pre-formatted text to display when DisplayPageCountAndCurrentLocation is true. Use {0} to reference the current
+                page and {1} to reference the total number of pages.
+            </summary>
+            <example>
+                "Page {0} of {1}."
+            </example>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.UlElementClasses">
+            <summary>
+                CSSClasses to append to the &lt;ul&gt; element in the paging control.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.Bootstrap4Full">
+            <summary>
+                Show Page Numbers plus Previous, Next, First and Last links.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.Bootstrap4Minimal">
+            <summary>
+                Only show Previous and Next links.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.Bootstrap4PageNumbersOnly">
+            <summary>
+                Only show Page Numbers.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.Bootstrap4PageNumbersPlusFirstAndLast">
+            <summary>
+                Show Page Numbers plus First and Last links.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext">
+            <summary>
+                Show Page Numbers plus Previous and Next links.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.Full">
+            <summary>
+                Show Page Numbers plus Previous, Next, First and Last links.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.Minimal">
+            <summary>
+                Only show Previous and Next links.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.PageNumbersOnly">
+            <summary>
+                Only show Page Numbers.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.PageNumbersPlusFirstAndLast">
+            <summary>
+                Show Page Numbers plus First and Last links.
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagedListRenderOptions.PageNumbersPlusPrevAndNext">
+            <summary>
+                Show Page Numbers plus Previous and Next links.
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.PagerTagHelper">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.PagerTagHelper.#ctor(Microsoft.AspNetCore.Mvc.Routing.IUrlHelperFactory)">
+            <summary>
+            </summary>
+            <param name="urlHelperFactory"></param>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagerTagHelper.AspAction">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagerTagHelper.AspArea">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagerTagHelper.AspController">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagerTagHelper.Options">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagerTagHelper.ParamPageNumber">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagerTagHelper.RouteValues">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.PagerTagHelper.ViewContext">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.PagerTagHelper.Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext,Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput)">
+            <summary>
+            </summary>
+            <param name="context"></param>
+            <param name="output"></param>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.IViewRenderService">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.IViewRenderService.RenderToStringAsync(System.String,System.Object)">
+            <summary>
+            </summary>
+            <param name="viewName"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.ViewRenderService">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ViewRenderService.#ctor(Microsoft.AspNetCore.Mvc.Razor.IRazorViewEngine,Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataProvider,System.IServiceProvider)">
+            <summary>
+            </summary>
+            <param name="razorViewEngine"></param>
+            <param name="tempDataProvider"></param>
+            <param name="serviceProvider"></param>
+        </member>
+        <member name="M:ITC.Service.API.Helpers.ViewRenderService.RenderToStringAsync(System.String,System.Object)">
+            <summary>
+            </summary>
+            <param name="viewName"></param>
+            <param name="model"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:ITC.Service.API.Helpers.SitePagedListRenderOptions">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Helpers.SitePagedListRenderOptions.Boostrap4">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Hubs.ItphonuiHub">
+            <summary>
+                Kết nối Hub
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Hubs.ItphonuiHub.#ctor(ITC.Domain.Interfaces.CompanyManagers.StaffManagers.IStaffManagerRepository)">
+            <summary>
+            </summary>
+            <param name="staffManagerRepository"></param>
+        </member>
+        <member name="M:ITC.Service.API.Hubs.ItphonuiHub.OnConnectedAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:ITC.Service.API.Hubs.ItphonuiHub.OnDisconnectedAsync(System.Exception)">
+            <inheritdoc />
+        </member>
+        <member name="M:ITC.Service.API.Hubs.ItphonuiHub.SendUserLogOut(System.String)">
+            <summary>
+                Đá người dùng khỏi hệ thống
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Hubs.ItphonuiHub.SendMessage(System.String,System.String)">
+            <summary>
+                Gửi tin nhắn
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ConfirmEmailModel">
+            <summary>
+                Model gửi email xác nhận tài khoản
+            </summary>
+        </member>
+        <member name="F:ITC.Service.API.Models.ConfirmEmailModel.Key">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Models.ConfirmEmailModel.#ctor(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            </summary>
+            <param name="userName"></param>
+            <param name="url"></param>
+            <param name="management"></param>
+            <param name="email"></param>
+            <param name="phoneNumber"></param>
+        </member>
+        <member name="P:ITC.Service.API.Models.ConfirmEmailModel.Email">
+            <summary>
+                Địa chỉ email gửi đến
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ConfirmEmailModel.Management">
+            <summary>
+                Đơn vị gửi
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ConfirmEmailModel.PhoneNumber">
+            <summary>
+                Số điện thoại
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ConfirmEmailModel.Url">
+            <summary>
+                Đường dẫn kích hoạt
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ConfirmEmailModel.UserName">
+            <summary>
+                Tài khoản
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ErrorViewModel">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ErrorViewModel.RequestId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ErrorViewModel.ShowRequestId">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.SesstionValue">
+            <summary>
+                Đơn vị đánh giá
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.SesstionValue.EducationLevelCode">
+            <summary>
+                Mã cấp học
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.SesstionValue.SchoolYearId">
+            <summary>
+                Id Năm học đang chọn
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.SesstionValue.UnitId">
+            <summary>
+                Id đơn vị
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.SesstionValue.UnitName">
+            <summary>
+                Tên đơn vị đánh giá
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.SesstionValue.UserId">
+            <summary>
+                Id đăng nhập của đơn vị
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Models.SesstionValue.GetValue(Microsoft.AspNetCore.Http.ISession,ITC.Domain.Interfaces.IUser)">
+            <summary>
+                Lấy session
+            </summary>
+            <param name="user"></param>
+            <param name="session"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Models.SesstionValue.SetValue(Microsoft.AspNetCore.Http.ISession,ITC.Service.API.Models.SesstionValue)">
+            <summary>
+                Set session
+            </summary>
+            <param name="session"></param>
+            <param name="value"></param>
+        </member>
+        <member name="T:ITC.Service.API.Models.ManageRole.AccountIndexViewModel">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.AccountIndexViewModel.Keyword">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ManageRole.CustomUserTypeViewModel">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.CustomUserTypeViewModel.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.CustomUserTypeViewModel.UserTypeNewId">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ManageRole.FunctionData">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Models.ManageRole.FunctionData.#ctor">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.FunctionData.Functions">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ManageRole.DropdowListItem">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Models.ManageRole.DropdowListItem.#ctor(ITC.Infra.CrossCutting.Identity.Authorization.TypeAudit,System.String)">
+            <summary>
+            </summary>
+            <param name="id"></param>
+            <param name="name"></param>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.DropdowListItem.Id">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.DropdowListItem.Name">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ManageRole.ManageRoleFunctionIndexViewModel">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.ManageRoleFunctionIndexViewModel.Keyword">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ManageRole.ManageRoleIndexViewModel">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.ManageRoleIndexViewModel.Keyword">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.ManageRoleIndexViewModel.Role">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ManageRole.ManageRoleModuleIndexViewModel">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.ManageRoleModuleIndexViewModel.Keyword">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ManageRole.ManageRolePortalIndexViewModel">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.ManageRolePortalIndexViewModel.Keyword">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Models.ManageRole.ManageRoleUserTypeIndexViewModel">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:ITC.Service.API.Models.ManageRole.ManageRoleUserTypeIndexViewModel.Keyword">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:ITC.Service.API.Program">
+            <summary>
+                Program
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Program.CreateHostBuilder(System.String[])">
+            <summary>
+                CreateHostBuilder
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Program.Main(System.String[])">
+            <summary>
+                Main
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="T:ITC.Service.API.Startup">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Startup.#ctor(Microsoft.Extensions.Hosting.IHostEnvironment)">
+            <summary>
+            </summary>
+            <param name="env"></param>
+        </member>
+        <member name="P:ITC.Service.API.Startup.Configuration">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+            <param name="loggerFactory"></param>
+        </member>
+        <member name="M:ITC.Service.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            </summary>
+            <param name="services"></param>
+        </member>
+    </members>
+</doc>
