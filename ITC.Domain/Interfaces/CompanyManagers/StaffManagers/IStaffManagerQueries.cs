@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ITC.Domain.Core.ModelShare.CompanyManager.StaffManagers;
+using ITC.Domain.ResponseDto;
 using NCore.Modals;
 
 #endregion
@@ -83,5 +84,8 @@ public interface IStaffManagerQueries
     /// <returns></returns>
     Task<StaffManagerByUserDto> GetByUserId2(string userId);
 
-#endregion
+    Task<IEnumerable<UserModelDto>> GetUserCodeAsync();
+    Task<IEnumerable<ComboboxIdNameDto>> GetComboboxWebAsync();
+
+    #endregion
 }

@@ -8,6 +8,7 @@ using Dapper;
 using ITC.Domain.Core.ModelShare.CompanyManager.StaffManagers;
 using ITC.Domain.Core.NCoreLocal.Enum;
 using ITC.Domain.Interfaces.CompanyManagers.StaffManagers;
+using ITC.Domain.ResponseDto;
 using NCore.Helpers;
 using NCore.Modals;
 
@@ -332,5 +333,23 @@ public class StaffManagerQueries : IStaffManagerQueries
         return await SqlHelper.RunDapperQueryAsync<Guid>(_connectionString,
                                                          sBuilder,
                                                          new DynamicParameters(dictionary));
+    }
+
+    public async Task<IEnumerable<UserModelDto>> GetUserCodeAsync()
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@"SELECT [Name], [UserCode] FROM [StaffManagers] where IsDeleted=0");
+        return await SqlHelper.RunDapperQueryAsync<UserModelDto>(_connectionString,
+            sBuilder,
+            new DynamicParameters());
+    }
+
+    public async Task<IEnumerable<ComboboxIdNameDto>> GetComboboxWebAsync()
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@"SELECT [Id], [Name] FROM Webs");
+        return await SqlHelper.RunDapperQueryAsync<ComboboxIdNameDto>(_connectionString,
+            sBuilder,
+            new DynamicParameters());
     }
 }

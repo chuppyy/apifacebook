@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using ITC.Domain.Commands.GoogleAnalytics.Models;
 using ITC.Domain.Core.Bus;
 using ITC.Domain.Core.ModelShare.SaleProductManagers.ImageLibraryDetailManager;
 using ITC.Domain.Core.ModelShare.SaleProductManagers.ImageLibraryManager;
@@ -217,8 +218,7 @@ public class ImageLibraryManagerAppService : IImageLibraryManagerAppService
             return _imageLibraryManagerQueries.GetPagingDetail(model);
         });
     }
-
-#region Fields
+    #region Fields
 
     private readonly IMediatorHandler                     _bus;
     private readonly IImageLibraryManagerQueries          _imageLibraryManagerQueries;

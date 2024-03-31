@@ -1,9 +1,14 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using ITC.Domain.Commands.GoogleAnalytics.Models;
 using ITC.Domain.Core.ModelShare.SystemManagers.HelperManagers;
+using ITC.Domain.ResponseDto;
 using NCore.Modals;
+using static ITC.Application.AppService.SystemManagers.HelperManagers.HelperAppService;
 
 #endregion
 
@@ -31,4 +36,7 @@ public interface IHelperAppService
     /// </summary>
     /// <param name="model"></param>
     Task<bool> CheckTime(CheckTimeModel model);
+
+    Task<ReportGoogleAnalyticsDto> GoogleAnalyticsReportAsync(GoogleAnalyticsReport query, CancellationToken cancellationToken);
+    Task<List<ComboboxIdNameDto>> GetComboboxAsync();
 }

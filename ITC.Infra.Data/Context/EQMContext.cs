@@ -9,6 +9,7 @@ using ITC.Domain.Models.NewsManagers;
 using ITC.Domain.Models.SaleProductManagers;
 using ITC.Domain.Models.StudyManagers;
 using ITC.Domain.Models.SystemManagers;
+using ITC.Domain.Models.Web;
 using ITC.Infra.Data.Mappings.AuthorityManager;
 using ITC.Infra.Data.Mappings.CompanyManagers;
 using ITC.Infra.Data.Mappings.NewsManagers;
@@ -16,6 +17,7 @@ using ITC.Infra.Data.Mappings.SaleProductManagers;
 using ITC.Infra.Data.Mappings.StudyManagers;
 using ITC.Infra.Data.Mappings.SystemManagers;
 using ITC.Infra.Data.Mappings.TokenTwitterManagers;
+using ITC.Infra.Data.Mappings.Web;
 using Microsoft.EntityFrameworkCore;
 
 #endregion
@@ -60,6 +62,7 @@ public class EQMContext : DbContext
         modelBuilder.ApplyConfiguration(new NewsConfigMapping());
         modelBuilder.ApplyConfiguration(new NewsVercelMapping());
         modelBuilder.ApplyConfiguration(new TokenTwitterMapping());
+        modelBuilder.ApplyConfiguration(new WebMapping());
     }
 
     #endregion
@@ -111,6 +114,7 @@ public class EQMContext : DbContext
     public DbSet<NewsConfig>                NewsConfigs                { get; set; }
     public DbSet<NewsVercel>                NewsVercels                { get; set; }
     public DbSet<TokenTwitter> TokenTwitters { get; set; }
+    public DbSet<Web> Webs { get; set; }
 
     #endregion
 }

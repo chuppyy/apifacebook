@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ITC.Domain.Commands.GoogleAnalytics.Models;
 using ITC.Domain.Core.ModelShare.SaleProductManagers.ImageLibraryDetailManager;
 using ITC.Domain.Core.ModelShare.SaleProductManagers.ImageLibraryManager;
 using NCore.Modals;

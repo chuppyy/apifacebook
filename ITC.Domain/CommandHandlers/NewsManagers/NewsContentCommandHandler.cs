@@ -250,8 +250,7 @@ public class NewsContentCommandHandler : CommandHandler,
                 }
             }
             
-
-                command.Id            = rAdd.Id;
+            command.Id            = rAdd.Id;
             command.SecretKey = iSecretKey;
             command.ResultCommand = true;
             return await Task.FromResult(true);
