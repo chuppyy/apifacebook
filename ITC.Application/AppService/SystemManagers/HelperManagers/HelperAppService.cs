@@ -102,16 +102,18 @@ public class HelperAppService : IHelperAppService
             return null;
         }
 
-        string url = "https://analyticsdata.googleapis.com/v1beta/properties/430115772:runReport";
+        var domains = await _staffManagerQueries.GetListInfoWebAsync(request.DomainIds);
+
+        if (domains == null || !domains.Any())
+        {
+            return null;
+        }
+
         
         using (var client = new HttpClient())
         {
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-            var convertStartDate = "";
-            var convertEndDate = "";
-
-            convertStartDate = request.StartDate != null ? request.StartDate.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
-            convertEndDate = request.EndDate != null ? request.EndDate.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
+            var convertStartDate = request.StartDate != null ? request.StartDate.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
+            var convertEndDate = request.EndDate != null ? request.EndDate.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
             var json = $@"{{
                     ""dateRanges"": [
                         {{
@@ -133,59 +135,60 @@ public class HelperAppService : IHelperAppService
                         ""TOTAL""
                     ]
                 }}";
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
-            var response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"), cancellationToken);
-
-            if (response.IsSuccessStatusCode)
+            var linkViews = new List<UserViewDto>();
+            foreach (var domain in domains)
             {
-                var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                Console.WriteLine(responseContent);
-                var data = JsonConvert.DeserializeObject<RootObject>(responseContent);
-                if (data.rows != null && data.rows.Any())
+                var url = $"https://analyticsdata.googleapis.com/v1beta/properties/{domain.IdAnalytic}:runReport";
+                var response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"), cancellationToken);
+                if (response.IsSuccessStatusCode)
                 {
-                    var linkViews = new List<UserViewDto>();
-                    foreach (var row in data.rows)
+                    var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                    var data = JsonConvert.DeserializeObject<RootObject>(responseContent);
+                    if (data.rows != null && data.rows.Any())
                     {
-                        var link = row.dimensionValues?.FirstOrDefault();
-                        var viewString = row.metricValues?.FirstOrDefault();
-                        
-                        if (link != null && viewString != null)
+                        foreach (var row in data.rows)
                         {
-                            TryParse(viewString.value, out var view);
-                            linkViews.Add(new UserViewDto(link.value, view));
-                        }
-                    }
+                            var link = row.dimensionValues?.FirstOrDefault();
+                            var viewString = row.metricValues?.FirstOrDefault();
 
-                    var users = await _staffManagerQueries.GetUserCodeAsync();
-                    if (users != null && users.Any())
-                    {
-                        var results = new ReportGoogleAnalyticsDto
-                        {
-                            Users = new List<UserReportDto>(),
-                            TotalView = 0
-                        };
-                        foreach (var user in users)
-                        {
-                            var byUser = linkViews.Where(x => x.Link.Contains(user.UserCode));
-                            if (byUser.Any())
+                            if (link != null && viewString != null)
                             {
-                                var totalView = byUser.Sum(x => x.View);
-                                results.Users.Add(new UserReportDto(user.Name, user.UserCode, totalView));
-                            }
-                            else
-                            {
-                                results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
+                                TryParse(viewString.value, out var view);
+                                linkViews.Add(new UserViewDto(link.value, view));
                             }
                         }
-                        results.TotalView = linkViews.Sum(x => x.View);
-                        return results;
                     }
                 }
-                return null;
             }
 
-            Console.WriteLine("Error: " + response.StatusCode);
-            return new ReportGoogleAnalyticsDto();
+            var users = await _staffManagerQueries.GetUserCodeAsync();
+            if (users != null && users.Any())
+            {
+                var results = new ReportGoogleAnalyticsDto
+                {
+                    Users = new List<UserReportDto>(),
+                    TotalView = 0
+                };
+                foreach (var user in users)
+                {
+                    var byUser = linkViews.Where(x => x.Link.Contains(user.UserCode));
+                    if (byUser.Any())
+                    {
+                        var totalView = byUser.Sum(x => x.View);
+                        results.Users.Add(new UserReportDto(user.Name, user.UserCode, totalView));
+                    }
+                    else
+                    {
+                        results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
+                    }
+                }
+                results.TotalView = linkViews.Sum(x => x.View);
+                return results;
+            }
+
+            return null;
         }
     }
 

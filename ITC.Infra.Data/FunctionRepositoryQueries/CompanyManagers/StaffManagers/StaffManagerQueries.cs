@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
@@ -349,7 +350,17 @@ public class StaffManagerQueries : IStaffManagerQueries
         var sBuilder = new StringBuilder();
         sBuilder.Append(@"SELECT [Id], [Name] FROM Webs");
         return await SqlHelper.RunDapperQueryAsync<ComboboxIdNameDto>(_connectionString,
-            sBuilder,
-            new DynamicParameters());
+            sBuilder);
+    }
+
+    public async Task<IEnumerable<WebsiteDto>> GetListInfoWebAsync(List<int> domainIds)
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@"SELECT [Id], [Name], [IdAnalytic] FROM Webs w");
+        if (domainIds != null && domainIds.Any())
+        {
+            sBuilder.Append($" WHERE w.[Id] in {domainIds} ");
+        }
+        return await SqlHelper.RunDapperQueryAsync<WebsiteDto>(_connectionString, sBuilder);
     }
 }

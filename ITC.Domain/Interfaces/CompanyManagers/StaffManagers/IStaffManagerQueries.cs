@@ -86,6 +86,7 @@ public interface IStaffManagerQueries
 
     Task<IEnumerable<UserModelDto>> GetUserCodeAsync();
     Task<IEnumerable<ComboboxIdNameDto>> GetComboboxWebAsync();
+    Task<IEnumerable<WebsiteDto>> GetListInfoWebAsync(List<int> domainIds);
 
     #endregion
 }

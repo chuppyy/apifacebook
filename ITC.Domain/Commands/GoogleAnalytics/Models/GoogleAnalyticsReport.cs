@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MediatR;
 using NCore.Systems;
 
@@ -14,13 +15,15 @@ namespace ITC.Domain.Commands.GoogleAnalytics.Models
             
         }
 
-        public GoogleAnalyticsReport(DateTime? startDate, DateTime? endDate)
+        public GoogleAnalyticsReport(DateTime? startDate, DateTime? endDate, List<int> domainIds)
         {
             StartDate = startDate;
             EndDate = endDate;
+            DomainIds = domainIds;
         }
 
         public DateTime? StartDate { get; set; }                                        
         public DateTime? EndDate { get; set; }
+        public List<int> DomainIds { get; set; }
     }
 }

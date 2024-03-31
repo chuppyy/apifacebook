@@ -91,4 +91,11 @@ namespace ITC.Domain.ResponseDto
         public int Id { get; set; }
         public string Name { get; set; }
     }
+
+    public class WebsiteDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string IdAnalytic { get; set; }
+    }
 }
