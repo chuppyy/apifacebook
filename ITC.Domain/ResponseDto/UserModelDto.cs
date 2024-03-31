@@ -98,4 +98,10 @@ namespace ITC.Domain.ResponseDto
         public string Name { get; set; }
         public string IdAnalytic { get; set; }
     }
+
+    public class ConfigAnalyticsDto
+    {
+        public string Email { get; set; }
+        public string PrivateKey { get; set; }
+    }
 }

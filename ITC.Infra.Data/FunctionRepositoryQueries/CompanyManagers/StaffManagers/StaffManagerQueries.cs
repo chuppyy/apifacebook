@@ -10,6 +10,7 @@ using ITC.Domain.Core.ModelShare.CompanyManager.StaffManagers;
 using ITC.Domain.Core.NCoreLocal.Enum;
 using ITC.Domain.Interfaces.CompanyManagers.StaffManagers;
 using ITC.Domain.ResponseDto;
+using Microsoft.Extensions.Primitives;
 using NCore.Helpers;
 using NCore.Modals;
 
@@ -362,6 +363,15 @@ public class StaffManagerQueries : IStaffManagerQueries
             var addListString = string.Join(",", domainIds);
             sBuilder.Append($" WHERE w.[Id] in ({addListString}) ");
         }
+
+        sBuilder.Append(" ORDER BY w.Id ");
         return await SqlHelper.RunDapperQueryAsync<WebsiteDto>(_connectionString, sBuilder);
+    }
+
+    public async Task<ConfigAnalyticsDto> GetConfigAnalyticsAsync()
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@"SELECT Top 1 [Email], [PrivateKey] FROM ConfigAnalytics");
+        return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<ConfigAnalyticsDto>(_connectionString, sBuilder);
     }
 }

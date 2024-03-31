@@ -63,6 +63,7 @@ public class EQMContext : DbContext
         modelBuilder.ApplyConfiguration(new NewsVercelMapping());
         modelBuilder.ApplyConfiguration(new TokenTwitterMapping());
         modelBuilder.ApplyConfiguration(new WebMapping());
+        modelBuilder.ApplyConfiguration(new ConfigAnalyticMapping());
     }
 
     #endregion
@@ -115,6 +116,7 @@ public class EQMContext : DbContext
     public DbSet<NewsVercel>                NewsVercels                { get; set; }
     public DbSet<TokenTwitter> TokenTwitters { get; set; }
     public DbSet<Web> Webs { get; set; }
+    public DbSet<ConfigAnalytic> ConfigAnalytics { get; set; }
 
     #endregion
 }

@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ITC.Domain.Models.Web;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ITC.Infra.Data.Mappings.Web
 {
-    internal class ConfigAnalyticMapping
+    public class ConfigAnalyticMapping : IEntityTypeConfiguration<ConfigAnalytic>
     {
+        public void Configure(EntityTypeBuilder<ConfigAnalytic> builder)
+        {
+            builder.ToTable("ConfigAnalytics");
+            builder.HasKey(x => x.Id);
+        }
     }
 }
