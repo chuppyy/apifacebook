@@ -15,11 +15,8 @@ using ITC.Domain.Core.Bus;
 using ITC.Domain.Core.ModelShare.SystemManagers.HelperManagers;
 using ITC.Domain.Interfaces.CompanyManagers.StaffManagers;
 using ITC.Domain.ResponseDto;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NCore.Enums;
 using NCore.Modals;
-using NCore.Responses;
-using NCore.Systems;
 using Newtonsoft.Json;
 using static System.Double;
 
@@ -109,7 +106,6 @@ public class HelperAppService : IHelperAppService
             return null;
         }
 
-        
         using (var client = new HttpClient())
         {
             var convertStartDate = request.StartDate != null ? request.StartDate.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
