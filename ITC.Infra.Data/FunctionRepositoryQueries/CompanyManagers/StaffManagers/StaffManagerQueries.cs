@@ -359,7 +359,7 @@ public class StaffManagerQueries : IStaffManagerQueries
         sBuilder.Append(@"SELECT [Id], [Name], [IdAnalytic] FROM Webs w");
         if (domainIds != null && domainIds.Any())
         {
-            sBuilder.Append($" WHERE w.[Id] in {domainIds} ");
+            sBuilder.Append($" WHERE w.[Id] in ({domainIds}) ");
         }
         return await SqlHelper.RunDapperQueryAsync<WebsiteDto>(_connectionString, sBuilder);
     }
