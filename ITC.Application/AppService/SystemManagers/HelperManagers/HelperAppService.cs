@@ -180,6 +180,8 @@ public class HelperAppService : IHelperAppService
                         results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
                     }
                 }
+
+                results.Users = results.Users.OrderByDescending(x => x.TotalView).ToList();
                 results.TotalView = linkViews.Sum(x => x.View);
                 return results;
             }
