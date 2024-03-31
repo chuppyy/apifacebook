@@ -38,7 +38,7 @@ namespace ITC.Service.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("report")]
-        public async Task<JsonResponse<ReportGoogleAnalyticsDto>> ReportGoogleAnalyticsAsync([FromBody] GoogleAnalyticsReport query, CancellationToken cancellationToken)
+        public async Task<JsonResponse<ReportGoogleAnalyticsDto>> ReportGoogleAnalyticsAsync([FromQuery] GoogleAnalyticsReport query, CancellationToken cancellationToken)
         {
             return new OkResponse<ReportGoogleAnalyticsDto>("", await _helperAppService.GoogleAnalyticsReportAsync(query, cancellationToken));
         }
