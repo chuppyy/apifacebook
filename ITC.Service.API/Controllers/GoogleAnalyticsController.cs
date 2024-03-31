@@ -32,12 +32,13 @@ namespace ITC.Service.API.Controllers
         {
             _helperAppService = helperAppService;
         }
+
         /// <summary>
         /// Báo cáo
         /// </summary>
         /// <returns></returns>
-        [HttpPost("report")]
-        public async Task<JsonResponse<ReportGoogleAnalyticsDto>> ReportGoogleAnalyticsAsync([FromQuery] GoogleAnalyticsReport query, CancellationToken cancellationToken)
+        [HttpGet("report")]
+        public async Task<JsonResponse<ReportGoogleAnalyticsDto>> ReportGoogleAnalyticsAsync([FromBody] GoogleAnalyticsReport query, CancellationToken cancellationToken)
         {
             return new OkResponse<ReportGoogleAnalyticsDto>("", await _helperAppService.GoogleAnalyticsReportAsync(query, cancellationToken));
         }
