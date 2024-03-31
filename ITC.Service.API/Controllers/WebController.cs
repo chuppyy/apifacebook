@@ -35,7 +35,7 @@ namespace ITC.Service.API.Controllers
         /// Combobox trang web
         /// </summary>
         /// <returns></returns>
-        [HttpPost("combobox")]
+        [HttpGet("combobox")]
         public async Task<JsonResponse<List<ComboboxIdNameDto>>> GetComboboxAsync()
         {
             return new OkResponse<List<ComboboxIdNameDto>>("", await _helperAppService.GetComboboxAsync());
