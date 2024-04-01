@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using NCore.Systems;
 
 namespace ITC.Domain.Commands.GoogleAnalytics.Models
@@ -24,6 +25,7 @@ namespace ITC.Domain.Commands.GoogleAnalytics.Models
 
         public DateTime? StartDate { get; set; }                                        
         public DateTime? EndDate { get; set; }
+        [FromQuery(Name = "DomainIds[]")]
         public List<int> DomainIds { get; set; }
     }
 }
