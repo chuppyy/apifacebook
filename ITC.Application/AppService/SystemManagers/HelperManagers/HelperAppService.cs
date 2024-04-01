@@ -176,6 +176,11 @@ public class HelperAppService : IHelperAppService
                 };
                 foreach (var user in users)
                 {
+                    if (string.IsNullOrEmpty(user.UserCode))
+                    {
+                        results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
+                        continue;
+                    }
                     var byUser = linkViews.Where(x => x.Link.Contains(user.UserCode));
                     if (byUser.Any())
                     {
