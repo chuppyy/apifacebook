@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ITC.Domain.ResponseDto
 {
@@ -103,5 +104,44 @@ namespace ITC.Domain.ResponseDto
     {
         public string Email { get; set; }
         public string PrivateKey { get; set; }
+    }
+
+    public class ReportUserGroupNewDto : GroupReportDto
+    {
+        public Guid UserId { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class GroupReportDto
+    {
+        public Guid GroupId { get; set; }
+        public string GroupName { get; set; }
+        public DateTime Created { get; set; }
+        public int TotalPost { get; set; }
+        public Double Kpi { get; set; }
+    }
+
+    public class TotalPostByGroupDto
+    {
+        public Guid GroupId { get; set; }
+        public int Amount { get; set; }
+    }
+
+    public class ReportUserGroupResponseDto
+    {
+        public ReportUserGroupResponseDto()
+        {
+        }
+
+        public ReportUserGroupResponseDto(Guid userId, string name, List<GroupReportDto> groups)
+        {
+            UserId = userId;
+            Name = name;
+            Groups = groups;
+        }
+
+        public Guid UserId { get; set; }
+        public string Name { get; set; }
+        public List<GroupReportDto> Groups { get; set; }
     }
 }

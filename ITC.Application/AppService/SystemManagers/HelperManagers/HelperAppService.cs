@@ -207,4 +207,81 @@ public class HelperAppService : IHelperAppService
         var result = await _staffManagerQueries.GetComboboxWebAsync();
         return result.ToList();
     }
+
+    public async Task<List<ReportUserGroupResponseDto>> ReportUserGroupNewAsync(ReportUserPostQuery query)
+    {
+        // Config Date
+        var dateNow = DateTime.Now;
+        query.StartDate = query.StartDate != null ? new DateTime(query.StartDate.Value.Year, query.StartDate.Value.Month, query.StartDate.Value.Day, 00, 00, 00, 000) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 00, 00, 00, 000);
+        query.EndDate = query.EndDate != null ? new DateTime(query.EndDate.Value.Year, query.EndDate.Value.Month, query.EndDate.Value.Day, 23, 59, 59, 999) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 23, 59, 59, 999);
+        
+        // Thông tin người dùng và nhóm
+        var userGroup = await _staffManagerQueries.ReportUserGroupNewAsync(query.EndDate);
+        var listGroupId = userGroup.Select(x => x.GroupId).Distinct();
+
+        var groupAmount = await _staffManagerQueries.ReportPostAsync(listGroupId, query.StartDate, query.EndDate);
+
+        // Thông tin người dùng
+        var users = userGroup.GroupBy(x => new { x.UserId, x.Name });
+        var totalDaysDifference = Round((query.EndDate.Value - query.StartDate.Value).TotalDays);
+       
+        var results = new List<ReportUserGroupResponseDto>();
+        foreach (var user in users)
+        {
+            var firstGroup = user.FirstOrDefault();
+            if(firstGroup == null) continue;
+
+            var userGroupResponse = new ReportUserGroupResponseDto
+            {
+                UserId = firstGroup.UserId,
+                Name = firstGroup.Name,
+                Groups = new List<GroupReportDto>()
+            };
+
+            // Lấy thông tin group của người dùng
+            foreach (var group in user)
+            {
+                var kpi = totalDaysDifference * 4;
+                if (group.Created > query.StartDate)
+                {
+                    var difference = query.StartDate.Value - group.Created;
+                    var totalDays = Round(difference.TotalDays);
+                    if (totalDays < 0)
+                    {
+                        kpi = 0;
+                    }
+                    else
+                    {
+                        kpi = totalDays * 4;
+                    }
+                }
+
+                // Tạo đối tượng GroupReportDto và ánh xạ dữ liệu
+                var groupReport = new GroupReportDto
+                {
+                    GroupId = group.GroupId,
+                    GroupName = group.GroupName,
+                    Created = group.Created,
+                    TotalPost = group.TotalPost,
+                    Kpi = kpi
+                };
+
+                // Tìm số lượng bài đăng cho group này
+                var groupPostAmount = groupAmount.FirstOrDefault(x => x.GroupId == group.GroupId);
+                if (groupPostAmount != null)
+                {
+                    // Ánh xạ số lượng bài đăng
+                    groupReport.TotalPost = groupPostAmount.Amount;
+                }
+
+                // Thêm group vào danh sách của người dùng
+                userGroupResponse.Groups.Add(groupReport);
+            }
+
+            // Thêm userGroupResponse vào kết quả
+            results.Add(userGroupResponse);
+        }
+
+        return results.ToList();
+    }
 }

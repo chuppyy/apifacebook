@@ -39,4 +39,6 @@ public interface IHelperAppService
 
     Task<ReportGoogleAnalyticsDto> GoogleAnalyticsReportAsync(GoogleAnalyticsReport query, CancellationToken cancellationToken);
     Task<List<ComboboxIdNameDto>> GetComboboxAsync();
+
+    Task<List<ReportUserGroupResponseDto>> ReportUserGroupNewAsync(ReportUserPostQuery query);
 }

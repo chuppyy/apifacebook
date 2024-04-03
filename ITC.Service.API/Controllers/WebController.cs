@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ITC.Application.AppService.SystemManagers.HelperManagers;
 using ITC.Domain.ResponseDto;
 using System.Collections.Generic;
+using ITC.Domain.Commands.GoogleAnalytics.Models;
 
 namespace ITC.Service.API.Controllers
 {

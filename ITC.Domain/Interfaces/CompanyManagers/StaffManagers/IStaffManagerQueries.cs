@@ -89,5 +89,8 @@ public interface IStaffManagerQueries
     Task<IEnumerable<WebsiteDto>> GetListInfoWebAsync(List<int> domainIds);
     Task<ConfigAnalyticsDto> GetConfigAnalyticsAsync();
 
+    Task<IEnumerable<ReportUserGroupNewDto>> ReportUserGroupNewAsync(DateTime? endDate);
+    Task<IEnumerable<TotalPostByGroupDto>> ReportPostAsync(IEnumerable<Guid> groupIds, DateTime? startDate, DateTime? endDate);
+
     #endregion
 }

@@ -10,7 +10,6 @@ using ITC.Domain.Core.ModelShare.CompanyManager.StaffManagers;
 using ITC.Domain.Core.NCoreLocal.Enum;
 using ITC.Domain.Interfaces.CompanyManagers.StaffManagers;
 using ITC.Domain.ResponseDto;
-using Microsoft.Extensions.Primitives;
 using NCore.Helpers;
 using NCore.Modals;
 
@@ -373,5 +372,42 @@ public class StaffManagerQueries : IStaffManagerQueries
         var sBuilder = new StringBuilder();
         sBuilder.Append(@"SELECT Top 1 [Email], [PrivateKey] FROM ConfigAnalytics");
         return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<ConfigAnalyticsDto>(_connectionString, sBuilder);
+    }
+
+    public async Task<IEnumerable<ReportUserGroupNewDto>> ReportUserGroupNewAsync(DateTime? endDate)
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@"select u.Id as UserId, u.Name, g.Id as GroupId, g.Name as GroupName, g.Created
+                            FROM StaffManagers u 
+                            JOIN NewsGroups g on u.Id = g.StaffId
+                            WHERE u.StatusId = 3 and g.IsDeleted = 0 and u.IsDeleted = 0 ");
+
+        if (endDate != null)
+        {
+            sBuilder.Append($" and g.Created < '{endDate}' ");
+        }
+
+        sBuilder.Append(" order by u.Id");
+        return await SqlHelper.RunDapperQueryAsync<ReportUserGroupNewDto>(_connectionString, sBuilder);
+    }
+
+    public async Task<IEnumerable<TotalPostByGroupDto>> ReportPostAsync(IEnumerable<Guid> groupIds, DateTime? startDate, DateTime? endDate)
+    {
+        var sBuilder = new StringBuilder();
+        var addListString = string.Join("','", groupIds);
+       
+        sBuilder.Append($@"SELECT C.NewsGroupId as GroupId, COUNT(c.Id) as Amount 
+                            FROM NewsContents c
+                            WHERE c.NewsGroupId in ('{addListString}') 
+                            AND c.IsDeleted = 0 
+                            AND c.StatusId = 3 ");
+
+        if (endDate != null)
+        {
+            sBuilder.Append($" AND c.Modified > '{startDate}' and c.Modified < '{endDate}' ");
+        }
+
+        sBuilder.Append(" GROUP BY c.NewsGroupId ");
+        return await SqlHelper.RunDapperQueryAsync<TotalPostByGroupDto>(_connectionString, sBuilder);
     }
 }
