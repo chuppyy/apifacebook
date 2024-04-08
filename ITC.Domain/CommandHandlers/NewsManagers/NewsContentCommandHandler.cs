@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Aspose.Pdf.Operators;
 using HtmlAgilityPack;
 using ITC.Domain.Commands.NewsManagers.NewsContentManagers;
 using ITC.Domain.Core.Bus;
@@ -371,11 +370,9 @@ public class NewsContentCommandHandler : CommandHandler,
         }
         command.Content = doc.DocumentNode.OuterHtml;
 
-        var summary = command.Summary;
         var existing = _repository.GetAsync(command.Id).Result;
         if (existing != null)
         {
-            summary += "1. Get Info Success ";
             // Lấy vị trí lịch sử đã sử dụng cho NewsAttack
             var iCore = new NCoreHelper();
             //var iHistoryPosition = _newsAttackRepository.GetMaxHistoryPosition(command.Id).Result;
@@ -401,15 +398,12 @@ public class NewsContentCommandHandler : CommandHandler,
             // Nếu nhập linkTree
             if (!string.IsNullOrEmpty(command.LinkTree))
             {
-                summary += "2. Request.LinkTree not null ";
                 linkTree = command.LinkTree.Trim();}
             else
             {
-                summary += "2. Request.LinkTree null ";
                 var group = await _queries.GetPagingById(command.Id);
                 if (group.TypeId == (int)GroupType.Twitter)
                 {
-                    summary += "3. Group is Twitter ";
                     var link = CheckDomain(group.Domain) + "" + group.MetaName + "-" + group.UserCode + "-" +
                                group.MetaKey;
 
@@ -418,7 +412,6 @@ public class NewsContentCommandHandler : CommandHandler,
                     
                     if (firstToken != null)
                     {
-                        summary += "4. Get Token DB Success ";
                         /*var apiKey = "ARIfbGxFri9pMRIdy7ddlDiXq";
                         var apiSecret = "ZOuPrLBOiN018NTCQhLGPGyLOejXvY8gEw9bSKJcsUImG4pBBK";
                         var token = "1728406911211745280-jhRqO3gsKkn1zFYExvN5zWKuHqXhUa";
@@ -426,13 +419,11 @@ public class NewsContentCommandHandler : CommandHandler,
 
                         var linkTreeTwitter = await existing.CheckChangeToLinkTwitterAsync(firstToken.ApiKey, firstToken.ApiSecret,
                             firstToken.Token, firstToken.TokenSecret, link);
-                        summary += $"5. Check {linkTreeTwitter?.Check} ";
                         var linkTwitter = linkTreeTwitter?.Twitter;
-                        summary += $"6. Link Twitter {linkTreeTwitter} ";
+                        _ = $"6. Link Twitter {linkTreeTwitter} ";
 
                         if (!string.IsNullOrEmpty(linkTwitter))
                         {
-                            summary += "7. Update Link Twitter ";
                             linkTree = linkTwitter;
                             firstToken.AmountPosted += 1;
                             var dateNow = DateTime.Now;
@@ -440,17 +431,14 @@ public class NewsContentCommandHandler : CommandHandler,
                         }
                         else
                         {
-                            summary += "7. No Twitter ";
                         }
                     }
                     else
                     {
-                        summary += "4. Get Token DB Fail ";
                     }
                     
                 }else if (group.TypeId == (int)GroupType.Img)
                 {
-                    summary += "3. Group is Twitter ";
                     var link = CheckDomain(group.Domain) + "" + group.MetaName + "-" + group.UserCode + "-" +
                                group.MetaKey;
                     linkTree = link;
@@ -579,7 +567,6 @@ public class NewsContentCommandHandler : CommandHandler,
             return await Task.FromResult(false);
         }
 
-        var iCore    = new NCoreHelper();
         var existing = _repository.GetAsync(command.Id)?.Result;
         if (existing != null)
         {

@@ -9,5 +9,5 @@ namespace ITC.Domain.Core.ModelShare.NewsManagers.NewsContentManagers;
 public class NewsContentUpdateTimeAutoPostModel : PublishModal
 {
     public Guid   Id   { get; set; }
-    public DateTime Time { get; set; }
+    public DateTime? Time { get; set; }
 }

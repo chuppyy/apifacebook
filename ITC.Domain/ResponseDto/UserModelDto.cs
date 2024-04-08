@@ -118,7 +118,11 @@ namespace ITC.Domain.ResponseDto
         public string GroupName { get; set; }
         public DateTime Created { get; set; }
         public int TotalPost { get; set; }
-        public Double Kpi { get; set; }
+        public double Kpi { get; set; }
+        /// <summary>
+        /// Tiền
+        /// </summary>
+        public double Wages { get; set; }
     }
 
     public class TotalPostByGroupDto
@@ -143,5 +147,11 @@ namespace ITC.Domain.ResponseDto
         public Guid UserId { get; set; }
         public string Name { get; set; }
         public List<GroupReportDto> Groups { get; set; }
+    }
+
+    public class ReportData
+    {
+        public string Domain { get; set; }
+        public string Wages { get; set; }
     }
 }

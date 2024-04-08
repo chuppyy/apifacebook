@@ -20,7 +20,7 @@ public class UpdateTimeAutoPostNewsContentCommand : NewsContentCommand
     }
 
 #endregion
-    public DateTime Time { get; set; }
+    public DateTime? Time { get; set; }
 
 #region Methods
 

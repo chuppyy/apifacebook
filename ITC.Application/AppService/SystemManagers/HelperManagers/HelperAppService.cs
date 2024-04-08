@@ -244,11 +244,12 @@ public class HelperAppService : IHelperAppService
                 var kpi = totalDaysDifference * 4;
                 if (group.Created > query.StartDate)
                 {
-                    var difference = query.StartDate.Value - group.Created;
+                    var createdDate = new DateTime(group.Created.Year, group.Created.Month, group.Created.Day, 00, 00, 00, 000);
+                    var difference = query.StartDate.Value - createdDate;
                     var totalDays = Round(difference.TotalDays);
-                    if (totalDays < 0)
+                    if (totalDays <= 0)
                     {
-                        kpi = 0;
+                        kpi = 4;
                     }
                     else
                     {
@@ -283,5 +284,45 @@ public class HelperAppService : IHelperAppService
         }
 
         return results.ToList();
+    }
+
+    public async Task<List<ReportData>> ApiGetWagesAsync(string tokenAK, int siteId, DateTime? startDate, DateTime? endDate)
+    {
+        var client = new HttpClient();
+
+        var url = "https://api.adskeeper.co.uk/v1/publishers/712793/widget-custom-report";
+
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+        request.Headers.Add("Authorization", $"Bearer {tokenAK}");
+        request.Headers.Add("Accept", "application/json, text/javascript, */*; q=0.01");
+
+        var parameters = new System.Collections.Specialized.NameValueCollection {
+            { "dateInterval", "interval" },
+            { "startDate", $"{startDate}" },
+            { "endDate", $"{endDate}" },
+            { "siteId", "936535" },
+            { "dimensions", "domain" },
+            { "metrics", "wages" }
+        };
+
+        var uriBuilder = new UriBuilder(url)
+        {
+            Query = string.Join("&", Array.ConvertAll(parameters.AllKeys, key => $"{Uri.EscapeDataString(key)}={Uri.EscapeDataString(parameters[key])}"))
+        };
+
+        request.RequestUri = uriBuilder.Uri;
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            // Sử dụng thư viện Newtonsoft.Json để chuyển đổi từ JSON sang đối tượng
+            var reportDataArray = JsonConvert.DeserializeObject<ReportData[]>(json);
+            return reportDataArray.ToList();
+        }
+
+        return null;
     }
 }
