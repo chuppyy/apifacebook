@@ -140,9 +140,15 @@ public class HelperAppService : IHelperAppService
                 }}";
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
+            // Dữ liệu báo cáo lượt view
             var linkViews = new List<UserViewDto>();
+
+            // Dữ liệu báo cáo tổng tiền cho domain
+            var wageReports = new List<ReportData>();
             foreach (var domain in domains)
             {
+                #region View
+
                 var url = $"https://analyticsdata.googleapis.com/v1beta/properties/{domain.IdAnalytic}:runReport";
                 var response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"), cancellationToken);
                 if (response.IsSuccessStatusCode)
@@ -164,6 +170,21 @@ public class HelperAppService : IHelperAppService
                         }
                     }
                 }
+
+                #endregion
+
+                #region Wages
+
+                if (!string.IsNullOrEmpty(config.TokenAK))
+                {
+                    var wages = await ApiGetWagesAsync(config.TokenAK, domain.TokenAK, convertStartDate, convertEndDate);
+                    if (wages != null && wages.Any())
+                    {
+                        wageReports.AddRange(wages);
+                    }
+                }
+                
+                #endregion
             }
 
             var users = await _staffManagerQueries.GetUserCodeAsync();
@@ -208,23 +229,23 @@ public class HelperAppService : IHelperAppService
         return result.ToList();
     }
 
-    public async Task<List<ReportUserGroupResponseDto>> ReportUserGroupNewAsync(ReportUserPostQuery query)
+    public async Task<List<ReportUserGroupResponseDto>> ReportUserGroupNewAsync(ReportUserPostQuery request)
     {
         // Config Date
         var dateNow = DateTime.Now;
-        query.StartDate = query.StartDate != null ? new DateTime(query.StartDate.Value.Year, query.StartDate.Value.Month, query.StartDate.Value.Day, 00, 00, 00, 000) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 00, 00, 00, 000);
-        query.EndDate = query.EndDate != null ? new DateTime(query.EndDate.Value.Year, query.EndDate.Value.Month, query.EndDate.Value.Day, 23, 59, 59, 999) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 23, 59, 59, 999);
+        request.StartDate = request.StartDate != null ? new DateTime(request.StartDate.Value.Year, request.StartDate.Value.Month, request.StartDate.Value.Day, 00, 00, 00, 000) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 00, 00, 00, 000);
+        request.EndDate = request.EndDate != null ? new DateTime(request.EndDate.Value.Year, request.EndDate.Value.Month, request.EndDate.Value.Day, 23, 59, 59, 999) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 23, 59, 59, 999);
         
         // Thông tin người dùng và nhóm
-        var userGroup = await _staffManagerQueries.ReportUserGroupNewAsync(query.EndDate);
+        var userGroup = await _staffManagerQueries.ReportUserGroupNewAsync(request.EndDate);
         var listGroupId = userGroup.Select(x => x.GroupId).Distinct();
 
-        var groupAmount = await _staffManagerQueries.ReportPostAsync(listGroupId, query.StartDate, query.EndDate);
+        var groupAmount = await _staffManagerQueries.ReportPostAsync(listGroupId, request.StartDate, request.EndDate);
 
         // Thông tin người dùng
         var users = userGroup.GroupBy(x => new { x.UserId, x.Name });
-        var totalDaysDifference = Round((query.EndDate.Value - query.StartDate.Value).TotalDays);
-       
+        var totalDaysDifference = Round((request.EndDate.Value - request.StartDate.Value).TotalDays);
+
         var results = new List<ReportUserGroupResponseDto>();
         foreach (var user in users)
         {
@@ -242,10 +263,10 @@ public class HelperAppService : IHelperAppService
             foreach (var group in user)
             {
                 var kpi = totalDaysDifference * 4;
-                if (group.Created > query.StartDate)
+                if (group.Created > request.StartDate)
                 {
                     var createdDate = new DateTime(group.Created.Year, group.Created.Month, group.Created.Day, 00, 00, 00, 000);
-                    var difference = query.StartDate.Value - createdDate;
+                    var difference = request.StartDate.Value - createdDate;
                     var totalDays = Round(difference.TotalDays);
                     if (totalDays <= 0)
                     {
@@ -286,7 +307,7 @@ public class HelperAppService : IHelperAppService
         return results.ToList();
     }
 
-    public async Task<List<ReportData>> ApiGetWagesAsync(string tokenAK, int siteId, DateTime? startDate, DateTime? endDate)
+    public async Task<List<ReportData>> ApiGetWagesAsync(string tokenAK, string siteId, string startDate, string endDate)
     {
         var client = new HttpClient();
 
@@ -301,7 +322,7 @@ public class HelperAppService : IHelperAppService
             { "dateInterval", "interval" },
             { "startDate", $"{startDate}" },
             { "endDate", $"{endDate}" },
-            { "siteId", "936535" },
+            { "siteId", $"{siteId}" },
             { "dimensions", "domain" },
             { "metrics", "wages" }
         };

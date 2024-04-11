@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Commands\GoogleAnalytics\Handlers\" />
         <Folder Include="EventHandlers\" />
         <Folder Include="ModelQueries" />
         <Folder Include="Queries" />

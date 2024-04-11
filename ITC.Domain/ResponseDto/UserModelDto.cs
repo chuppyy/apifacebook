@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace ITC.Domain.ResponseDto
 {
@@ -97,13 +98,21 @@ namespace ITC.Domain.ResponseDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        [IgnoreDataMember]
         public string IdAnalytic { get; set; }
+        [IgnoreDataMember]
+        public string TokenAK { get; set; }
+        [IgnoreDataMember]
+        public int IdTypeMoney { get; set; }
+        [IgnoreDataMember]
+        public double RatioMem { get; set; }
     }
 
     public class ConfigAnalyticsDto
     {
         public string Email { get; set; }
         public string PrivateKey { get; set; }
+        public string TokenAK { get; set; }
     }
 
     public class ReportUserGroupNewDto : GroupReportDto

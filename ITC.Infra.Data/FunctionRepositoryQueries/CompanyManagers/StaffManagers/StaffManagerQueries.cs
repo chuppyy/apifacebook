@@ -356,7 +356,7 @@ public class StaffManagerQueries : IStaffManagerQueries
     public async Task<IEnumerable<WebsiteDto>> GetListInfoWebAsync(List<int> domainIds)
     {
         var sBuilder = new StringBuilder();
-        sBuilder.Append(@"SELECT [Id], [Name], [IdAnalytic] FROM Webs w");
+        sBuilder.Append(@"SELECT [Id], [Name], [IdAnalytic], TokenAK, RatioMem, IdTypeMoney FROM Webs w");
         if (domainIds != null && domainIds.Any())
         {
             var addListString = string.Join(",", domainIds);
@@ -370,7 +370,7 @@ public class StaffManagerQueries : IStaffManagerQueries
     public async Task<ConfigAnalyticsDto> GetConfigAnalyticsAsync()
     {
         var sBuilder = new StringBuilder();
-        sBuilder.Append(@"SELECT Top 1 [Email], [PrivateKey] FROM ConfigAnalytics");
+        sBuilder.Append(@"SELECT Top 1 [Email], [PrivateKey], TokenAK FROM ConfigAnalytics");
         return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<ConfigAnalyticsDto>(_connectionString, sBuilder);
     }
 
