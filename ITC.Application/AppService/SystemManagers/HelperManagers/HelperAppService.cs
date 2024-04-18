@@ -199,27 +199,32 @@ public class HelperAppService : IHelperAppService
                     Users = new List<UserReportDto>(),
                     TotalView = 0
                 };
-                foreach (var user in users)
-                {
-                    if (string.IsNullOrEmpty(user.UserCode))
-                    {
-                        results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
-                        continue;
-                    }
-                    var byUser = linkViews.Where(x => x.Link.Contains(user.UserCode));
-                    if (byUser.Any())
-                    {
-                        var totalView = byUser.Sum(x => x.View);
-                        results.Users.Add(new UserReportDto(user.Name, user.UserCode, totalView));
-                    }
-                    else
-                    {
-                        results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
-                    }
-                }
 
-                results.Users = results.Users.OrderByDescending(x => x.TotalView).ToList();
-                results.TotalView = linkViews.Sum(x => x.View);
+                foreach (var domainData in allReports)
+                {
+                    foreach (var user in users)
+                    {
+                        if (string.IsNullOrEmpty(user.UserCode))
+                        {
+                            results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
+                            continue;
+                        }
+                        var byUser = domainData.UserViews.Where(x => x.Link.Contains(user.UserCode));
+                        if (byUser.Any())
+                        {
+                            var totalView = byUser.Sum(x => x.View);
+                            results.Users.Add(new UserReportDto(user.Name, user.UserCode, totalView));
+                        }
+                        else
+                        {
+                            results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
+                        }
+                    }
+
+                    results.Users = results.Users.OrderByDescending(x => x.TotalView).ToList();
+                    results.TotalView = domainData.UserViews.Sum(x => x.View);
+                }
+                
                 return results;
             }
 
