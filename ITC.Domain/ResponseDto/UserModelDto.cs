@@ -160,6 +160,12 @@ namespace ITC.Domain.ResponseDto
 
     public class ReportData
     {
+        public int IdDomain { get; set; }
+        public  List<UserViewDto> UserViews { get; set; }
+        public string Wages { get; set; }
+    }
+    public class MoneyData
+    {
         public string Domain { get; set; }
         public string Wages { get; set; }
     }

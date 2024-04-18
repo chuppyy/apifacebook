@@ -332,7 +332,7 @@ public class NewsContentQueries : INewsContentQueries
     public async Task<NewsMainModel> GetDetail(string id)
     {
         var sBuilder = new StringBuilder();
-        sBuilder.Append(@"SELECT s.UserCode,NC.Name, NC.Content, NC.AvatarLink, NC.AvatarLocal, NC.DateTimeStart,NC.Summary 
+        sBuilder.Append(@"SELECT s.UserCode,NC.Name, NC.Content, NC.AvatarLink, NC.AvatarLocal, NC.DateTimeStart,NC.Summary, NC.IsDeleted 
                             FROM NewsContents NC
 							left join StaffManagers s ON s.UserId=nc.CreatedBy
                             WHERE NC.SecretKey = @id ");
@@ -368,7 +368,7 @@ public class NewsContentQueries : INewsContentQueries
                                             NewsContents NC
                                             INNER JOIN NewsGroups NG ON NC.NewsGroupId = NG.Id
                                         WHERE
-                                            NC.IsDeleted = 0 AND NG.Id IN ({map}))
+                                            NC.IsDeleted = 0 and  NC.Created < DATEADD(day, -15, GETDATE()) AND NG.Id IN ({map}))
                             SELECT Id, Name, AvatarLink, AvatarLocal, DateTimeStart, GroupName
                             FROM
                                 RankedNews

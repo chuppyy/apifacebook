@@ -12,6 +12,7 @@ public class NewsMainModel
     public string UserCode { get; set; }
     public              string   Content       { get; set; }
     public              string   AvatarLink    { get; set; }
+    public bool   IsDeleted    { get; set; }
     [JsonIgnore] public bool     AvatarLocal   { get; set; }
     public              DateTime DateTimeStart { get; set; }
 }

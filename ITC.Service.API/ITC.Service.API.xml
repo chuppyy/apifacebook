@@ -496,6 +496,25 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:ITC.Service.API.Controllers.GoogleAnalyticsController">
+            <summary>
+            Google Analytics
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.GoogleAnalyticsController.#ctor(MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler,ITC.Application.AppService.SystemManagers.HelperManagers.IHelperAppService)">
+            <summary>
+            Hàm khởi tạo
+            </summary>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+            <param name="helperAppService"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.GoogleAnalyticsController.ReportGoogleAnalyticsAsync(ITC.Domain.Commands.GoogleAnalytics.Models.GoogleAnalyticsReport,System.Threading.CancellationToken)">
+            <summary>
+            Báo cáo
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ITC.Service.API.Controllers.HomeManagers.NewsController">
             <inheritdoc />
         </member>
@@ -1361,6 +1380,24 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:ITC.Service.API.Controllers.ReportController">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ReportController.#ctor(MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler,ITC.Application.AppService.SystemManagers.HelperManagers.IHelperAppService)">
+            <summary>
+            Hàm khởi tạo
+            </summary>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+            <param name="helperAppService"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.ReportController.ReportUserGroupNewAsync(ITC.Domain.Commands.GoogleAnalytics.Models.ReportUserPostQuery)">
+            <summary>
+            báo cáo tổng quan user
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ITC.Service.API.Controllers.SaleManagers.ImageLibraryManagerController">
             <summary>
                 Thư viện hình ảnh
@@ -1782,6 +1819,24 @@
         <member name="M:ITC.Service.API.Controllers.SystemManagers.UserManagerController.GetCombobox(System.String)">
             <summary>
                 Combobox
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ITC.Service.API.Controllers.WebController">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.WebController.#ctor(MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler,ITC.Application.AppService.SystemManagers.HelperManagers.IHelperAppService)">
+            <summary>
+            Hàm khởi tạo
+            </summary>
+            <param name="notifications"></param>
+            <param name="mediator"></param>
+            <param name="helperAppService"></param>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.WebController.GetComboboxAsync">
+            <summary>
+            Combobox trang web
             </summary>
             <returns></returns>
         </member>

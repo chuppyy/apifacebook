@@ -140,15 +140,17 @@ public class HelperAppService : IHelperAppService
                 }}";
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
-            // Dữ liệu báo cáo lượt view
-            var linkViews = new List<UserViewDto>();
+           
 
             // Dữ liệu báo cáo tổng tiền cho domain
-            var wageReports = new List<ReportData>();
+            var allReports = new List<ReportData>();
+
             foreach (var domain in domains)
             {
+                var reportData = new ReportData();
                 #region View
-
+                // Dữ liệu báo cáo lượt view
+                var linkViews = new List<UserViewDto>();
                 var url = $"https://analyticsdata.googleapis.com/v1beta/properties/{domain.IdAnalytic}:runReport";
                 var response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"), cancellationToken);
                 if (response.IsSuccessStatusCode)
@@ -170,9 +172,9 @@ public class HelperAppService : IHelperAppService
                         }
                     }
                 }
-
+                reportData.UserViews = linkViews;
                 #endregion
-
+                
                 #region Wages
 
                 if (!string.IsNullOrEmpty(config.TokenAK))
@@ -180,11 +182,13 @@ public class HelperAppService : IHelperAppService
                     var wages = await ApiGetWagesAsync(config.TokenAK, domain.TokenAK, convertStartDate, convertEndDate);
                     if (wages != null && wages.Any())
                     {
-                        wageReports.AddRange(wages);
+                        reportData.Wages=wages.FirstOrDefault()?.Wages;
                     }
                 }
-                
+
                 #endregion
+                reportData.IdDomain = domain.Id;
+                allReports.Add(reportData);
             }
 
             var users = await _staffManagerQueries.GetUserCodeAsync();
