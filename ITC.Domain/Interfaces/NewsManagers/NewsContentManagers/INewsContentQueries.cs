@@ -21,7 +21,7 @@ public interface INewsContentQueries
     ///     [Phân trang] Trả về danh sách bài viết
     /// </summary>
     /// <returns></returns>
-    Task<IEnumerable<NewsContentPagingDto>> GetPaging(NewsContentPagingModel model, List<Guid> newsGroupId);
+    Task<IEnumerable<NewsContentPagingDto>> GetPaging(NewsContentPagingModel model, List<Guid> newsGroupId, List<Guid> userIds = null);
     /// <summary>
     ///     [Phân trang] Trả về danh sách bài viết
     /// </summary>

@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Xml;
 using AutoMapper;
 using Hangfire;
 using HtmlAgilityPack;
@@ -33,7 +32,6 @@ using NCore.Actions;
 using NCore.Enums;
 using NCore.Helpers;
 using NCore.Modals;
-using Org.BouncyCastle.Utilities;
 using IUser = ITC.Domain.Interfaces.IUser;
 
 #endregion
@@ -197,10 +195,7 @@ public NewsContentAppService(IMapper                        mapper,
         return await Task.Run(() =>
         {
             // Lấy dữ liệu quyền của người dùng
-            var permissionValue =
-                _authorityManagerQueries
-                    .GetPermissionByMenuManagerValue(model.ModuleIdentity, _user.UserId)
-                    .Result;
+            var permissionValue = _authorityManagerQueries.GetPermissionByMenuManagerValue(model.ModuleIdentity, _user.UserId).Result;
             // Xử lý dữ liệu
             //1. Lấy danh sách các nhóm bài viết liên quan đến các nhóm bài viết lựa chọn
             var lSendNewsGroupId = !string.IsNullOrEmpty(model.NewsGroupId)
@@ -209,7 +204,9 @@ public NewsContentAppService(IMapper                        mapper,
             var lNewsGroup = lSendNewsGroupId.Count > 0
                                  ? _newsGroupAppService.GetListIdFromListId(lSendNewsGroupId).Result
                                  : new List<Guid>();
+           
             var staffId = Guid.Parse(_user.StaffId);
+            var listByOwnerId = new List<Guid>();
             //2. Kiểm tra quyền xem dữ liệu tác giả khác
             if ((permissionValue & PermissionEnum.XemTacGiaKhac.Id) != 0)
             {
@@ -223,15 +220,13 @@ public NewsContentAppService(IMapper                        mapper,
             {
                 var staffNowInfo = _staffManagerRepository.GetAsync(staffId).Result;
                 model.Author = Guid.Parse(staffNowInfo.UserId);
+                listByOwnerId = staffNowInfo.OwerId != null
+                    ? _staffManagerRepository.GetByOwnerIdAsync(staffNowInfo.OwerId.Value)?.Result
+                    : null;
             }
 
-            var lData = (List<NewsContentPagingDto>)_queries.GetPaging(model, lNewsGroup).Result;
-            // Trả về Actions
-
-            // var authoritiesValue = _authorityManagerQueries
-            //                        .PermissionValueByMenuId(staffNowInfo.AuthorityId,
-            //                                                 new NCoreHelperV2023().ViewAuthor)
-            //                        .Result;
+            var lData = (List<NewsContentPagingDto>)_queries.GetPaging(model, lNewsGroup, listByOwnerId).Result;
+          
             var viewAuthor = (permissionValue & PermissionEnum.XemTacGiaKhac.Id) != 0;
 
             var dateCheck = new DateTime(2023, 12, 13, 22, 30, 00);
@@ -607,9 +602,10 @@ public NewsContentAppService(IMapper                        mapper,
             var linkUrl = newInfo.LinkTree;
             if (model.IsPostImg==true)
             {
-                var code = "";
-                var staffInfo =  _staffManagerRepository.GetByUserId(newInfo.CreatedBy).Result;
-                if (staffInfo != null) code = staffInfo.UserCode;
+                /*var staffInfo =  _staffManagerRepository.GetByUserId(newInfo.CreatedBy).Result;
+                if (staffInfo != null)
+                {
+                }*/
 
                 //linkUrl = CheckDomain(newGroupInfo.Domain) + "" + newGroupInfo.MetaTitle + "-" + code + "-" +
                 //       newInfo.SecretKey;
@@ -886,7 +882,7 @@ public NewsContentAppService(IMapper                        mapper,
         //var maQCGA = "<div id=\"qcgb\"></div>";
         //var maQCGA2 = "<div id=\"qcgb2\"></div>";
         //maQC = "<div>sdsd</div>";
-        var noiDungs = detail.Content.Split(new string[] { "</p>" }, StringSplitOptions.None);
+        var noiDungs = detail.Content.Split(new[] { "</p>" }, StringSplitOptions.None);
         string result = "";
         var count = noiDungs.Length;
 
@@ -961,7 +957,6 @@ public NewsContentAppService(IMapper                        mapper,
         }
         catch (Exception e)
         {
-
             throw;
         }
 
@@ -990,6 +985,7 @@ public NewsContentAppService(IMapper                        mapper,
                 switch (typeWeb)
                 {
                     case 1:
+                    {
                         //Cele
                         groupModel.Add(new Guid("b493f1b1-3225-45a2-aaf2-788753e87f44"));
                         groupModel.Add(new Guid("7202eb2f-07f8-465b-bd22-dee3fbb54885"));
@@ -997,7 +993,9 @@ public NewsContentAppService(IMapper                        mapper,
                         groupModel.Add(new Guid("5be1f886-5dfd-4815-aff4-86b7bf07de23"));
                         groupModel.Add(new Guid("73838721-d11f-43de-a86c-506fb87514cc"));
                         break;
+                    }
                     case 2:
+                    {
                         //Chuẩn
                         groupModel.Add(new Guid("78BEA156-3990-491F-9092-1818B9265ED1"));
                         groupModel.Add(new Guid("C48D3685-9F2A-472D-995D-2405111991EA"));
@@ -1005,7 +1003,9 @@ public NewsContentAppService(IMapper                        mapper,
                         groupModel.Add(new Guid("F8C27993-F5F0-402C-8695-5386630A4281"));
                         groupModel.Add(new Guid("A98A233D-7FBB-4F39-BC9C-8E31292C7E8A"));
                         break;
+                    }
                     case 3:
+                    {
                         //News
                         groupModel.Add(new Guid("5ECA838C-B4BA-4382-8B6A-87B8D82D8699"));
                         groupModel.Add(new Guid("E5E9311E-7FCC-4983-99E6-0818E4AAD341"));
@@ -1013,7 +1013,9 @@ public NewsContentAppService(IMapper                        mapper,
                         groupModel.Add(new Guid("F09947AC-939D-486C-B806-DF86EF1B3B3D"));
                         groupModel.Add(new Guid("3F595F31-3B29-4920-8FE0-E117C92DE673"));
                         break;
+                    }
                     case 4:
+                    {
                         //NewsPaper
                         groupModel.Add(new Guid("8DBF3865-7494-4CA5-A29E-3B2CF30E40A1"));
                         groupModel.Add(new Guid("53133009-D967-4D4D-BDD7-6F2AD92FE26E"));
@@ -1021,8 +1023,10 @@ public NewsContentAppService(IMapper                        mapper,
                         groupModel.Add(new Guid("71E262E6-F490-4DE4-B473-FE3E4BCFE80C"));
                         groupModel.Add(new Guid("41301CCB-D5D5-49BD-9DC8-1F2B9C81703D"));
                         break;
+                    }
 
                     default:
+                    {
                         //Cele
                         groupModel.Add(new Guid("b493f1b1-3225-45a2-aaf2-788753e87f44"));
                         groupModel.Add(new Guid("7202eb2f-07f8-465b-bd22-dee3fbb54885"));
@@ -1030,6 +1034,7 @@ public NewsContentAppService(IMapper                        mapper,
                         groupModel.Add(new Guid("5be1f886-5dfd-4815-aff4-86b7bf07de23"));
                         groupModel.Add(new Guid("73838721-d11f-43de-a86c-506fb87514cc"));
                         break;
+                    }
                 }
 
                
