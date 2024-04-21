@@ -240,6 +240,10 @@ public class StaffManager : RootModel
     /// </summary>
     public virtual List<SportRegister> SportRegisters { get; set; }
 
+    public Guid? OwerId { get; set; }
+
+    public double? Ratio { get; set; }
+
     public void Update(string name, string description, Guid company, string phone, string address, string email,
                        Guid   roomManagerId, string userId, Guid authorityId, Guid avatarId, Guid userTypeManagerId,
                        string userCode, string createdBy)

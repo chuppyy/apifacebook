@@ -1,7 +1,5 @@
-﻿#region
-
-#endregion
-
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ITC.Domain.Models.CompanyManagers;
 
@@ -18,4 +16,6 @@ public interface IStaffManagerRepository : IRepository<StaffManager>
     /// <param name="id"></param>
     /// <returns></returns>
     Task<StaffManager> GetByUserId(string id);
+
+    Task<List<Guid>> GetByOwnerIdAsync(Guid ownerId);
 }

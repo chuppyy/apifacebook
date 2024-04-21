@@ -105,11 +105,10 @@ public class NewsContentCommandHandler : CommandHandler,
         doc.LoadHtml(command.Content);
         if (command.Content.Contains("data:image/png;base64"))
         {
-            // NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
-            // return await Task.FromResult(false);
+            NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
+            return await Task.FromResult(false);
             
-
-            // Select all img elements with a base64 src attribute
+            /*// Select all img elements with a base64 src attribute
             var imgElements = doc.DocumentNode.SelectNodes("//img[starts-with(@src, 'data:image/')]");
 
             if (imgElements != null)
@@ -119,10 +118,7 @@ public class NewsContentCommandHandler : CommandHandler,
                     // Remove the img element
                     imgElement.Remove();
                 }
-            }
-
-            // Get the modified HTML
-            
+            }*/
         }
         //Thêm thuộc tính cho thẻ img
         var imgTags = doc.DocumentNode.SelectNodes("//img");
@@ -334,10 +330,9 @@ public class NewsContentCommandHandler : CommandHandler,
         doc.LoadHtml(command.Content);
         if (command.Content.Contains("data:image/png;base64"))
         {
-            // NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
-            // return await Task.FromResult(false);
-          
-
+            NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
+            return await Task.FromResult(false);
+            
             // Select all img elements with a base64 src attribute
             var imgElements = doc.DocumentNode.SelectNodes("//img[starts-with(@src, 'data:image/')]");
 
@@ -349,7 +344,6 @@ public class NewsContentCommandHandler : CommandHandler,
                     imgElement.Remove();
                 }
             }
-            
         }
 
         //Thêm thuộc tính cho thẻ img
@@ -429,12 +423,6 @@ public class NewsContentCommandHandler : CommandHandler,
                             var dateNow = DateTime.Now;
                             firstToken.ModifiedDate = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 12, 00, 000);
                         }
-                        else
-                        {
-                        }
-                    }
-                    else
-                    {
                     }
                     
                 }else if (group.TypeId == (int)GroupType.Img)
@@ -457,11 +445,11 @@ public class NewsContentCommandHandler : CommandHandler,
                     {
                         linkTree = linkTreeTwitter;
                     }*/
-                }
+            }
 
                 //Cập nhật link vercel khi thêm mới linktree
                 if (string.IsNullOrEmpty(existing.LinkTree) && !string.IsNullOrEmpty(linkTree))
-            {
+                {
                 // Bảng NewsContent
                 // Nếu là chuyển trạng thái từ chờ đăng => đã đăng thì cập nhật lại domain cho nhóm tin 
                 var newsGroupInfo = _newsGroupRepository.GetAsync(existing.NewsGroupId).Result;

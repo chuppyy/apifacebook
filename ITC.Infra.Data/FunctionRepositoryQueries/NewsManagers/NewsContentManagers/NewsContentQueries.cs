@@ -37,37 +37,12 @@ public class NewsContentQueries : INewsContentQueries
 
     #endregion
 
-    /// <inheritdoc cref="GetPaging" />
+    /// <inheritdoc/>
     public async Task<IEnumerable<NewsContentPagingDto>> GetPaging(NewsContentPagingModel model,
-                                                                   List<Guid>             newsGroupId)
+                                                                   List<Guid> newsGroupId, List<Guid> userIds = null)
     {
         var sBuilderSql = new StringBuilder();
-        // sBuilderSql.Append(@"SELECT NC.Id,
-        //                                    NC.StatusId,
-        //                                    NC.Name,
-        //                                    NC.Summary,
-        //                                    NC.Author,
-        //                                    NC.UrlRootLink,
-        //                                    NG.Name      AS NewsGroupName,
-        //                                    NC.DateTimeStart,
-        //                                    NC.Modified,
-        //                                    NC.CreatedBy AS OwnerId,
-        //                                    ANU.FullName AS OwnerName,
-        //                                    SM.UserCode,
-        //                                    NC.AvatarLink,
-        //                                    NC.AvatarLocal,
-        //                                    NC.AvatarId,
-        //                                    NG.MetaTitle AS MetaGroup,
-        //                                    NC.MetaTitle AS MetaName,
-        //                                    NC.SecretKey AS MetaKey,
-        //                                    NG.Domain,
-        //                                    NC.LinkTree,
-        //                                    NC.TimeAutoPost
-        //                         FROM NewsContents NC
-        //                                      INNER JOIN NewsGroups NG ON NC.NewsGroupId = NG.Id
-        //                                      INNER JOIN AspNetUsers ANU ON NC.CreatedBy = ANU.Id                                
-        //                                      INNER JOIN StaffManagers SM ON NC.CreatedBy = SM.UserId                            
-        //                        WHERE NC.IsDeleted = 0 ");
+        
         sBuilderSql.Append(@"SELECT NC.Id,
                                            NC.StatusId,
                                            NC.Name,
@@ -84,7 +59,18 @@ public class NewsContentQueries : INewsContentQueries
                                 FROM NewsContents NC
                                              INNER JOIN NewsGroups NG ON NC.NewsGroupId = NG.Id                          
                                WHERE NC.IsDeleted = 0 ");
-        if (model.Author.CompareTo(Guid.Empty) != 0) sBuilderSql.Append(" AND NC.CreatedBy = @author ");
+        if (model.Author.CompareTo(Guid.Empty) != 0)
+        {
+            if (userIds != null && userIds.Any())
+            {
+                var listOfJoin = new NCoreHelper().convert_list_to_string(userIds);
+                sBuilderSql.Append($" AND nc.CreatedBy in {listOfJoin} ");
+            }
+            else
+            {
+                sBuilderSql.Append(" AND NC.CreatedBy = @author ");
+            }
+        }
         if (newsGroupId.Count > 0)
         {
             var listOfIdsJoined = new NCoreHelper().convert_list_to_string(newsGroupId);

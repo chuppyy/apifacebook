@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ITC.Domain.Interfaces.CompanyManagers.StaffManagers;
 using ITC.Domain.Models.CompanyManagers;
 using ITC.Infra.Data.Context;
@@ -31,5 +34,11 @@ public class StaffManagerRepository : Repository<StaffManager>, IStaffManagerRep
     public async Task<StaffManager> GetByUserId(string id)
     {
         return await _context.StaffManagers.FirstOrDefaultAsync(x => x.UserId == id);
+    }
+
+    public async Task<List<Guid>> GetByOwnerIdAsync(Guid ownerId)
+    {
+        var result = await _context.StaffManagers.Where(x => x.OwerId != null && x.OwerId.Value == ownerId).Select(x=>x.Id).ToListAsync();
+        return result;
     }
 }
