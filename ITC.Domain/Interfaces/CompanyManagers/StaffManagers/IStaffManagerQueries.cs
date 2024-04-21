@@ -91,6 +91,8 @@ public interface IStaffManagerQueries
 
     Task<IEnumerable<ReportUserGroupNewDto>> ReportUserGroupNewAsync(DateTime? endDate);
     Task<IEnumerable<TotalPostByGroupDto>> ReportPostAsync(IEnumerable<Guid> groupIds, DateTime? startDate, DateTime? endDate);
+    Task<IEnumerable<UserByOwnerDto>> GetListUserByOwnerAsync(string userId);
+    Task<bool> UpdateRatioAsync(List<string> userIds, float ratio);
 
     #endregion
 }

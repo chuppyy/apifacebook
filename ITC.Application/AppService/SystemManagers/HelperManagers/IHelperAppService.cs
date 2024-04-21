@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using ITC.Domain.Commands.CompanyManagers.StaffManager;
 using ITC.Domain.Commands.GoogleAnalytics.Models;
 using ITC.Domain.Core.ModelShare.SystemManagers.HelperManagers;
 using ITC.Domain.ResponseDto;
@@ -41,4 +42,7 @@ public interface IHelperAppService
     Task<List<ComboboxIdNameDto>> GetComboboxAsync();
 
     Task<List<ReportUserGroupResponseDto>> ReportUserGroupNewAsync(ReportUserPostQuery query);
+
+    Task<IEnumerable<UserByOwnerDto>> GetListUserAsync(GetListUserQuery query);
+    Task<bool> UpdateRatioUserAsync(UpdateRatioUserCommand command); 
 }

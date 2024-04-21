@@ -169,4 +169,13 @@ namespace ITC.Domain.ResponseDto
         public string Domain { get; set; }
         public string Wages { get; set; }
     }
+
+    public class UserByOwnerDto
+    {
+        public string Name { get; set; }
+        public Guid AvatarId { get; set; }
+        public string UserCode { get; set; }
+        public float Ratio { get; set; }
+        public string UserId { get; set; }
+    }
 }
