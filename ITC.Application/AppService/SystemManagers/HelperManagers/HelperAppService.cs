@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Google.Apis.Auth.OAuth2;
+using ITC.Domain.Commands.CompanyManagers.StaffManager;
 using ITC.Domain.Commands.GoogleAnalytics.Models;
 using ITC.Domain.Commands.SystemManagers.HelperManagers;
 using ITC.Domain.Core.Bus;
@@ -19,6 +20,8 @@ using NCore.Enums;
 using NCore.Modals;
 using Newtonsoft.Json;
 using static System.Double;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 #endregion
 
@@ -352,5 +355,17 @@ public class HelperAppService : IHelperAppService
         }
 
         return null;
+    }
+
+    public async Task<IEnumerable<UserByOwnerDto>> GetListUserAsync(GetListUserQuery query)
+    {
+        var listUser = await _staffManagerQueries.GetListUserByOwnerAsync(query.UserId);
+        return listUser;
+    }
+
+    public async Task<bool> UpdateRatioUserAsync(UpdateRatioUserCommand command)
+    {
+        var listUser = await _staffManagerQueries.UpdateRatioAsync(command.UserIds, command.Ratio);
+        throw new NotImplementedException();
     }
 }

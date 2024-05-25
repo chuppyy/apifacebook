@@ -240,7 +240,7 @@ public class StaffManager : RootModel
     /// </summary>
     public virtual List<SportRegister> SportRegisters { get; set; }
 
-    public Guid? OwerId { get; set; }
+    public Guid? OwnerId { get; set; }
 
     public double? Ratio { get; set; }
 

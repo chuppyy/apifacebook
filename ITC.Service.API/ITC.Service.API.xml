@@ -1749,17 +1749,30 @@
                 nhân viên
             </summary>
         </member>
-        <member name="M:ITC.Service.API.Controllers.SystemManagers.StaffManagerController.#ctor(ITC.Application.AppService.CompanyManagers.StaffManagers.IStaffManagerAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.StaffManagerController.#ctor(ITC.Application.AppService.CompanyManagers.StaffManagers.IStaffManagerAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler,ITC.Application.AppService.SystemManagers.HelperManagers.IHelperAppService)">
             <summary>
                 Hàm dựng
             </summary>
             <param name="staffManagerAppService"></param>
             <param name="notifications"></param>
             <param name="mediator"></param>
+            <param name="helperAppService"></param>
         </member>
         <member name="M:ITC.Service.API.Controllers.SystemManagers.StaffManagerController.UpdateAvatar(ITC.Domain.Core.ModelShare.CompanyManager.StaffManagers.UploadImageStaffEventModel)">
             <summary>
                 Cập nhật ảnh đại diện
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.StaffManagerController.GetListUserAsync(ITC.Domain.Commands.CompanyManagers.StaffManager.GetListUserQuery)">
+            <summary>
+            Lấy danh sách người dùng thuộc bởi quản lý
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.StaffManagerController.UpdateRatioUserAsync(ITC.Domain.Commands.CompanyManagers.StaffManager.UpdateRatioUserCommand)">
+            <summary>
+            Lấy danh sách người dùng thuộc bởi quản lý
             </summary>
             <returns></returns>
         </member>

@@ -410,4 +410,24 @@ public class StaffManagerQueries : IStaffManagerQueries
         sBuilder.Append(" GROUP BY c.NewsGroupId ");
         return await SqlHelper.RunDapperQueryAsync<TotalPostByGroupDto>(_connectionString, sBuilder);
     }
+
+    public async Task<IEnumerable<UserByOwnerDto>> GetListUserByOwnerAsync(string userId)
+    {
+        var sBuilder = new StringBuilder();
+
+        sBuilder.Append($@"SELECT UserId, Name, AvatarId, UserCode, Ratio  
+                            FROM StaffManagers
+                            WHERE IsDeleted = 0 AND StatusId = 3 AND OwnerId = '{userId}' ");
+        return await SqlHelper.RunDapperQueryAsync<UserByOwnerDto>(_connectionString, sBuilder);
+    }
+
+    public async Task<bool> UpdateRatioAsync(List<string> userIds, float ratio)
+    {
+        var sBuilder = new StringBuilder();
+        var addListString = string.Join(",", userIds);
+        sBuilder.Append($@"Update StaffManagers SET Ratio = {ratio}
+                            WHERE IsDeleted = 0 AND StatusId = 3 AND Userid in ('{addListString}') ");
+        await SqlHelper.RunDapperQueryAsync<bool>(_connectionString, sBuilder);
+        return true;
+    }
 }
