@@ -39,10 +39,10 @@ public class NewsContentQueries : INewsContentQueries
 
     /// <inheritdoc/>
     public async Task<IEnumerable<NewsContentPagingDto>> GetPaging(NewsContentPagingModel model,
-                                                                   List<Guid> newsGroupId, List<Guid> userIds = null)
+                                                                   List<Guid> newsGroupId, List<string> userIds = null)
     {
         var sBuilderSql = new StringBuilder();
-        
+
         sBuilderSql.Append(@"SELECT NC.Id,
                                            NC.StatusId,
                                            NC.Name,
@@ -55,20 +55,23 @@ public class NewsContentQueries : INewsContentQueries
                                            NC.AvatarLocal,
                                            NC.AvatarId,
                                            NC.LinkTree,
-                                           NC.TimeAutoPost
+                                           NC.TimeAutoPost,
+                                            NG.TypeId
                                 FROM NewsContents NC
                                              INNER JOIN NewsGroups NG ON NC.NewsGroupId = NG.Id                          
                                WHERE NC.IsDeleted = 0 ");
+        //Nếu có bộ lọc tác giả
         if (model.Author.CompareTo(Guid.Empty) != 0)
         {
+            sBuilderSql.Append(" AND NC.CreatedBy = @author ");
+        }
+        else
+        {
+            //Phân quyền cấp dưới
             if (userIds != null && userIds.Any())
             {
                 var listOfJoin = new NCoreHelper().convert_list_to_string(userIds);
                 sBuilderSql.Append($" AND nc.CreatedBy in {listOfJoin} ");
-            }
-            else
-            {
-                sBuilderSql.Append(" AND NC.CreatedBy = @author ");
             }
         }
         if (newsGroupId.Count > 0)
@@ -86,7 +89,7 @@ public class NewsContentQueries : INewsContentQueries
         }, model.Search));
         sBuilderSql.Append(
             @" GROUP BY NC.Id, NC.StatusId, NC.Name, NC.Author, NG.Name, NC.DateTimeStart, NC.Modified, NC.CreatedBy, 
-                                        NC.AvatarLink, NC.AvatarLocal, NC.AvatarId, NC.LinkTree, NC.TimeAutoPost ");
+                                        NC.AvatarLink, NC.AvatarLocal, NC.AvatarId, NC.LinkTree, NC.TimeAutoPost,NG.TypeId ");
         var sBuilder = new StringBuilder();
         sBuilder.Append(SqlHelper.GeneralSqlBuilder(sBuilderSql.ToString()));
         sBuilder.Append("ORDER BY Modified DESC ");
@@ -387,12 +390,12 @@ public class NewsContentQueries : INewsContentQueries
     public async Task<HomeNewsLifeModel> HomeNewsLifeModel(string id)
     {
         var newsLifeConnect = "Server=103.149.87.30\\SQLEXPRESS,1433;Initial Catalog=News;User Id=user_news;Password=thien@123456@;TrustServerCertificate=True;";
-        var sBuilder         = new StringBuilder();
+        var sBuilder = new StringBuilder();
         sBuilder.Append(
             @$"select  a.TenBaiDang,a.AnhDaiDien,t.TenTheLoai,t.IDPage,v.IdQC,v.Token 
                 from BAIDANG a join THELOAI t ON a.IDTheLoai=t.IDTheLoai join VIA v ON t.IDVia = v.Id 
                 WHERE a.IDBaiDang = '{id}' ");
-        return 
+        return
             await SqlHelper.RunDapperQueryFirstOrDefaultAsync<HomeNewsLifeModel>(newsLifeConnect, sBuilder);
     }
 

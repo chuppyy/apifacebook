@@ -23,6 +23,8 @@ public class NewsContentPagingDto
     public              DateTime?                  TimeAutoPost  { get; set; }
     public              List<ActionAuthorityModel> Actions       { get; set; }
     [JsonIgnore] public int                        TotalRecord   { get; set; }
+     public int TypeId { get; set; }
+   
 }
 
 /// <summary>

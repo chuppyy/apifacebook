@@ -138,9 +138,7 @@ public class HelperAppService : IHelperAppService
                         ""TOTAL""
                     ]
                 }}";
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-
-           
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);         
 
             // Dữ liệu báo cáo tổng tiền cho domain
             var allReports = new List<ReportData>();

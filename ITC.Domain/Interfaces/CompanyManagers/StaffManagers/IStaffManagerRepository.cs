@@ -17,5 +17,5 @@ public interface IStaffManagerRepository : IRepository<StaffManager>
     /// <returns></returns>
     Task<StaffManager> GetByUserId(string id);
 
-    Task<List<Guid>> GetByOwnerIdAsync(Guid ownerId);
+    Task<List<string>> GetByOwnerIdAsync(string userId);
 }

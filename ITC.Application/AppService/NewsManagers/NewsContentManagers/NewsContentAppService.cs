@@ -206,10 +206,11 @@ public NewsContentAppService(IMapper                        mapper,
                                  : new List<Guid>();
            
             var staffId = Guid.Parse(_user.StaffId);
-            var listByOwnerId = new List<Guid>();
+            var listByOwnerId = new List<string>();
             //2. Kiểm tra quyền xem dữ liệu tác giả khác
             if ((permissionValue & PermissionEnum.XemTacGiaKhac.Id) != 0)
             {
+                //Nếu có lọc theo tác giả
                 if (model.Author.CompareTo(Guid.Empty) != 0)
                 {
                     var staffInfo                       = _staffManagerRepository.GetAsync(model.Author).Result;
@@ -218,11 +219,9 @@ public NewsContentAppService(IMapper                        mapper,
             }
             else
             {
-                var staffNowInfo = _staffManagerRepository.GetAsync(staffId).Result;
-                model.Author = Guid.Parse(staffNowInfo.UserId);
-                listByOwnerId = staffNowInfo.OwerId != null
-                    ? _staffManagerRepository.GetByOwnerIdAsync(staffNowInfo.OwerId.Value)?.Result
-                    : null;
+                //var staffNowInfo = _staffManagerRepository.GetAsync(staffId).Result;
+                model.Author = Guid.Parse(_user.UserId);
+                listByOwnerId =_staffManagerRepository.GetByOwnerIdAsync(_user.UserId)?.Result;
             }
 
             var lData = (List<NewsContentPagingDto>)_queries.GetPaging(model, lNewsGroup, listByOwnerId).Result;
