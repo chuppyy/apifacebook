@@ -32,6 +32,7 @@ using NCore.Actions;
 using NCore.Enums;
 using NCore.Helpers;
 using NCore.Modals;
+using Org.BouncyCastle.Utilities;
 using IUser = ITC.Domain.Interfaces.IUser;
 
 #endregion
@@ -220,8 +221,8 @@ public NewsContentAppService(IMapper                        mapper,
             {
                 var staffNowInfo = _staffManagerRepository.GetAsync(staffId).Result;
                 model.Author = Guid.Parse(staffNowInfo.UserId);
-                listByOwnerId = staffNowInfo.OwerId != null
-                    ? _staffManagerRepository.GetByOwnerIdAsync(staffNowInfo.OwerId.Value)?.Result
+                listByOwnerId = staffNowInfo.OwnerId != null
+                    ? _staffManagerRepository.GetByOwnerIdAsync(staffNowInfo.OwnerId.Value)?.Result
                     : null;
             }
 
@@ -961,7 +962,20 @@ public NewsContentAppService(IMapper                        mapper,
         }
 
         detail.Content = result;
-        if (detail.AvatarLocal) detail.AvatarLink = host + "" + detail.AvatarLink;
+        if (string.IsNullOrEmpty(detail.AvatarLink))
+        {
+            detail.AvatarLink = "https://apinews.sportsandtravelonline.com/Uploads/Img//638521374628029939.png";
+            _logger.LogInformation("=====Anh null===========:" + id);
+            _logger.LogInformation("=====Anh id baiviet===========:" + detail.Id);
+            _logger.LogInformation("=====Anh local===========:" + detail.AvatarLocal);
+            _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+        }
+        else  if (detail.AvatarLocal)
+        {
+            detail.AvatarLink = host + "" + detail.AvatarLink;
+            _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+        }            
+            
         return detail;
 
     }
@@ -973,7 +987,7 @@ public NewsContentAppService(IMapper                        mapper,
         {
             var host                           = new NCoreHelperV2023().ReturnHostWebsite();
             groupModel ??= new List<Guid>();
-            var typeWeb = 4;
+            var typeWeb = 3;
             if (groupModel.Count == 0)
             {
                 //groupModel.Add(new Guid("ff3e877d-cfed-4bc5-bb3b-7b2d27980b3d"));

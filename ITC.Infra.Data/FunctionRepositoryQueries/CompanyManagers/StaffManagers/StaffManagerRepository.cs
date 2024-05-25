@@ -38,7 +38,7 @@ public class StaffManagerRepository : Repository<StaffManager>, IStaffManagerRep
 
     public async Task<List<Guid>> GetByOwnerIdAsync(Guid ownerId)
     {
-        var result = await _context.StaffManagers.Where(x => x.OwerId != null && x.OwerId.Value == ownerId).Select(x=>x.Id).ToListAsync();
+        var result = await _context.StaffManagers.Where(x => x.OwnerId != null && x.OwnerId.Value == ownerId).Select(x=>x.Id).ToListAsync();
         return result;
     }
 }
