@@ -20,10 +20,11 @@ public class UpdateNewsContentCommand : NewsContentCommand
         Summary                  = model.Summary;
         Content                  = model.Content;
         Author                   = model.Author;
-        UrlRootLink              = model.UrlRootLink;
+        UrlRootLink              = model.AvatarLink;
         NewsGroupId              = model.NewsGroupId;
         SeoKeyword               = model.SeoKeyword;
         AvatarId                 = model.AvatarId;
+        AvatarLink =    model.AvatarLink;
         DateTimeStart            = model.DateTimeStart;
         NewsGroupTypeId          = model.NewsGroupTypeId;
         AttackViewId             = model.AttackViewId;

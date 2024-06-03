@@ -24,7 +24,7 @@ public class AddNewsContentCommand : NewsContentCommand
         Summary                  = model.Summary;
         Content                  = model.Content;
         Author                   = model.Author;
-        UrlRootLink              = model.UrlRootLink;
+        UrlRootLink              = model.AvatarLink;
         NewsGroupId              = model.NewsGroupId;
         SeoKeyword               = model.SeoKeyword;
         AvatarId                 = model.AvatarId;

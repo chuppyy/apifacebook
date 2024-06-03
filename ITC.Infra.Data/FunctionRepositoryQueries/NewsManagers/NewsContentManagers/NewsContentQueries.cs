@@ -321,7 +321,7 @@ public class NewsContentQueries : INewsContentQueries
     public async Task<NewsMainModel> GetDetail(string id)
     {
         var sBuilder = new StringBuilder();
-        sBuilder.Append(@"SELECT s.UserCode,NC.Name, NC.Content, NC.AvatarLink, NC.AvatarLocal, NC.DateTimeStart,NC.Summary, NC.IsDeleted 
+        sBuilder.Append(@"SELECT s.UserCode,NC.Name, NC.Content, NC.AvatarLink,NC.UrlRootLink, NC.AvatarLocal, NC.DateTimeStart,NC.Summary, NC.IsDeleted 
                             FROM NewsContents NC
 							left join StaffManagers s ON s.UserId=nc.CreatedBy
                             WHERE NC.SecretKey = @id ");

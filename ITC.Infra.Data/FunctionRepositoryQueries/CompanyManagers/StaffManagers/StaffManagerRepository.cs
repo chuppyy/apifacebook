@@ -38,7 +38,7 @@ public class StaffManagerRepository : Repository<StaffManager>, IStaffManagerRep
 
     public async Task<List<string>> GetByOwnerIdAsync(string ownerId)
     {
-        var result = await _context.StaffManagers.Where(x =>( x.UserId == ownerId) || (x.OwerId!=null&& x.OwerId.Value.ToString() == ownerId)).Select(x=>x.UserId).ToListAsync();
+        var result = await _context.StaffManagers.Where(x =>( x.UserId == ownerId) || (x.OwnerId!=null&& x.OwnerId.Value.ToString() == ownerId)).Select(x=>x.UserId).ToListAsync();
         return result;
     }
 }

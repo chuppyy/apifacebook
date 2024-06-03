@@ -53,6 +53,7 @@ public class NewsContentEventModel : PublishModal
     ///     Ảnh đại diện
     /// </summary>
     public Guid AvatarId { get; set; }
+    public string AvatarLink { get; set; }
 
     /// <summary>
     ///     Ngày viết bài
@@ -96,7 +97,7 @@ public class NewsContentEventModel : PublishModal
     /// </summary>
     public List<NewsContentContentModel> NewsContentContentModels { get; set; }
 
-    public string AvatarLink { get; set; }
+   
 }
 
 public class NewsContentGetByIdModel : NewsContentEventModel

@@ -44,82 +44,82 @@ namespace ITC.Application.AppService.NewsManagers.NewsContentManagers;
 /// </summary>
 public class NewsContentAppService : INewsContentAppService
 {
-#region Constructors
+    #region Constructors
 
-/// <summary>
-///     Hàm dựng có tham số
-/// </summary>
-/// <param name="mapper"></param>
-/// <param name="queries"></param>
-/// <param name="repository"></param>
-/// <param name="authorityManagerQueries"></param>
-/// <param name="newsGroupAppService"></param>
-/// <param name="staffManagerRepository"></param>
-/// <param name="newsViaAppService"></param>
-/// <param name="postFaceService"></param>
-/// <param name="newsConfigRepository"></param>
-/// <param name="logger"></param>
-/// <param name="bus"></param>
-/// <param name="user"></param>
-/// <param name="newsDomainRepository"></param>
-/// <param name="newsGroupRepository"></param>
-/// <param name="newsContentRepository"></param>
-public NewsContentAppService(IMapper                        mapper,
-                                 INewsContentQueries            queries,
-                                 INewsContentRepository         repository,
-                                 IAuthorityManagerQueries       authorityManagerQueries,
-                                 INewsGroupAppService           newsGroupAppService,
-                                 IStaffManagerRepository        staffManagerRepository,
-                                 INewsViaAppService             newsViaAppService,
-                                 IPostFaceService               postFaceService,
-                                 INewsConfigRepository          newsConfigRepository,
-                                 ILogger<NewsContentAppService> logger,
-                                 IMediatorHandler               bus,
-                                 IUser                          user,
-                                 INewsDomainRepository newsDomainRepository, 
-                                 INewsGroupRepository newsGroupRepository, 
-                                 INewsContentRepository newsContentRepository)
+    /// <summary>
+    ///     Hàm dựng có tham số
+    /// </summary>
+    /// <param name="mapper"></param>
+    /// <param name="queries"></param>
+    /// <param name="repository"></param>
+    /// <param name="authorityManagerQueries"></param>
+    /// <param name="newsGroupAppService"></param>
+    /// <param name="staffManagerRepository"></param>
+    /// <param name="newsViaAppService"></param>
+    /// <param name="postFaceService"></param>
+    /// <param name="newsConfigRepository"></param>
+    /// <param name="logger"></param>
+    /// <param name="bus"></param>
+    /// <param name="user"></param>
+    /// <param name="newsDomainRepository"></param>
+    /// <param name="newsGroupRepository"></param>
+    /// <param name="newsContentRepository"></param>
+    public NewsContentAppService(IMapper mapper,
+                                     INewsContentQueries queries,
+                                     INewsContentRepository repository,
+                                     IAuthorityManagerQueries authorityManagerQueries,
+                                     INewsGroupAppService newsGroupAppService,
+                                     IStaffManagerRepository staffManagerRepository,
+                                     INewsViaAppService newsViaAppService,
+                                     IPostFaceService postFaceService,
+                                     INewsConfigRepository newsConfigRepository,
+                                     ILogger<NewsContentAppService> logger,
+                                     IMediatorHandler bus,
+                                     IUser user,
+                                     INewsDomainRepository newsDomainRepository,
+                                     INewsGroupRepository newsGroupRepository,
+                                     INewsContentRepository newsContentRepository)
     {
-        _mapper                  = mapper;
-        _queries                 = queries;
-        _repository              = repository;
+        _mapper = mapper;
+        _queries = queries;
+        _repository = repository;
         _authorityManagerQueries = authorityManagerQueries;
-        _newsGroupAppService     = newsGroupAppService;
-        _staffManagerRepository  = staffManagerRepository;
-        _newsViaAppService       = newsViaAppService;
-        _postFaceService         = postFaceService;
-        _newsConfigRepository    = newsConfigRepository;
-        _logger                  = logger;
-        _bus                     = bus;
-        _user                    = user;
+        _newsGroupAppService = newsGroupAppService;
+        _staffManagerRepository = staffManagerRepository;
+        _newsViaAppService = newsViaAppService;
+        _postFaceService = postFaceService;
+        _newsConfigRepository = newsConfigRepository;
+        _logger = logger;
+        _bus = bus;
+        _user = user;
         _newsDomainRepository = newsDomainRepository;
         _newsGroupRepository = newsGroupRepository;
         _newsContentRepository = newsContentRepository;
     }
 
-#endregion
+    #endregion
 
-#region Fields
+    #region Fields
 
-    private readonly IMediatorHandler               _bus;
-    private readonly IUser                          _user;
-    private readonly IMapper                        _mapper;
-    private readonly INewsContentQueries            _queries;
-    private readonly INewsContentRepository         _repository;
-    private readonly IAuthorityManagerQueries       _authorityManagerQueries;
-    private readonly INewsGroupAppService           _newsGroupAppService;
-    private readonly IStaffManagerRepository        _staffManagerRepository;
-    private readonly INewsViaAppService             _newsViaAppService;
-    private readonly IPostFaceService               _postFaceService;
-    private readonly INewsConfigRepository          _newsConfigRepository;
+    private readonly IMediatorHandler _bus;
+    private readonly IUser _user;
+    private readonly IMapper _mapper;
+    private readonly INewsContentQueries _queries;
+    private readonly INewsContentRepository _repository;
+    private readonly IAuthorityManagerQueries _authorityManagerQueries;
+    private readonly INewsGroupAppService _newsGroupAppService;
+    private readonly IStaffManagerRepository _staffManagerRepository;
+    private readonly INewsViaAppService _newsViaAppService;
+    private readonly IPostFaceService _postFaceService;
+    private readonly INewsConfigRepository _newsConfigRepository;
     private readonly INewsDomainRepository _newsDomainRepository;
     private readonly ILogger<NewsContentAppService> _logger;
     private readonly INewsGroupRepository _newsGroupRepository;
     private readonly INewsContentRepository _newsContentRepository;
 
-#endregion
+    #endregion
 
-#region INewsContentAppService Members
+    #region INewsContentAppService Members
 
     /// <summary>
     ///     Thêm bài viết
@@ -127,9 +127,11 @@ public NewsContentAppService(IMapper                        mapper,
     /// <param name="model"></param>
     public async Task<bool> Add(NewsContentEventModel model)
     {
+        model.UrlRootLink = model.AvatarLink;
         var addCommand = _mapper.Map<AddNewsContentCommand>(model);
+        addCommand.UrlRootLink = model.AvatarLink;
         await _bus.SendCommand(addCommand);
-        model.Id            = addCommand.Id;
+        model.Id = addCommand.Id;
         model.ResultCommand = addCommand.ResultCommand;
         model.SecretKey = addCommand.SecretKey;
         return model.ResultCommand;
@@ -163,28 +165,31 @@ public NewsContentAppService(IMapper                        mapper,
 
         return new NewsContentGetByIdModel
         {
-            Id            = iValue.Id,
-            Name          = iValue.Name,
-            Author        = iValue.Author,
-            Content       = iValue.Content,
-            Summary       = iValue.Summary,
-            AvatarId      = iValue.AvatarId,
-            SeoKeyword    = iValue.SeoKeyword,
-            StatusId      = iValue.StatusId,
+            Id = iValue.Id,
+            Name = iValue.Name,
+            Author = iValue.Author,
+            Content = iValue.Content,
+            Summary = iValue.Summary,
+            AvatarId = iValue.AvatarId,
+            AvatarLink = iValue.AvatarLink,
+            SeoKeyword = iValue.SeoKeyword,
+            StatusId = iValue.StatusId,
             DateTimeStart = iValue.DateTimeStart.ToString("dd - MM - yyyy HH:mm"),
-            NewsGroupId   = iValue.NewsGroupId,
-            UrlRootLink   = iValue.UrlRootLink,
-            AgreeVia      = iValue.AgreeVia,
-            LinkTree      = iValue.LinkTree,
+            NewsGroupId = iValue.NewsGroupId,
+            UrlRootLink = iValue.UrlRootLink,
+            AgreeVia = iValue.AgreeVia,
+            LinkTree = iValue.LinkTree,
             Link = iValue.AvatarLink,
-            IsLocal       = iValue.AvatarLocal // iServerFileInfo?.IsLocal ?? false
+            IsLocal = iValue.AvatarLocal // iServerFileInfo?.IsLocal ?? false
         };
     }
 
     /// <inheritdoc cref="Update" />
     public async Task<bool> Update(NewsContentEventModel model)
     {
+        model.UrlRootLink = model.AvatarLink;
         var updateCommand = _mapper.Map<UpdateNewsContentCommand>(model);
+        updateCommand.UrlRootLink = model.AvatarLink;
         await _bus.SendCommand(updateCommand);
         model.ResultCommand = updateCommand.ResultCommand;
         return model.ResultCommand;
@@ -205,7 +210,7 @@ public NewsContentAppService(IMapper                        mapper,
             var lNewsGroup = lSendNewsGroupId.Count > 0
                                  ? _newsGroupAppService.GetListIdFromListId(lSendNewsGroupId).Result
                                  : new List<Guid>();
-           
+
             var staffId = Guid.Parse(_user.StaffId);
             var listByOwnerId = new List<string>();
             //2. Kiểm tra quyền xem dữ liệu tác giả khác
@@ -214,7 +219,7 @@ public NewsContentAppService(IMapper                        mapper,
                 //Nếu có lọc theo tác giả
                 if (model.Author.CompareTo(Guid.Empty) != 0)
                 {
-                    var staffInfo                       = _staffManagerRepository.GetAsync(model.Author).Result;
+                    var staffInfo = _staffManagerRepository.GetAsync(model.Author).Result;
                     if (staffInfo != null) model.Author = Guid.Parse(staffInfo.UserId);
                 }
             }
@@ -222,11 +227,11 @@ public NewsContentAppService(IMapper                        mapper,
             {
                 //var staffNowInfo = _staffManagerRepository.GetAsync(staffId).Result;
                 model.Author = Guid.Parse(_user.UserId);
-                listByOwnerId =_staffManagerRepository.GetByOwnerIdAsync(_user.UserId)?.Result;
+                listByOwnerId = _staffManagerRepository.GetByOwnerIdAsync(_user.UserId)?.Result;
             }
 
             var lData = (List<NewsContentPagingDto>)_queries.GetPaging(model, lNewsGroup, listByOwnerId).Result;
-          
+
             var viewAuthor = (permissionValue & PermissionEnum.XemTacGiaKhac.Id) != 0;
 
             var dateCheck = new DateTime(2023, 12, 13, 22, 30, 00);
@@ -250,7 +255,7 @@ public NewsContentAppService(IMapper                        mapper,
                         item.StatusId);
             }
 
-                
+
             return lData;
         });
     }
@@ -273,14 +278,14 @@ public NewsContentAppService(IMapper                        mapper,
             var lNewsGroup = lSendNewsGroupId.Count > 0
                                  ? _newsGroupAppService.GetListIdFromListId(lSendNewsGroupId).Result
                                  : new List<Guid>();
-            var staffId      = Guid.Parse(_user.StaffId);
+            var staffId = Guid.Parse(_user.StaffId);
             var staffNowInfo = _staffManagerRepository.GetAsync(staffId).Result;
             //2. Xuất dữ liệu NewsContent theo các điều kiện đã đưa vào
             if ((iPermission & PermissionEnum.XemTacGiaKhac.Id) != 0)
             {
                 if (model.Author.CompareTo(Guid.Empty) != 0)
                 {
-                    var staffInfo                       = _staffManagerRepository.GetAsync(model.Author).Result;
+                    var staffInfo = _staffManagerRepository.GetAsync(model.Author).Result;
                     if (staffInfo != null) model.Author = Guid.Parse(staffInfo.UserId);
                 }
             }
@@ -315,7 +320,7 @@ public NewsContentAppService(IMapper                        mapper,
     {
         return await Task.Run(() =>
         {
-            var lData   = NewsContentTypeEnumeration.GetList().ToList();
+            var lData = NewsContentTypeEnumeration.GetList().ToList();
             var lReturn = lData.Select(items => new ComboboxModalInt { Id = items.Id, Name = items.Name }).ToList();
             return lReturn;
         });
@@ -327,8 +332,8 @@ public NewsContentAppService(IMapper                        mapper,
         return await Task.Run(() =>
         {
             var listReturn = new List<ComboboxModal>();
-            var staffId    = Guid.Parse(_user.StaffId);
-            var staffInfo  = _staffManagerRepository.GetAsync(staffId).Result;
+            var staffId = Guid.Parse(_user.StaffId);
+            var staffInfo = _staffManagerRepository.GetAsync(staffId).Result;
             var authoritiesValue = _authorityManagerQueries
                                    .PermissionValueByMenuId(staffInfo.AuthorityId,
                                                             new NCoreHelperV2023().ViewAuthor)
@@ -337,18 +342,18 @@ public NewsContentAppService(IMapper                        mapper,
             {
                 listReturn.Add(new ComboboxModal
                 {
-                    Id   = Guid.Empty,
+                    Id = Guid.Empty,
                     Name = "Tất cả"
                 });
                 var listAuthor = _queries.NewsAuthor().Result;
                 listReturn.AddRange(listAuthor.Select(items => new ComboboxModal
-                                                          { Id = Guid.Parse(items.Id), Name = items.Name }));
+                { Id = Guid.Parse(items.Id), Name = items.Name }));
             }
             else
             {
                 listReturn.Add(new ComboboxModal
                 {
-                    Id   = staffId,
+                    Id = staffId,
                     Name = _user.StaffName
                 });
             }
@@ -370,7 +375,7 @@ public NewsContentAppService(IMapper                        mapper,
                                  ? _newsGroupAppService.GetListIdFromListId(lSendNewsGroupId).Result
                                  : new List<Guid>();
             //2. Xuất dữ liệu NewsContent theo các điều kiện đã đưa vào
-            var lData                             = _queries.GetPagingCombobox(model, lNewsGroup).Result.ToList();
+            var lData = _queries.GetPagingCombobox(model, lNewsGroup).Result.ToList();
             foreach (var items in lData) items.Id = NormalizeNumbers(items.Id);
 
             return lData;
@@ -447,7 +452,7 @@ public NewsContentAppService(IMapper                        mapper,
                                     // If the ID does not contain "twitter", remove the iframe
                                     adElement.Remove();
                                 }
-                               // adElement.Remove();
+                                // adElement.Remove();
                             }
                         }
                         else
@@ -457,7 +462,7 @@ public NewsContentAppService(IMapper                        mapper,
                                 adElement.Remove();
                             }
                         }
-                        
+
                     }
                 }
 
@@ -478,7 +483,7 @@ public NewsContentAppService(IMapper                        mapper,
                     foreach (var img in imgElements)
                     {
                         // Kiểm tra nếu thẻ <img> có cả thuộc tính src và data-src
-                        var srcAttribute     = img.GetAttributeValue("src",      "");
+                        var srcAttribute = img.GetAttributeValue("src", "");
                         var dataSrcAttribute = img.GetAttributeValue("data-src", "");
 
                         if (!string.IsNullOrWhiteSpace(srcAttribute) &&
@@ -499,9 +504,9 @@ public NewsContentAppService(IMapper                        mapper,
                 {
                     var sendCommand = new UploadServerFileCommand(new UploadFileEventModel
                     {
-                        Link     = imageUrl,
-                        IsLocal  = false,
-                        Name     = Convert.ToDateTime(DateTime.Now).ToString("ddMMyyyyHHss"),
+                        Link = imageUrl,
+                        IsLocal = false,
+                        Name = Convert.ToDateTime(DateTime.Now).ToString("ddMMyyyyHHss"),
                         FileType = FileTypeEnumeration.Image.Id
                     });
                     await _bus.SendCommand(sendCommand);
@@ -512,10 +517,10 @@ public NewsContentAppService(IMapper                        mapper,
                 return new ReadLink
                 {
                     IsTrue = true,
-                    Title  = title,
-                    ImageId  = imageId,
+                    Title = title,
+                    ImageId = imageId,
                     ImageLink = imageUrl,
-                    Body   = article
+                    Body = article
                 };
             }
             catch (Exception ex)
@@ -523,10 +528,10 @@ public NewsContentAppService(IMapper                        mapper,
                 return new ReadLink
                 {
                     IsTrue = false,
-                    Title  = "",
-                    ImageId  = Guid.Empty,
+                    Title = "",
+                    ImageId = Guid.Empty,
                     ImageLink = "",
-                    Body   = ex.Message
+                    Body = ex.Message
                 };
             }
         });
@@ -539,11 +544,11 @@ public NewsContentAppService(IMapper                        mapper,
         {
             var newsConfig = _newsConfigRepository.GetAllAsync().Result.FirstOrDefault();
             var dataReturn = new PostNewFaceError();
-            var newInfo    = _repository.GetAsync(model.Id).Result;
+            var newInfo = _repository.GetAsync(model.Id).Result;
             if (newInfo == null)
             {
                 dataReturn.Result = false;
-                dataReturn.Value  = "Bài viết không tồn tại";
+                dataReturn.Value = "Bài viết không tồn tại";
                 goto ketthuc;
             }
 
@@ -551,7 +556,7 @@ public NewsContentAppService(IMapper                        mapper,
             if (newGroupInfo == null)
             {
                 dataReturn.Result = false;
-                dataReturn.Value  = "Nhóm tin không tồn tại";
+                dataReturn.Value = "Nhóm tin không tồn tại";
                 goto ketthuc;
             }
 
@@ -559,7 +564,7 @@ public NewsContentAppService(IMapper                        mapper,
             if (newViaInfo == null)
             {
                 dataReturn.Result = false;
-                dataReturn.Value  = "Via không tồn tại";
+                dataReturn.Value = "Via không tồn tại";
                 goto ketthuc;
             }
 
@@ -567,7 +572,7 @@ public NewsContentAppService(IMapper                        mapper,
             if (string.IsNullOrEmpty(tkqcId))
             {
                 dataReturn.Result = false;
-                dataReturn.Value  = "Không có IdTkQc";
+                dataReturn.Value = "Không có IdTkQc";
                 goto ketthuc;
             }
 
@@ -575,7 +580,7 @@ public NewsContentAppService(IMapper                        mapper,
             if (string.IsNullOrEmpty(token))
             {
                 dataReturn.Result = false;
-                dataReturn.Value  = "Không có token";
+                dataReturn.Value = "Không có token";
                 goto ketthuc;
             }
 
@@ -585,7 +590,7 @@ public NewsContentAppService(IMapper                        mapper,
             if (string.IsNullOrEmpty(pageId))
             {
                 dataReturn.Result = false;
-                dataReturn.Value  = "Không có pageId";
+                dataReturn.Value = "Không có pageId";
                 goto ketthuc;
             }
 
@@ -594,13 +599,13 @@ public NewsContentAppService(IMapper                        mapper,
             if (string.IsNullOrEmpty(pictureUrl))
             {
                 dataReturn.Result = false;
-                dataReturn.Value  = "Không có ảnh đại diện";
+                dataReturn.Value = "Không có ảnh đại diện";
                 goto ketthuc;
             }
 
             //"https://lifenews247.com/Images/files/collage%20161.png";
             var linkUrl = newInfo.LinkTree;
-            if (model.IsPostImg==true)
+            if (model.IsPostImg == true)
             {
                 /*var staffInfo =  _staffManagerRepository.GetByUserId(newInfo.CreatedBy).Result;
                 if (staffInfo != null)
@@ -610,11 +615,11 @@ public NewsContentAppService(IMapper                        mapper,
                 //linkUrl = CheckDomain(newGroupInfo.Domain) + "" + newGroupInfo.MetaTitle + "-" + code + "-" +
                 //       newInfo.SecretKey;
             }
-            
+
             if (string.IsNullOrEmpty(linkUrl))
             {
                 dataReturn.Result = false;
-                dataReturn.Value  = "Không có linkUrl";
+                dataReturn.Value = "Không có linkUrl";
                 goto ketthuc;
             }
 
@@ -623,18 +628,18 @@ public NewsContentAppService(IMapper                        mapper,
             if (string.IsNullOrEmpty(title))
             {
                 dataReturn.Result = false;
-                dataReturn.Value  = "Không có tiêu đề";
+                dataReturn.Value = "Không có tiêu đề";
                 goto ketthuc;
             }
 
 
 
-            var result = await _postFaceService.Quangcao(newInfo.Id, tkqcId, token, pageId, pictureUrl, linkUrl, title ,model.IsPostImg);
-            
+            var result = await _postFaceService.Quangcao(newInfo.Id, tkqcId, token, pageId, pictureUrl, linkUrl, title, model.IsPostImg);
+
             dataReturn.Result = result > 0;
 
-            dataReturn.Value  = result > 0 ? "Thành công" : "Thất bại";
-            
+            dataReturn.Value = result > 0 ? "Thành công" : "Thất bại";
+
             // Nếu bằng số lần đã đăng thì cập nhật lại Domain
             if (newGroupInfo.Amount > 0)
             {
@@ -657,7 +662,7 @@ public NewsContentAppService(IMapper                        mapper,
                     var domain = await _newsDomainRepository.GetDomainFirtOrDefaultAsync(newGroupInfo.Name);
                     newGroupInfo.Domain = domain?.Name;
                 }
-                
+
                 _newsGroupRepository.Update(newGroupInfo);
                 _newsGroupRepository.SaveChanges();
             }
@@ -670,7 +675,7 @@ public NewsContentAppService(IMapper                        mapper,
             //     _repository.SaveChanges();
             // }
 
-            ketthuc: ;
+            ketthuc:;
             return dataReturn;
         });
     }
@@ -678,18 +683,18 @@ public NewsContentAppService(IMapper                        mapper,
     private string CheckUrl(string value)
     {
         var https = "https://";
-        var http  = "http://";
+        var http = "http://";
         if (string.IsNullOrEmpty(value)) return "";
         // https://api.vbonews.com/Uploads/FileFolder/fol-21102023/fol-qsumigtqhl/638334851784605006.jpeg
         // Thay đổi dấu https://api.vbonews.com/Uploads\FileFolder\fol-21102023\fol-qsumigtqhl\638334851784605006.jpeg
         value = value.Replace("\\", "/");
         if (value.Substring(0, https.Length) == https) return value;
-        if (value.Substring(0, http.Length)  == http) return value;
+        if (value.Substring(0, http.Length) == http) return value;
         return https + "" + value;
     }
 
 
-#region ======================================================MAIN==================================================
+    #region ======================================================MAIN==================================================
 
     private string NormalizeNumbers(string text)
     {
@@ -713,7 +718,7 @@ public NewsContentAppService(IMapper                        mapper,
     {
         var addCommand = _mapper.Map<UpdateTimeAutoPostNewsContentCommand>(model);
         await _bus.SendCommand(addCommand);
-        model.Id            = addCommand.Id;
+        model.Id = addCommand.Id;
         model.ResultCommand = addCommand.ResultCommand;
         return model.ResultCommand;
     }
@@ -726,13 +731,13 @@ public NewsContentAppService(IMapper                        mapper,
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
     {
         var newsConfig = _newsConfigRepository.GetAllAsync().Result.FirstOrDefault();
-      
-        var host = newsConfig?.Host ?? ""; 
-       
-        var             listContent = _queries.AutoPostFaceList().Result;
+
+        var host = newsConfig?.Host ?? "";
+
+        var listContent = _queries.AutoPostFaceList().Result;
 
         //Cập nhật luôn.
-        List<Task<int>> taskSave    = new List<Task<int>>();
+        List<Task<int>> taskSave = new List<Task<int>>();
         _logger.LogInformation("=====Bắt chạy xử lý lập lịch===========:");
 
         //Cập nhật trạng thái đã đăng
@@ -778,11 +783,11 @@ public NewsContentAppService(IMapper                        mapper,
                 goto ketthuc;
             }
 
-            if (!string.IsNullOrEmpty(tkqcId)     &&
-                !string.IsNullOrEmpty(token)      &&
-                !string.IsNullOrEmpty(pageId)     &&
+            if (!string.IsNullOrEmpty(tkqcId) &&
+                !string.IsNullOrEmpty(token) &&
+                !string.IsNullOrEmpty(pageId) &&
                 !string.IsNullOrEmpty(pictureUrl) &&
-                !string.IsNullOrEmpty(linkUrl)    &&
+                !string.IsNullOrEmpty(linkUrl) &&
                 !string.IsNullOrEmpty(title))
             {
                 _logger.LogInformation("=====ADD QC===========:" + items.Id);
@@ -791,14 +796,14 @@ public NewsContentAppService(IMapper                        mapper,
                 bool isImg = false;
                 if (items.TypeId == 3)
                     isImg = true;
-                taskSave.Add(_postFaceService.Quangcao(items.Id, tkqcId, token, pageId, pictureUrl, linkUrl, title,isImg));
+                taskSave.Add(_postFaceService.Quangcao(items.Id, tkqcId, token, pageId, pictureUrl, linkUrl, title, isImg));
                 _logger.LogInformation("=====ADD QC: XONG===========:" + items.Id);
                 // RunPostFace(items.Id, tkqcId, token, pageId, pictureUrl, linkUrl, title).GetAwaiter().GetResult();
                 // _ = RunPostFace(items.Id, tkqcId, token, pageId, pictureUrl, linkUrl, title);
                 // _logger.LogInformation("=====Đã chạy qua hàm xử lý===========:" + items.Id);
             }
 
-        ketthuc: ;
+            ketthuc:;
         }
 
         if (taskSave.Count > 0)
@@ -846,14 +851,14 @@ public NewsContentAppService(IMapper                        mapper,
         return await Task.Run(async () =>
         {
             var cronJobName = "schedulerPostFace";
-            var fullPath    = new NCoreHelperV2023().ScheduleConfigPostFace;
+            var fullPath = new NCoreHelperV2023().ScheduleConfigPostFace;
             await File.WriteAllTextAsync(fullPath, id.ToString());
             if (id == 2)
             {
                 // Start
-            #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 SchedulerStart();
-            #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 RecurringJob.AddOrUpdate(cronJobName,
                                          () => SchedulerStart(),
                                          Cron.MinuteInterval(10));
@@ -963,18 +968,41 @@ public NewsContentAppService(IMapper                        mapper,
         detail.Content = result;
         if (string.IsNullOrEmpty(detail.AvatarLink))
         {
-            detail.AvatarLink = "https://apinews.sportsandtravelonline.com/Uploads/Img//638521374628029939.png";
-            _logger.LogInformation("=====Anh null===========:" + id);
-            _logger.LogInformation("=====Anh id baiviet===========:" + detail.Id);
-            _logger.LogInformation("=====Anh local===========:" + detail.AvatarLocal);
-            _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+            if (!string.IsNullOrEmpty(detail.UrlRootLink))
+            {
+                detail.AvatarLink = detail.UrlRootLink;
+                _logger.LogInformation("=====Anh null thay thế===========:" + detail.UrlRootLink);
+            }
+            else
+            {
+                detail.AvatarLink = "https://apinews.sportsandtravelonline.com/Uploads/Img//638521374628029939.png";
+                _logger.LogInformation("=====Anh null===========:" + id);
+                _logger.LogInformation("=====Anh id baiviet===========:" + detail.Id);
+                _logger.LogInformation("=====Anh local===========:" + detail.AvatarLocal);
+                _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+                var news = await _repository.GetBySecretKey(id);
+                _logger.LogInformation("=====Anh news id===========:" + news?.Id);
+                if (news != null && !string.IsNullOrEmpty(news.AvatarLink))
+                {
+                    detail.AvatarLink = news.AvatarLink;
+                    _logger.LogInformation("=====Anh news avartar===========:" + news.AvatarLink);
+                }
+                else if (!string.IsNullOrEmpty(news.UrlRootLink))
+                {
+                    detail.AvatarLink = detail.UrlRootLink;
+                    _logger.LogInformation("=====Anh null thay thế 2===========:" + detail.UrlRootLink);
+                }
+
+            }
+
+
         }
-        else  if (detail.AvatarLocal)
+        else if (detail.AvatarLocal)
         {
             detail.AvatarLink = host + "" + detail.AvatarLink;
             _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
-        }            
-            
+        }
+
         return detail;
 
     }
@@ -984,9 +1012,9 @@ public NewsContentAppService(IMapper                        mapper,
     {
         return await Task.Run(() =>
         {
-            var host                           = new NCoreHelperV2023().ReturnHostWebsite();
+            var host = new NCoreHelperV2023().ReturnHostWebsite();
             groupModel ??= new List<Guid>();
-            var typeWeb = 3;
+            var typeWeb = 2;
             if (groupModel.Count == 0)
             {
                 //groupModel.Add(new Guid("ff3e877d-cfed-4bc5-bb3b-7b2d27980b3d"));
@@ -998,104 +1026,104 @@ public NewsContentAppService(IMapper                        mapper,
                 switch (typeWeb)
                 {
                     case 1:
-                    {
-                        //Cele
-                        groupModel.Add(new Guid("b493f1b1-3225-45a2-aaf2-788753e87f44"));
-                        groupModel.Add(new Guid("7202eb2f-07f8-465b-bd22-dee3fbb54885"));
-                        groupModel.Add(new Guid("aff363c8-5802-4eda-a3c0-40b5cd672312"));
-                        groupModel.Add(new Guid("5be1f886-5dfd-4815-aff4-86b7bf07de23"));
-                        groupModel.Add(new Guid("73838721-d11f-43de-a86c-506fb87514cc"));
-                        break;
-                    }
+                        {
+                            //Cele
+                            groupModel.Add(new Guid("b493f1b1-3225-45a2-aaf2-788753e87f44"));
+                            groupModel.Add(new Guid("7202eb2f-07f8-465b-bd22-dee3fbb54885"));
+                            groupModel.Add(new Guid("aff363c8-5802-4eda-a3c0-40b5cd672312"));
+                            groupModel.Add(new Guid("5be1f886-5dfd-4815-aff4-86b7bf07de23"));
+                            groupModel.Add(new Guid("73838721-d11f-43de-a86c-506fb87514cc"));
+                            break;
+                        }
                     case 2:
-                    {
-                        //Chuẩn
-                        groupModel.Add(new Guid("78BEA156-3990-491F-9092-1818B9265ED1"));
-                        groupModel.Add(new Guid("C48D3685-9F2A-472D-995D-2405111991EA"));
-                        groupModel.Add(new Guid("A4331E7B-ADD6-4732-A872-3B15B468F4D3"));
-                        groupModel.Add(new Guid("F8C27993-F5F0-402C-8695-5386630A4281"));
-                        groupModel.Add(new Guid("A98A233D-7FBB-4F39-BC9C-8E31292C7E8A"));
-                        break;
-                    }
+                        {
+                            //Chuẩn
+                            groupModel.Add(new Guid("78BEA156-3990-491F-9092-1818B9265ED1"));
+                            groupModel.Add(new Guid("C48D3685-9F2A-472D-995D-2405111991EA"));
+                            groupModel.Add(new Guid("A4331E7B-ADD6-4732-A872-3B15B468F4D3"));
+                            groupModel.Add(new Guid("F8C27993-F5F0-402C-8695-5386630A4281"));
+                            groupModel.Add(new Guid("A98A233D-7FBB-4F39-BC9C-8E31292C7E8A"));
+                            break;
+                        }
                     case 3:
-                    {
-                        //News
-                        groupModel.Add(new Guid("5ECA838C-B4BA-4382-8B6A-87B8D82D8699"));
-                        groupModel.Add(new Guid("E5E9311E-7FCC-4983-99E6-0818E4AAD341"));
-                        groupModel.Add(new Guid("E81ED3E7-1AA5-48F7-960E-D27FA0FB0D67"));
-                        groupModel.Add(new Guid("F09947AC-939D-486C-B806-DF86EF1B3B3D"));
-                        groupModel.Add(new Guid("3F595F31-3B29-4920-8FE0-E117C92DE673"));
-                        break;
-                    }
+                        {
+                            //News
+                            groupModel.Add(new Guid("5ECA838C-B4BA-4382-8B6A-87B8D82D8699"));
+                            groupModel.Add(new Guid("E5E9311E-7FCC-4983-99E6-0818E4AAD341"));
+                            groupModel.Add(new Guid("E81ED3E7-1AA5-48F7-960E-D27FA0FB0D67"));
+                            groupModel.Add(new Guid("F09947AC-939D-486C-B806-DF86EF1B3B3D"));
+                            groupModel.Add(new Guid("3F595F31-3B29-4920-8FE0-E117C92DE673"));
+                            break;
+                        }
                     case 4:
-                    {
-                        //NewsPaper
-                        groupModel.Add(new Guid("8DBF3865-7494-4CA5-A29E-3B2CF30E40A1"));
-                        groupModel.Add(new Guid("53133009-D967-4D4D-BDD7-6F2AD92FE26E"));
-                        groupModel.Add(new Guid("FBCB44F5-5A4A-4152-B99F-AEE48D7DAFD2"));
-                        groupModel.Add(new Guid("71E262E6-F490-4DE4-B473-FE3E4BCFE80C"));
-                        groupModel.Add(new Guid("41301CCB-D5D5-49BD-9DC8-1F2B9C81703D"));
-                        break;
-                    }
+                        {
+                            //NewsPaper
+                            groupModel.Add(new Guid("8DBF3865-7494-4CA5-A29E-3B2CF30E40A1"));
+                            groupModel.Add(new Guid("53133009-D967-4D4D-BDD7-6F2AD92FE26E"));
+                            groupModel.Add(new Guid("FBCB44F5-5A4A-4152-B99F-AEE48D7DAFD2"));
+                            groupModel.Add(new Guid("71E262E6-F490-4DE4-B473-FE3E4BCFE80C"));
+                            groupModel.Add(new Guid("41301CCB-D5D5-49BD-9DC8-1F2B9C81703D"));
+                            break;
+                        }
 
                     default:
-                    {
-                        //Cele
-                        groupModel.Add(new Guid("b493f1b1-3225-45a2-aaf2-788753e87f44"));
-                        groupModel.Add(new Guid("7202eb2f-07f8-465b-bd22-dee3fbb54885"));
-                        groupModel.Add(new Guid("aff363c8-5802-4eda-a3c0-40b5cd672312"));
-                        groupModel.Add(new Guid("5be1f886-5dfd-4815-aff4-86b7bf07de23"));
-                        groupModel.Add(new Guid("73838721-d11f-43de-a86c-506fb87514cc"));
-                        break;
-                    }
+                        {
+                            //Cele
+                            groupModel.Add(new Guid("b493f1b1-3225-45a2-aaf2-788753e87f44"));
+                            groupModel.Add(new Guid("7202eb2f-07f8-465b-bd22-dee3fbb54885"));
+                            groupModel.Add(new Guid("aff363c8-5802-4eda-a3c0-40b5cd672312"));
+                            groupModel.Add(new Guid("5be1f886-5dfd-4815-aff4-86b7bf07de23"));
+                            groupModel.Add(new Guid("73838721-d11f-43de-a86c-506fb87514cc"));
+                            break;
+                        }
                 }
 
-               
 
-                
 
-                
-              
-                
+
+
+
+
+
             }
 
             if (numberOf == 0) numberOf = 4;
-            var listData                = _queries.ListContentByGroup(groupModel, numberOf).Result;
-            var group                   = listData.Select(x => x.GroupName).Distinct();
+            var listData = _queries.ListContentByGroup(groupModel, numberOf).Result;
+            var group = listData.Select(x => x.GroupName).Distinct();
 
             var listReturn = new List<HomeMainGroupModel>();
 
             var dateCheck = new DateTime(2023, 12, 13, 22, 30, 00);
             foreach (var groupItem in group)
             {
-                var child     = listData.Where(x => x.GroupName == groupItem);
+                var child = listData.Where(x => x.GroupName == groupItem);
                 var listChild = child.Select(childItem => new HomeMainContentModel
-                                     {
-                                         Id            = childItem.Id,
-                                         Name          = childItem.Name,
-                                         DateTimeStart = childItem.DateTimeStart,
-                                         AvatarLink    = childItem.AvatarLocal ? host + "" + childItem.AvatarLink : childItem.AvatarLink
-                                     }).ToList();
+                {
+                    Id = childItem.Id,
+                    Name = childItem.Name,
+                    DateTimeStart = childItem.DateTimeStart,
+                    AvatarLink = childItem.AvatarLocal ? host + "" + childItem.AvatarLink : childItem.AvatarLink
+                }).ToList();
                 foreach (var item in listChild)
                 {
                     if (item.DateTimeStart <= dateCheck || string.IsNullOrEmpty(item.AvatarLink)) continue;
-                    
+
                     var fileExtension = Path.GetExtension(item.AvatarLink);
                     if (item.AvatarLink != null)
                     {
                         string newFileName = item.AvatarLink;
-                        if (fileExtension!="")
+                        if (fileExtension != "")
                         {
                             newFileName = item.AvatarLink.Replace($"{fileExtension}", $"_300x300{fileExtension}");
                         }
-                        
+
                         item.AvatarLink = newFileName;
                     }
                 }
                 listReturn.Add(new HomeMainGroupModel
                 {
                     GroupName = groupItem,
-                    Detail    = listChild
+                    Detail = listChild
                 });
             }
 
@@ -1113,7 +1141,7 @@ public NewsContentAppService(IMapper                        mapper,
         var idBai = parts[^1];
         return await _queries.HomeNewsLifeModel(idBai);
     }
-    
+
     #endregion
     #endregion
 }
