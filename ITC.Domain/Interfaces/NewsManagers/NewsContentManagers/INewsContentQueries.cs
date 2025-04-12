@@ -68,7 +68,10 @@ public interface INewsContentQueries
     /// </summary>
     /// <returns></returns>
     Task<NewsMainModel> GetDetail(string id);
-
+    Task<NewsThreadModel> GetDetailThread(string categoryId, int position);
+    Task<bool> UpdateThread(string profile);
+    Task<int> GetPositionThread(string profile);
+    
     /// <summary>
     /// Danh sách bài viết theo nhóm tin
     /// </summary>

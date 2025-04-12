@@ -148,6 +148,7 @@ public class NewsContentQueries : INewsContentQueries
                                            NC.CreatedBy AS OwnerId,
                                            NC.AvatarLink,
                                            NC.AvatarLocal,
+                                            NC.Created,
                                            NC.AvatarId,
                                            NC.LinkTree,
                                            NC.TimeAutoPost,
@@ -171,7 +172,7 @@ public class NewsContentQueries : INewsContentQueries
             "NG.Name"
         }, model.Search));
         sBuilderSql.Append(
-            @" GROUP BY NC.Id, NC.StatusId, NC.Name, NC.Author, NG.Name, NC.DateTimeStart, NC.Modified, NC.CreatedBy, 
+            @" GROUP BY NC.Id, NC.StatusId, NC.Name, NC.Author, NG.Name, NC.DateTimeStart, NC.Modified, NC.CreatedBy, NC.Created,
                                        NC.AvatarLink, NC.AvatarLocal, NC.AvatarId, NC.LinkTree, NC.TimeAutoPost,FullName ");
         var sBuilder = new StringBuilder();
         sBuilder.Append(SqlHelper.GeneralSqlBuilder(sBuilderSql.ToString()));
@@ -179,7 +180,7 @@ public class NewsContentQueries : INewsContentQueries
                                          WHEN TimeAutoPost IS NULL THEN 1
                                          ELSE 0
                                          END,
-                                     TimeAutoPost ASC ");
+                                     TimeAutoPost ASC, Created DESC ");
         sBuilder.Append(SqlHelper.Paging(model.PageNumber, model.PageSize));
         var dictionary = new Dictionary<string, object>
         {
@@ -334,6 +335,27 @@ public class NewsContentQueries : INewsContentQueries
         return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<NewsMainModel>(_connectionString,
                                                                                 sBuilder,
                                                                                 new DynamicParameters(dictionary));
+    }
+
+    public async Task<NewsThreadModel> GetDetailThread(string categoryId, int position)
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@$"	SELECT  
+                            NC.Name,NC.AvatarLink,NC.LinkTree,
+                            SM.UserCode,
+                            NG.MetaTitle AS MetaGroup,
+                            NC.MetaTitle AS MetaName,
+                            NC.SecretKey AS MetaKey,
+                            NG.Domain		
+                            FROM NewsContents NC
+                                INNER JOIN NewsGroups NG ON NC.NewsGroupId = NG.Id 
+                                LEFT JOIN StaffManagers SM ON NC.CreatedBy = SM.UserId
+                            WHERE NC.IsDeleted = 0 
+                                AND NG.Id = '{categoryId}'
+                            ORDER BY NC.Created DESC
+                            OFFSET {position} ROWS FETCH NEXT 1 ROWS ONLY; ");
+        
+        return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<NewsThreadModel>(_connectionString,sBuilder);
     }
 
     /// <inheritdoc/>
@@ -536,5 +558,21 @@ public class NewsContentQueries : INewsContentQueries
         return await SqlHelper.RunDapperQueryAsync<Top5ViewEye>(_connectionString,
                                                                 sBuilder,
                                                                 new DynamicParameters(dictionary));
+    }
+
+    public async Task<bool> UpdateThread(string profile)
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@$"Update ProfileThread set Position=Position+1,ModifiedDate='{DateTime.Now}' where Profile='{profile}'");
+        
+        return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<bool>(_connectionString,sBuilder);
+    }
+
+    public async Task<int> GetPositionThread(string profile)
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@$"Select top(1) Position from ProfileThread  where Profile='{profile}'");
+
+        return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<int>(_connectionString, sBuilder);
     }
 }

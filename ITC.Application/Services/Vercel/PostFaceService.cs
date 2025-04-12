@@ -151,7 +151,6 @@ public class PostFaceService : IPostFaceService
         //string accessToken = "EAAMFx9dc1NMBOzZCSpx4XmO91ZBXcVCb5ut4yezRi5DQf5tqCjrr0EkjbHj6mcWjgzZCM6x3SZBNqYEJ1SBi9g5ZCBCBEkSE28VxrVZBbfqDowOU6g5NqyIwTSuTcQlVQKioEv4sYxbBL4rM9EmXwRv1ZCJZBCg0yZCOBT2fQHtbm0MYBGjv2LhBr7xvSaWfBjc8V03enXnAd";
         //string adCreativeId = "23862411508580086";
         title= title.Replace("\n", "\\n");
-        
         // Create an HttpClient instance
         using (HttpClient client = new HttpClient())
         {
@@ -160,8 +159,8 @@ public class PostFaceService : IPostFaceService
             // Thông tin thay thế cho các tham số
             //string accessToken = "EAAMFx9dc1NMBO8Vye1stszYQoRsNZAWed0Vxy7U856jnmkiRAuMYMCdYgljMsnMKT0BKf4wIWJNKxazUadA8DjPN581ZBksW96xuuyzTfKkxMdekZAiy9ECAZCeg3hVBZCLzOxpIobW3RIWfjD8qSHLVXTRo0fF0pTPCSjZCZAaXAyq4vJuQQQ1sItOu8jThDuZAejrpBDKg4uMxXCIZD";
             //string message = "Test";
+            
 
-          
             // Tạo dữ liệu JSON
             string jsonData = $@"{{
                 ""access_token"":""{tokenPage}"",
@@ -244,7 +243,7 @@ public class PostFaceService : IPostFaceService
                                 ""link_data"": {{
                                     ""picture"": ""{pictureUrl}"",
                                     ""link"": ""{linkUrl}"",
-                                    ""caption"": ""{NCoreHelperV2023.RewriteUrl(title) +".com"}"",
+                                    ""caption"": ""{"facebook.com"}"",
                                     ""message"": ""{title}"",
                                     ""name"": "" "",
                                     ""description"": "" ""

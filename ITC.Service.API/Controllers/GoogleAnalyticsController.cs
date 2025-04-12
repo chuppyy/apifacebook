@@ -42,5 +42,15 @@ namespace ITC.Service.API.Controllers
         {
             return new OkResponse<ReportGoogleAnalyticsDto>("", await _helperAppService.GoogleAnalyticsReportAsync(query, cancellationToken));
         }
+
+        /// <summary>
+        /// Báo cáo
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("domin")]
+        public async Task<JsonResponse<ResultXYDto>> GetDataFromStringAsync([FromQuery] GetDataFromStringQuery query, CancellationToken cancellationToken)
+        {
+            return new OkResponse<ResultXYDto>("", await _helperAppService.GetResultAsync(query, cancellationToken));
+        }
     }
 }

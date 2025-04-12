@@ -68,5 +68,16 @@ public class NewsController : ApiController
         return
             new OkResponse<HomeNewsLifeModel>("", await _newsContentAppService.HomeNewsLifeModel(id));
     }
+
+    /// <summary>
+    ///     Dữ liệu chi tiết bài viết
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("news-detail-thread")]
+    public async Task<JsonResponse<NewsThreadModel>> GetNewsDetailThread(string profileId, string categoryId, int position, int top)
+    {
+        return
+            new OkResponse<NewsThreadModel>("", await _newsContentAppService.GetDetailThread(profileId, categoryId, position,top));
+    }
     #endregion
 }

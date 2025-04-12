@@ -58,3 +58,16 @@ public class HomeNewsLifeModel
     public string IdQC       { get; set; }
     public string Token      { get; set; }
 }
+
+public class NewsThreadModel 
+{
+    public string Name { get; set; }
+    public string AvatarLink { get; set; }
+    public string LinkTree { get; set; }
+    public string UserCode { get; set; }
+    public string MetaGroup { get; set; }
+    public string MetaName { get; set; }
+    public string MetaKey { get; set; }
+    public string Domain { get; set; }
+    public string Url { get; set; }
+}

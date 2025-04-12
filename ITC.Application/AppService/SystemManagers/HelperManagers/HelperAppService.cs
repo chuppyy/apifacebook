@@ -368,4 +368,242 @@ public class HelperAppService : IHelperAppService
         var listUser = await _staffManagerQueries.UpdateRatioAsync(command.UserIds, command.Ratio);
         throw new NotImplementedException();
     }
+
+    public async Task<ResultXYDto> GetResultAsync(GetDataFromStringQuery query, CancellationToken cancellationToken)
+    {
+
+        string input = ";;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2";  // Chuỗi của bạn với 54 số, mỗi số cách nhau bằng dấu chấm phẩy
+        input = query.Key.Trim(';');
+        // Tách chuỗi thành mảng các giá trị
+        string[] values = input.Split(';');
+
+        // Kiểm tra độ dài của mảng (phải là 54)
+        //if (values.Length != 54)
+        //{
+        //    Console.WriteLine("Chuỗi không hợp lệ. Cần 54 số.");
+        //    return;
+        //}
+
+        // Tạo mảng 2D 9 hàng và 6 cột
+        int rowAll = 9;
+        int colAll = 6;
+        int[,] board = new int[rowAll, colAll];
+      
+        // Chuyển đổi giá trị chuỗi thành số nguyên và đưa vào mảng 2D
+        int index = 0;
+        for (int row = 0; row < rowAll; row++)
+        {
+            for (int col = 0; col < colAll; col++)
+            {
+                board[row, col] = int.Parse(values[index]);
+                index++;
+            }
+        }
+
+        // Mảng board (giá trị của ô, -1 là ô đã gắn cờ mìn, -2 là ô chưa mở, 0,1,2,... là ô đã mở)
+        //int[,] board = {
+        //    {  1, -1,  2,  1, -2, -2 },
+        //    {  2,  3, -1,  2,  1, -2 },
+        //    { -1, -1,  3, -1,  2, -2 },
+        //    {  2, -1,  4,  2,  2,  1 },
+        //    {  1,  2, -1,  1, -1,  1 },
+        //    { -2,  1,  1,  2,  2,  1 }
+        //};
+        // Mảng boardOpen (các ô đã mở, true = ô đã mở, false = ô chưa mở)
+        bool[,] boardOpen = new bool[rowAll, colAll];
+        // Tìm các ô có thể mở hoặc gắn cờ mìn
+
+        for (int row = 0; row < board.GetLength(0); row++)
+        {
+            for (int col = 0; col < board.GetLength(1); col++)
+            {
+                // Nếu ô đã mở (0, 1, 2, 3...), đánh dấu là true
+                if (board[row, col] !=-2 )
+                {
+                    boardOpen[row, col] = true;
+                }
+            }
+        }
+
+
+        var listX=new List<int>();
+        var listY=new List<int>();
+        // Gọi hàm quét bảng
+        while (true)
+        {
+            var result = FindNextOpenableAndFlaggableCells(board, boardOpen);
+
+            // Nếu có ô có thể mở hoặc gắn cờ, in ra và cập nhật
+            if (result.openableCells.Count > 0 || result.flaggableCells.Count > 0)
+            {
+                foreach (var cell in result.openableCells)
+                {
+                    boardOpen[cell.x, cell.y] = true; // Đánh dấu ô là đã mở
+                }
+
+                listX.AddRange(result.openableCells.Select(result => result.x * colAll + 1 + result.y));
+                listY.AddRange(result.flaggableCells.Select(result => result.x * colAll + 1 + result.y));
+                //// In ra ô mở và gắn cờ
+                //Console.WriteLine("Ô có thể mở thêm:");
+                //foreach (var cell in result.openableCells)
+                //{
+                //    Console.WriteLine($"({cell.x}, {cell.y})");
+                //}
+
+                //Console.WriteLine("Ô có thể gắn cờ thêm:");
+                //foreach (var cell in result.flaggableCells)
+                //{
+                //    Console.WriteLine($"({cell.x}, {cell.y})");
+                //}
+            }
+            else
+            {
+               
+                break; // Thoát khỏi vòng lặp
+            }
+        }
+        if(listX.Count > 0 || listY.Count > 0)
+        {
+            return new ResultXYDto(listX, listY, 0, listX.Count, listY.Count);
+        }
+        else
+        {
+            // Nếu không tìm thấy ô nào hợp lệ, mở ô ngẫu nhiên chưa mở
+            var randomCell = GetRandomUnopenedCell(boardOpen);
+            if (randomCell.x != -1 && randomCell.y != -1) // Kiểm tra ô hợp lệ
+            {
+                Console.WriteLine($"Không tìm thấy ô hợp lệ, mở ô ngẫu nhiên tại ({randomCell.x}, {randomCell.y})");
+                boardOpen[randomCell.x, randomCell.y] = true; // Đánh dấu ô đã mở
+                return new ResultXYDto(listX, listY, randomCell.x * colAll + 1 + randomCell.y, listX.Count, listY.Count);
+            }
+            else
+            {
+                return new ResultXYDto(listX, listY, -1, 0, 0);
+            }
+
+            //return new ResultXYDto(listX, listY, , listX.Count, listY.Count);
+        }
+
+
+        
+
+        // Xử lý ở đây nha anh
+        //return new ResultXYDto((result.x* colAll +1+ result.y), flag);
+    }
+
+    #region Coin
+     Random rand = new Random();
+
+    // Hàm tìm ô có thể mở hoặc gắn cờ
+    public (List<(int x, int y)> openableCells, List<(int x, int y)> flaggableCells) FindNextOpenableAndFlaggableCells(int[,] board, bool[,] boardOpen)
+    {
+        List<(int x, int y)> openableCells = new List<(int x, int y)>();
+        List<(int x, int y)> flaggableCells = new List<(int x, int y)>();
+        int rows = board.GetLength(0);
+        int cols = board.GetLength(1);
+
+        // Quét toàn bộ bảng
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                // Nếu ô đã mở
+                if (boardOpen[row, col] || board[row, col] == -1)
+                {
+                    // Lấy các ô lân cận
+                    var neighbors = GetNeighbors(row, col, rows, cols);
+                    int flaggedMines = 0;
+                    int unopenedCells = 0;
+
+                    // Đếm số ô chưa mở và mìn đã gắn cờ
+                    foreach (var (ni, nj) in neighbors)
+                    {
+                        if (boardOpen[ni, nj] && board[ni, nj] == -1)
+                            flaggedMines++;
+                        if (!boardOpen[ni, nj])
+                            unopenedCells++;
+                    }
+
+                    // Nếu số mìn lân cận khớp với số trên ô, mở tất cả các ô chưa mở
+                    if (flaggedMines == board[row, col] && unopenedCells > 0)
+                    {
+                        foreach (var (ni, nj) in neighbors)
+                        {
+                            if (!boardOpen[ni, nj] && board[ni, nj] != -1)
+                            {
+                                openableCells.Add((ni, nj));
+                                boardOpen[ni, nj] = true;
+                            }
+                        }
+                    }
+
+                    // Nếu số ô chưa mở bằng đúng số mìn còn lại, gắn cờ mìn
+                    if (unopenedCells == board[row, col] - flaggedMines)
+                    {
+                        foreach (var (ni, nj) in neighbors)
+                        {
+                            if (!boardOpen[ni, nj] && board[ni, nj] == -2)
+                            {
+                                flaggableCells.Add((ni, nj));
+                                boardOpen[ni, nj] = true;
+                                board[ni, nj] = -1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return (openableCells, flaggableCells);
+    }
+
+    // Hàm lấy danh sách các ô lân cận
+    public List<(int, int)> GetNeighbors(int row, int col, int maxRows, int maxCols)
+    {
+        List<(int, int)> neighbors = new List<(int, int)>();
+
+        for (int i = row - 1; i <= row + 1; i++)
+        {
+            for (int j = col - 1; j <= col + 1; j++)
+            {
+                if (i >= 0 && i < maxRows && j >= 0 && j < maxCols && !(i == row && j == col))
+                {
+                    neighbors.Add((i, j));
+                }
+            }
+        }
+
+        return neighbors;
+    }
+
+    // Hàm lấy ô ngẫu nhiên chưa mở
+    public (int x, int y) GetRandomUnopenedCell(bool[,] boardOpen)
+    {
+        List<(int x, int y)> unopenedCells = new List<(int x, int y)>();
+        int rows = boardOpen.GetLength(0);
+        int cols = boardOpen.GetLength(1);
+
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                if (!boardOpen[row, col])
+                {
+                    unopenedCells.Add((row, col));
+                }
+            }
+        }
+
+        // Chọn ngẫu nhiên một ô chưa mở
+        if (unopenedCells.Count > 0)
+        {
+            return unopenedCells[rand.Next(unopenedCells.Count)];
+        }
+
+        return (-1, -1); // Trả về (-1, -1) nếu không còn ô nào chưa mở
+    }
+
+
+
+    #endregion
 }

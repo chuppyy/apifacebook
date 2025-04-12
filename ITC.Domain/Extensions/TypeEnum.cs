@@ -11,6 +11,7 @@
 
         // Twitter
         Twitter = 2,
-        Img = 3
+        Img = 3,
+        Goc = 4
     }
 }

@@ -82,6 +82,7 @@ public class NewsGroupCommandHandler : CommandHandler,
         var iSecretKey = iCore.GeneralSecretKey(iKey);
         var iPosition  = _repository.GetMaxPosition(command.TypeId).Result;
         var iMetaTitle = iCore.create_META_TITLE(command.Name);
+        
         var rAdd = new NewsGroup(iKey,
                                  command.Name,
                                  command.Description,
@@ -101,6 +102,7 @@ public class NewsGroupCommandHandler : CommandHandler,
                                  command.DomainVercel,
                                  _user.UserId,
                                  command.Amount, command.AmountPosted);
+        rAdd.TypeId = 2;
         await _repository.AddAsync(rAdd);
         //=================Ghi Log==================
         await _systemLogRepository.AddAsync(new SystemLog(Guid.NewGuid(),
