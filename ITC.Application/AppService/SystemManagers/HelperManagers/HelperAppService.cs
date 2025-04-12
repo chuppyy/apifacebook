@@ -18,10 +18,12 @@ using ITC.Domain.Interfaces.CompanyManagers.StaffManagers;
 using ITC.Domain.ResponseDto;
 using NCore.Enums;
 using NCore.Modals;
-using Newtonsoft.Json;
 using static System.Double;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static Org.BouncyCastle.Math.EC.ECCurve;
+using System.Text.Json;
+using NCore.Responses;
+using Newtonsoft.Json.Linq;
+using AutoMapper.Execution;
+using Newtonsoft.Json;
 
 #endregion
 
@@ -48,7 +50,7 @@ public class HelperAppService : IHelperAppService
     /// <param name="mapper"></param>
     /// <param name="bus"></param>
     /// <param name="staffManagerQueries"></param>
-    public HelperAppService(IMapper          mapper,
+    public HelperAppService(IMapper mapper,
                             IMediatorHandler bus, IStaffManagerQueries staffManagerQueries)
     {
         _mapper = mapper;
@@ -56,7 +58,7 @@ public class HelperAppService : IHelperAppService
         _staffManagerQueries = staffManagerQueries;
     }
 
-#endregion
+    #endregion
 
     /// <inheritdoc cref="GetAttackViewCombobox" />
     public async Task<IEnumerable<ComboboxModalInt>> GetAttackViewCombobox()
@@ -83,7 +85,7 @@ public class HelperAppService : IHelperAppService
         await _bus.SendCommand(updateCommand);
         return updateCommand.ResultCommand;
     }
-    
+
     public async Task<ReportGoogleAnalyticsDto> GoogleAnalyticsReportAsync(GoogleAnalyticsReport request, CancellationToken cancellationToken)
     {
         var config = await _staffManagerQueries.GetConfigAnalyticsAsync();
@@ -141,7 +143,7 @@ public class HelperAppService : IHelperAppService
                         ""TOTAL""
                     ]
                 }}";
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);         
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
             // Dữ liệu báo cáo tổng tiền cho domain
             var allReports = new List<ReportData>();
@@ -157,7 +159,7 @@ public class HelperAppService : IHelperAppService
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                    var data = JsonConvert.DeserializeObject<RootObject>(responseContent);
+                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<RootObject>(responseContent);
                     if (data.rows != null && data.rows.Any())
                     {
                         foreach (var row in data.rows)
@@ -175,7 +177,7 @@ public class HelperAppService : IHelperAppService
                 }
                 reportData.UserViews = linkViews;
                 #endregion
-                
+
                 #region Wages
 
                 if (!string.IsNullOrEmpty(config.TokenAK))
@@ -225,7 +227,7 @@ public class HelperAppService : IHelperAppService
                     results.Users = results.Users.OrderByDescending(x => x.TotalView).ToList();
                     results.TotalView = domainData.UserViews.Sum(x => x.View);
                 }
-                
+
                 return results;
             }
 
@@ -245,7 +247,7 @@ public class HelperAppService : IHelperAppService
         var dateNow = DateTime.Now;
         request.StartDate = request.StartDate != null ? new DateTime(request.StartDate.Value.Year, request.StartDate.Value.Month, request.StartDate.Value.Day, 00, 00, 00, 000) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 00, 00, 00, 000);
         request.EndDate = request.EndDate != null ? new DateTime(request.EndDate.Value.Year, request.EndDate.Value.Month, request.EndDate.Value.Day, 23, 59, 59, 999) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 23, 59, 59, 999);
-        
+
         // Thông tin người dùng và nhóm
         var userGroup = await _staffManagerQueries.ReportUserGroupNewAsync(request.EndDate);
         var listGroupId = userGroup.Select(x => x.GroupId).Distinct();
@@ -260,7 +262,7 @@ public class HelperAppService : IHelperAppService
         foreach (var user in users)
         {
             var firstGroup = user.FirstOrDefault();
-            if(firstGroup == null) continue;
+            if (firstGroup == null) continue;
 
             var userGroupResponse = new ReportUserGroupResponseDto
             {
@@ -350,7 +352,7 @@ public class HelperAppService : IHelperAppService
         {
             var json = await response.Content.ReadAsStringAsync();
             // Sử dụng thư viện Newtonsoft.Json để chuyển đổi từ JSON sang đối tượng
-            var reportDataArray = JsonConvert.DeserializeObject<ReportData[]>(json);
+            var reportDataArray = Newtonsoft.Json.JsonConvert.DeserializeObject<ReportData[]>(json);
             return reportDataArray.ToList();
         }
 
@@ -388,7 +390,7 @@ public class HelperAppService : IHelperAppService
         int rowAll = 9;
         int colAll = 6;
         int[,] board = new int[rowAll, colAll];
-      
+
         // Chuyển đổi giá trị chuỗi thành số nguyên và đưa vào mảng 2D
         int index = 0;
         for (int row = 0; row < rowAll; row++)
@@ -418,7 +420,7 @@ public class HelperAppService : IHelperAppService
             for (int col = 0; col < board.GetLength(1); col++)
             {
                 // Nếu ô đã mở (0, 1, 2, 3...), đánh dấu là true
-                if (board[row, col] !=-2 )
+                if (board[row, col] !=-2)
                 {
                     boardOpen[row, col] = true;
                 }
@@ -426,8 +428,8 @@ public class HelperAppService : IHelperAppService
         }
 
 
-        var listX=new List<int>();
-        var listY=new List<int>();
+        var listX = new List<int>();
+        var listY = new List<int>();
         // Gọi hàm quét bảng
         while (true)
         {
@@ -458,11 +460,11 @@ public class HelperAppService : IHelperAppService
             }
             else
             {
-               
+
                 break; // Thoát khỏi vòng lặp
             }
         }
-        if(listX.Count > 0 || listY.Count > 0)
+        if (listX.Count > 0 || listY.Count > 0)
         {
             return new ResultXYDto(listX, listY, 0, listX.Count, listY.Count);
         }
@@ -485,14 +487,14 @@ public class HelperAppService : IHelperAppService
         }
 
 
-        
+
 
         // Xử lý ở đây nha anh
         //return new ResultXYDto((result.x* colAll +1+ result.y), flag);
     }
 
     #region Coin
-     Random rand = new Random();
+    Random rand = new Random();
 
     // Hàm tìm ô có thể mở hoặc gắn cờ
     public (List<(int x, int y)> openableCells, List<(int x, int y)> flaggableCells) FindNextOpenableAndFlaggableCells(int[,] board, bool[,] boardOpen)
@@ -603,7 +605,136 @@ public class HelperAppService : IHelperAppService
         return (-1, -1); // Trả về (-1, -1) nếu không còn ô nào chưa mở
     }
 
-
-
     #endregion
+
+    public async Task<bool> CreateMailTMAsync(CreateMailTMCommand command, CancellationToken cancellationToken)
+    {
+        using HttpClient client = new HttpClient();
+        var url = "https://api.mail.tm/accounts";
+
+        var requestBody = new
+        {
+            address = command.Address,
+            password = command.Password
+        };
+
+        var json = System.Text.Json.JsonSerializer.Serialize(requestBody);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync(url, content, cancellationToken);
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        if (response.StatusCode == System.Net.HttpStatusCode.OK ||
+            response.StatusCode == System.Net.HttpStatusCode.Created)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public async Task<string> GetTokenAsync(string userName, string password, CancellationToken cancellationToken)
+    {
+        using var client = new HttpClient();
+
+        var url = "https://api.mail.tm/token";
+
+        var requestBody = new
+        {
+            address = userName,
+            password = password
+        };
+
+        var json = System.Text.Json.JsonSerializer.Serialize(requestBody);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync(url, content, cancellationToken);
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            var tokenResponse = System.Text.Json.JsonSerializer.Deserialize<MailTMTokenResponse>(responseContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            return tokenResponse.Token;
+        }
+
+        // Có thể log lỗi tại đây nếu cần
+        return null;
+    }
+
+    public async Task<string> GetCodeMailTMAsync(GetCodeMailTMQuery command, CancellationToken cancellationToken)
+    {
+        var tokenInfo = await GetTokenAsync(command.Address, command.Password, cancellationToken);
+
+        var result = "";
+        if (string.IsNullOrEmpty(tokenInfo))
+        {
+            return result;
+        }
+
+        using var client = new HttpClient();
+
+        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokenInfo);
+
+        var response = await client.GetAsync("https://api.mail.tm/messages", cancellationToken);
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseDto = JsonConvert.DeserializeObject<MessageCollection>(responseContent);
+            var intro = "";
+            if (responseDto?.Members != null)
+            {
+                responseDto.Members = responseDto.Members.OrderByDescending(x => x.CreatedAt).ToList();
+
+                if (!string.IsNullOrEmpty(command.Email))
+                {
+                    var members = responseDto.Members.Where(x => x.From.Address == command.Email).ToList();
+
+                    if (members != null && members.Any())
+                    {
+                        if (!string.IsNullOrEmpty(command.Title))
+                        {
+                            var message = members.FirstOrDefault(x => x.Subject?.IndexOf(command.Title, StringComparison.OrdinalIgnoreCase) >= 0);
+                            if (message != null)
+                            {
+                                intro = message.Intro;
+                            }
+                        }
+                        else
+                        {
+                            intro = members.FirstOrDefault()?.Intro;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(command.Title))
+                    {
+                        var message = responseDto.Members.FirstOrDefault(x => x.Subject?.IndexOf(command.Title, StringComparison.OrdinalIgnoreCase) >= 0);
+                        if (message != null)
+                        {
+                            intro = message.Intro;
+                        }
+                    }
+                    else
+                    {
+                        intro = responseDto.Members.FirstOrDefault()?.Intro;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(intro))
+            {
+                if (!string.IsNullOrEmpty(intro) && intro.Length >= 6)
+                {
+                    result = intro[^6..];
+                }
+            }
+            return result;
+        }
+        return result;
+    }
 }
