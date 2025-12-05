@@ -48,6 +48,29 @@ public class NewsController : ApiController
     }
 
     /// <summary>
+    ///     Dữ liệu chi tiết bài viết
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("news-detailnew")]
+    public async Task<JsonResponse<NewsMainModel>> GetNewsDetailNew(string id)
+    {
+        return
+            new OkResponse<NewsMainModel>("", await _newsContentAppService.GetDetailNew(id));
+    }
+
+    /// <summary>
+    ///     Dữ liệu chi tiết bài viết
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("news-detailbasic")]
+    public async Task<JsonResponse<NewsMainModel>> GetNewsDetailBasic(string id)
+    {
+        return
+            new OkResponse<NewsMainModel>("", await _newsContentAppService.GetDetailBasic(id));
+    }
+
+
+    /// <summary>
     ///     Danh sách bài viết
     /// </summary>
     /// <returns></returns>

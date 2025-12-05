@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Autofac.Features.Indexed;
 using AutoMapper;
 using Hangfire;
 using HtmlAgilityPack;
@@ -27,6 +30,7 @@ using ITC.Domain.Interfaces.NewsManagers.NewsContentManagers;
 using ITC.Domain.Interfaces.NewsManagers.NewsDomainManagers;
 using ITC.Domain.Interfaces.NewsManagers.NewsGroupManagers;
 using ITC.Domain.Models.NewsManagers;
+using ITC.Infra.CrossCutting.Identity.Migrations;
 using Microsoft.Extensions.Logging;
 using NCore.Actions;
 using NCore.Enums;
@@ -388,15 +392,35 @@ public NewsContentAppService(IMapper                        mapper,
     public async Task<IEnumerable<ComboboxModal>> CopyLink(Guid id)
     {
         var dataInfo = await _queries.GetPagingById(id);
+        string slug = ToSlug(dataInfo.Name, 20);
         return new List<ComboboxModal>
         {
             new()
             {
                 Id = Guid.Empty,
-                Name = CheckDomain(dataInfo.Domain) + "" + dataInfo.MetaName + "-" + dataInfo.UserCode + "-" +
+                Name = CheckDomain(dataInfo.Domain) + "" +slug + "-" + dataInfo.MetaName + "-" + dataInfo.UserCode + "-" +
                        dataInfo.MetaKey
             }
         };
+    }
+
+    public string ToSlug(string text, int maxWords)
+    {
+        // Chuyển thành chữ thường
+        text = text.ToLower();
+
+        // Loại bỏ ký tự đặc biệt, chỉ giữ chữ và số + khoảng trắng
+        text = Regex.Replace(text, @"[^a-z0-9\s]", "");
+
+        // Tách thành từ
+        var words = text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Lấy tối đa maxWords từ
+        if (words.Length > maxWords)
+            words = words[..maxWords];
+
+        // Ghép bằng dấu -
+        return string.Join("-", words);
     }
 
     public string CheckDomain(string value)
@@ -879,6 +903,11 @@ public NewsContentAppService(IMapper                        mapper,
         var maQC1 = "<div id=\"qcmgidgb\"></div>";
         var maQC2 = "<div id=\"qcmgidgb2\"></div>";
         var maQC3 = "<div id=\"qcmgidgb3\"></div>";
+        var maQC4 = "<div id=\"qcmgidgb4\"></div>";
+        var maQC5 = "<div id=\"qcmgidgb5\"></div>";
+        var maQC6 = "<div id=\"qcmgidgb6\"></div>";
+        var maQC7 = "<div id=\"qcmgidgb7\"></div>";
+        var maQC8 = "<div id=\"qcmgidgb8\"></div>";
 
         //var maQCGA = "<div id=\"qcgb\"></div>";
         //var maQCGA2 = "<div id=\"qcgb2\"></div>";
@@ -887,9 +916,14 @@ public NewsContentAppService(IMapper                        mapper,
         string result = "";
         var count = noiDungs.Length;
 
-        var pageIndex1 = 3;
-        var pageIndex2 = 6;
-        var pageIndex3 = 10;
+        var pageIndex1 = 1;
+        var pageIndex2 = 3;
+        var pageIndex3 = 5;
+        var pageIndex4 = 7;
+        var pageIndex5 = 9;
+        var pageIndex6 = 11;
+        var pageIndex7 = 13;
+        var pageIndex8 = 15;
         //if (count > 10)
         //{
         //    pageIndex1 = (count + 3) / 4;
@@ -916,6 +950,25 @@ public NewsContentAppService(IMapper                        mapper,
             else if (i == pageIndex3 && i < count - 1)
             {
                 result += maQC3;
+            }
+            else if (i == pageIndex4 && i < count - 1)
+            {
+                result += maQC4;
+            }else if (i == pageIndex5 && i < count - 1)
+            {
+                result += maQC5;
+            }
+            else if (i == pageIndex6 && i < count - 1)
+            {
+                result += maQC6;
+            }
+            else if (i == pageIndex7 && i < count - 1)
+            {
+                result += maQC7;
+            }
+            else if (i == pageIndex8 && i < count - 1)
+            {
+                result += maQC8;
             }
         }
 
@@ -951,8 +1004,6 @@ public NewsContentAppService(IMapper                        mapper,
                     imgNodes[0].ParentNode.InsertBefore(divNode, imgNodes[0]);
                 }
             }
-
-
             result = htmlDocument.DocumentNode.OuterHtml;
 
         }
@@ -980,6 +1031,157 @@ public NewsContentAppService(IMapper                        mapper,
 
     }
 
+    /// <inheritdoc cref="GetDetailNew"/>
+    public async Task<NewsMainModel> GetDetailNew(string id)
+    {
+        var host = new NCoreHelperV2023().ReturnHostWebsite();
+
+        var detail = await _queries.GetDetail(id);
+
+        // Danh sách quảng cáo của bạn (dùng trực tiếp)
+        var ads = new List<string>
+    {
+        @"<div class=""adsconex-banner-parallax"" data-ad-placement=""banner20"" id=""div_ub_inpage20""></div>",        
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner2"" id=""ub-banner2""></div>",
+        @"<div class=""adsconex-banner-parallax"" data-ad-placement=""banner21"" id=""div_ub_inpage21""></div>",
+        @"<div id=""qctaboo-mid""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner3"" id=""ub-banner3""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner4"" id=""ub-banner4""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner5"" id=""ub-banner5""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner6"" id=""ub-banner6""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner7"" id=""ub-banner7""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner8"" id=""ub-banner8""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner9"" id=""ub-banner9""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner10"" id=""ub-banner10""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner11"" id=""ub-banner-11""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner12"" id=""ub-banner-12""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner13"" id=""ub-banner-13""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner14"" id=""ub-banner-14""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner15"" id=""ub-banner-15""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner18n"" id=""ub-banner18""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner19"" id=""ub-banner19""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner20n"" id=""ub-banner20""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner21n"" id=""ub-banner21""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner22"" id=""ub-banner22""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner23"" id=""ub-banner23""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner24"" id=""ub-banner24""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner25"" id=""ub-banner25""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner26"" id=""ub-banner26""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner27"" id=""ub-banner27""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner16"" id=""ub-banner1-300x600""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner17"" id=""ub-banner2-300x600""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner18"" id=""ub-banner3-300x600""></div>"
+    };
+
+        const int threshold = 40; // ngưỡng 40 từ
+        int accumulated = 0;
+        int adIndex = 0;
+        if (detail == null || string.IsNullOrEmpty(detail.Content))
+            return detail;
+
+        var paragraphs = detail.Content.Split("<p>", StringSplitOptions.RemoveEmptyEntries);
+        var sb = new StringBuilder();
+
+        foreach (var paragraph in paragraphs)
+        {
+            // Đếm số từ trong đoạn hiện tại
+            int wordCount = paragraph.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).Length;
+            accumulated += wordCount;
+
+            // Thêm đoạn vào kết quả
+            sb.Append("<p>").Append(paragraph);
+
+            // Nếu đạt ngưỡng và còn quảng cáo
+            if (accumulated >= threshold && adIndex < ads.Count)
+            {
+                sb.Append(ads[adIndex]);
+                adIndex++;
+
+                // Reset đếm lại từ đầu (theo yêu cầu của bạn)
+                accumulated = 0;
+            }
+        }
+
+
+        var result = sb.ToString();
+
+        // Xử lý Html để chèn <div id="qcImg"> trước figure/img đầu tiên (giữ logic bạn có)
+        try
+        {
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(result);
+
+            var figureNodes = htmlDocument.DocumentNode.SelectNodes("//figure");
+            if (figureNodes != null && figureNodes.Count > 0)
+            {
+                var divNode = HtmlNode.CreateNode("<div id=\"qcImg\"> </div>");
+                figureNodes[0].ParentNode.InsertBefore(divNode, figureNodes[0]);
+            }
+            else
+            {
+                var imgNodes = htmlDocument.DocumentNode.SelectNodes("//img");
+                if (imgNodes != null && imgNodes.Count > 0)
+                {
+                    var divNode = HtmlNode.CreateNode("<div id=\"qcImg\"> </div>");
+                    imgNodes[0].ParentNode.InsertBefore(divNode, imgNodes[0]);
+                }
+            }
+
+            result = htmlDocument.DocumentNode.OuterHtml;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Lỗi khi xử lý HTML để chèn qcImg cho bài {Id}", id);
+            throw;
+        }
+
+        // Gán lại content rồi xử lý avatar như trước
+        detail.Content = result;
+
+        if (string.IsNullOrEmpty(detail.AvatarLink))
+        {
+            detail.AvatarLink = "https://apinews.sportsandtravelonline.com/Uploads/Img//638521374628029939.png";
+            _logger.LogInformation("=====Anh null===========:" + id);
+            _logger.LogInformation("=====Anh id baiviet===========:" + detail.Id);
+            _logger.LogInformation("=====Anh local===========:" + detail.AvatarLocal);
+            _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+        }
+        else if (detail.AvatarLocal)
+        {
+            detail.AvatarLink = host + "" + detail.AvatarLink;
+            _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+        }
+
+        return detail;
+    }
+
+
+    public async Task<NewsMainModel> GetDetailBasic(string id)
+    {
+
+        var host = new NCoreHelperV2023().ReturnHostWebsite();
+
+        var detail = await _queries.GetDetailBasic(id);
+        
+        if (string.IsNullOrEmpty(detail.AvatarLink))
+        {
+            detail.AvatarLink = "https://apinews.sportsandtravelonline.com/Uploads/Img//638521374628029939.png";
+            _logger.LogInformation("=====Anh null===========:" + id);
+            _logger.LogInformation("=====Anh id baiviet===========:" + detail.Id);
+            _logger.LogInformation("=====Anh local===========:" + detail.AvatarLocal);
+            _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+        }
+        else if (detail.AvatarLocal)
+        {
+            detail.AvatarLink = host + "" + detail.AvatarLink;
+            _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+        }
+
+        return detail;
+
+    }
+
+
     /// <inheritdoc cref="ListContentByGroup"/>
     public async Task<IEnumerable<HomeMainGroupModel>> ListContentByGroup(List<Guid> groupModel, int numberOf)
     {
@@ -987,7 +1189,7 @@ public NewsContentAppService(IMapper                        mapper,
         {
             var host                           = new NCoreHelperV2023().ReturnHostWebsite();
             groupModel ??= new List<Guid>();
-            var typeWeb = 3;
+            var typeWeb = 2;
             if (groupModel.Count == 0)
             {
                 //groupModel.Add(new Guid("ff3e877d-cfed-4bc5-bb3b-7b2d27980b3d"));
@@ -1011,11 +1213,11 @@ public NewsContentAppService(IMapper                        mapper,
                     case 2:
                     {
                         //Chuẩn
-                        groupModel.Add(new Guid("78BEA156-3990-491F-9092-1818B9265ED1"));
-                        groupModel.Add(new Guid("C48D3685-9F2A-472D-995D-2405111991EA"));
-                        groupModel.Add(new Guid("A4331E7B-ADD6-4732-A872-3B15B468F4D3"));
-                        groupModel.Add(new Guid("F8C27993-F5F0-402C-8695-5386630A4281"));
-                        groupModel.Add(new Guid("A98A233D-7FBB-4F39-BC9C-8E31292C7E8A"));
+                        groupModel.Add(new Guid("d01a8b56-2987-4e28-aaad-23ca0d741e4a"));
+                        groupModel.Add(new Guid("dfcfd087-1d55-49d4-9f12-976852062200"));
+                        groupModel.Add(new Guid("b2b4f2c2-69e9-4750-9feb-dbfc1d839b15"));
+                        groupModel.Add(new Guid("2196a244-0ec0-4579-89fe-49e4c3781839"));
+                        groupModel.Add(new Guid("8ca10812-026c-4f2d-bf3a-550c0d1337eb"));
                         break;
                     }
                     case 3:

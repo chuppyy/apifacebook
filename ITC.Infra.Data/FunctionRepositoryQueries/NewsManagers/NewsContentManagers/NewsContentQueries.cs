@@ -333,6 +333,23 @@ public class NewsContentQueries : INewsContentQueries
                                                                                 new DynamicParameters(dictionary));
     }
 
+    public async Task<NewsMainModel> GetDetailBasic(string id)
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@"SELECT NC.Name, NC.AvatarLink, NC.AvatarLocal 
+                            FROM NewsContents NC
+                            WHERE NC.SecretKey = @id ");
+        var dictionary = new Dictionary<string, object>
+        {
+            {
+                "@id", id
+            }
+        };
+        return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<NewsMainModel>(_connectionString,
+                                                                                sBuilder,
+                                                                                new DynamicParameters(dictionary));
+    }
+
     /// <inheritdoc/>
     public async Task<List<NewsGroupMainModel>> ListContentByGroup(List<Guid> groupModel, int numberOf)
     {

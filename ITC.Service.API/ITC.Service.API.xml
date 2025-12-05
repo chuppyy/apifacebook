@@ -527,6 +527,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.GetNewsDetailNew(System.String)">
+            <summary>
+                Dữ liệu chi tiết bài viết
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.GetNewsDetailBasic(System.String)">
+            <summary>
+                Dữ liệu chi tiết bài viết
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.ListNews(ITC.Domain.Core.ModelShare.HomeManager.NewsGroupMainEvent)">
             <summary>
                 Danh sách bài viết

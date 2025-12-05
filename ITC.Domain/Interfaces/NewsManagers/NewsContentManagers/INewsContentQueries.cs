@@ -69,6 +69,13 @@ public interface INewsContentQueries
     /// <returns></returns>
     Task<NewsMainModel> GetDetail(string id);
 
+
+    /// <summary>
+    /// Dữ liệu chi tiết
+    /// </summary>
+    /// <returns></returns>
+    Task<NewsMainModel> GetDetailBasic(string id);
+
     /// <summary>
     /// Danh sách bài viết theo nhóm tin
     /// </summary>
