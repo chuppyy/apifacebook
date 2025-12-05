@@ -161,7 +161,7 @@ public class StaffManager : RootModel
     public DateTime? TimeConnectEnd { get; set; }
 
     /// <summary>
-    ///     Đang online
+    ///     Đang online// Sửa lại nếu là tk quản trị
     /// </summary>
     public bool IsOnline { get; set; }
 

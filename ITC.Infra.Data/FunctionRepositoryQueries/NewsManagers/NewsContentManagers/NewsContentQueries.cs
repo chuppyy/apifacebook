@@ -39,10 +39,10 @@ public class NewsContentQueries : INewsContentQueries
 
     /// <inheritdoc/>
     public async Task<IEnumerable<NewsContentPagingDto>> GetPaging(NewsContentPagingModel model,
-                                                                   List<Guid> newsGroupId, List<Guid> userIds = null)
+                                                                   List<Guid> newsGroupId, List<string> userIds = null)
     {
         var sBuilderSql = new StringBuilder();
-        
+
         sBuilderSql.Append(@"SELECT NC.Id,
                                            NC.StatusId,
                                            NC.Name,
@@ -55,20 +55,23 @@ public class NewsContentQueries : INewsContentQueries
                                            NC.AvatarLocal,
                                            NC.AvatarId,
                                            NC.LinkTree,
-                                           NC.TimeAutoPost
+                                           NC.TimeAutoPost,
+                                            NG.TypeId
                                 FROM NewsContents NC
                                              INNER JOIN NewsGroups NG ON NC.NewsGroupId = NG.Id                          
                                WHERE NC.IsDeleted = 0 ");
+        //Nếu có bộ lọc tác giả
         if (model.Author.CompareTo(Guid.Empty) != 0)
         {
+            sBuilderSql.Append(" AND NC.CreatedBy = @author ");
+        }
+        else
+        {
+            //Phân quyền cấp dưới
             if (userIds != null && userIds.Any())
             {
                 var listOfJoin = new NCoreHelper().convert_list_to_string(userIds);
                 sBuilderSql.Append($" AND nc.CreatedBy in {listOfJoin} ");
-            }
-            else
-            {
-                sBuilderSql.Append(" AND NC.CreatedBy = @author ");
             }
         }
         if (newsGroupId.Count > 0)
@@ -86,7 +89,7 @@ public class NewsContentQueries : INewsContentQueries
         }, model.Search));
         sBuilderSql.Append(
             @" GROUP BY NC.Id, NC.StatusId, NC.Name, NC.Author, NG.Name, NC.DateTimeStart, NC.Modified, NC.CreatedBy, 
-                                        NC.AvatarLink, NC.AvatarLocal, NC.AvatarId, NC.LinkTree, NC.TimeAutoPost ");
+                                        NC.AvatarLink, NC.AvatarLocal, NC.AvatarId, NC.LinkTree, NC.TimeAutoPost,NG.TypeId ");
         var sBuilder = new StringBuilder();
         sBuilder.Append(SqlHelper.GeneralSqlBuilder(sBuilderSql.ToString()));
         sBuilder.Append("ORDER BY Modified DESC ");
@@ -145,6 +148,7 @@ public class NewsContentQueries : INewsContentQueries
                                            NC.CreatedBy AS OwnerId,
                                            NC.AvatarLink,
                                            NC.AvatarLocal,
+                                            NC.Created,
                                            NC.AvatarId,
                                            NC.LinkTree,
                                            NC.TimeAutoPost,
@@ -168,7 +172,7 @@ public class NewsContentQueries : INewsContentQueries
             "NG.Name"
         }, model.Search));
         sBuilderSql.Append(
-            @" GROUP BY NC.Id, NC.StatusId, NC.Name, NC.Author, NG.Name, NC.DateTimeStart, NC.Modified, NC.CreatedBy, 
+            @" GROUP BY NC.Id, NC.StatusId, NC.Name, NC.Author, NG.Name, NC.DateTimeStart, NC.Modified, NC.CreatedBy, NC.Created,
                                        NC.AvatarLink, NC.AvatarLocal, NC.AvatarId, NC.LinkTree, NC.TimeAutoPost,FullName ");
         var sBuilder = new StringBuilder();
         sBuilder.Append(SqlHelper.GeneralSqlBuilder(sBuilderSql.ToString()));
@@ -176,7 +180,7 @@ public class NewsContentQueries : INewsContentQueries
                                          WHEN TimeAutoPost IS NULL THEN 1
                                          ELSE 0
                                          END,
-                                     TimeAutoPost ASC ");
+                                     TimeAutoPost ASC, Created DESC ");
         sBuilder.Append(SqlHelper.Paging(model.PageNumber, model.PageSize));
         var dictionary = new Dictionary<string, object>
         {
@@ -318,7 +322,7 @@ public class NewsContentQueries : INewsContentQueries
     public async Task<NewsMainModel> GetDetail(string id)
     {
         var sBuilder = new StringBuilder();
-        sBuilder.Append(@"SELECT s.UserCode,NC.Name, NC.Content, NC.AvatarLink, NC.AvatarLocal, NC.DateTimeStart,NC.Summary, NC.IsDeleted 
+        sBuilder.Append(@"SELECT s.UserCode,NC.Name, NC.Content, NC.AvatarLink,NC.UrlRootLink, NC.AvatarLocal, NC.DateTimeStart,NC.Summary, NC.IsDeleted 
                             FROM NewsContents NC
 							left join StaffManagers s ON s.UserId=nc.CreatedBy
                             WHERE NC.SecretKey = @id ");
@@ -348,6 +352,27 @@ public class NewsContentQueries : INewsContentQueries
         return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<NewsMainModel>(_connectionString,
                                                                                 sBuilder,
                                                                                 new DynamicParameters(dictionary));
+    }
+
+    public async Task<NewsThreadModel> GetDetailThread(string categoryId, int position)
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@$"	SELECT  
+                            NC.Name,NC.AvatarLink,NC.LinkTree,
+                            SM.UserCode,
+                            NG.MetaTitle AS MetaGroup,
+                            NC.MetaTitle AS MetaName,
+                            NC.SecretKey AS MetaKey,
+                            NG.Domain		
+                            FROM NewsContents NC
+                                INNER JOIN NewsGroups NG ON NC.NewsGroupId = NG.Id 
+                                LEFT JOIN StaffManagers SM ON NC.CreatedBy = SM.UserId
+                            WHERE NC.IsDeleted = 0 
+                                AND NG.Id = '{categoryId}'
+                            ORDER BY NC.Created DESC
+                            OFFSET {position} ROWS FETCH NEXT 1 ROWS ONLY; ");
+        
+        return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<NewsThreadModel>(_connectionString,sBuilder);
     }
 
     /// <inheritdoc/>
@@ -404,12 +429,12 @@ public class NewsContentQueries : INewsContentQueries
     public async Task<HomeNewsLifeModel> HomeNewsLifeModel(string id)
     {
         var newsLifeConnect = "Server=103.149.87.30\\SQLEXPRESS,1433;Initial Catalog=News;User Id=user_news;Password=thien@123456@;TrustServerCertificate=True;";
-        var sBuilder         = new StringBuilder();
+        var sBuilder = new StringBuilder();
         sBuilder.Append(
             @$"select  a.TenBaiDang,a.AnhDaiDien,t.TenTheLoai,t.IDPage,v.IdQC,v.Token 
                 from BAIDANG a join THELOAI t ON a.IDTheLoai=t.IDTheLoai join VIA v ON t.IDVia = v.Id 
                 WHERE a.IDBaiDang = '{id}' ");
-        return 
+        return
             await SqlHelper.RunDapperQueryFirstOrDefaultAsync<HomeNewsLifeModel>(newsLifeConnect, sBuilder);
     }
 
@@ -550,5 +575,21 @@ public class NewsContentQueries : INewsContentQueries
         return await SqlHelper.RunDapperQueryAsync<Top5ViewEye>(_connectionString,
                                                                 sBuilder,
                                                                 new DynamicParameters(dictionary));
+    }
+
+    public async Task<bool> UpdateThread(string profile)
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@$"Update ProfileThread set Position=Position+1,ModifiedDate='{DateTime.Now}' where Profile='{profile}'");
+        
+        return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<bool>(_connectionString,sBuilder);
+    }
+
+    public async Task<int> GetPositionThread(string profile)
+    {
+        var sBuilder = new StringBuilder();
+        sBuilder.Append(@$"Select top(1) Position from ProfileThread  where Profile='{profile}'");
+
+        return await SqlHelper.RunDapperQueryFirstOrDefaultAsync<int>(_connectionString, sBuilder);
     }
 }

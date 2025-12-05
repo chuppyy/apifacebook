@@ -103,7 +103,7 @@ public class NewsContentCommandHandler : CommandHandler,
         }
         var doc = new HtmlDocument();
         doc.LoadHtml(command.Content);
-        if (command.Content.Contains("data:image/png;base64"))
+        if (command.Content.Contains("base64"))
         {
             NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
             return await Task.FromResult(false);
@@ -236,7 +236,7 @@ public class NewsContentCommandHandler : CommandHandler,
                         }
                     }
                 }
-                else if (group.TypeId == (int)GroupType.Img)
+                else //if (group.TypeId == (int)GroupType.Img)
                 {
                     var link = CheckDomain(group.Domain) + "" + group.MetaName + "-" + group.UserCode + "-" +
                                group.MetaKey;
@@ -328,7 +328,7 @@ public class NewsContentCommandHandler : CommandHandler,
         }
         var doc = new HtmlDocument();
         doc.LoadHtml(command.Content);
-        if (command.Content.Contains("data:image/png;base64"))
+        if (command.Content.Contains("base64"))
         {
             NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
             return await Task.FromResult(false);
@@ -425,7 +425,7 @@ public class NewsContentCommandHandler : CommandHandler,
                         }
                     }
                     
-                }else if (group.TypeId == (int)GroupType.Img)
+                }else //if (group.TypeId == (int)GroupType.Img)
                 {
                     var link = CheckDomain(group.Domain) + "" + group.MetaName + "-" + group.UserCode + "-" +
                                group.MetaKey;

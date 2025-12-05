@@ -44,5 +44,9 @@ public interface IHelperAppService
     Task<List<ReportUserGroupResponseDto>> ReportUserGroupNewAsync(ReportUserPostQuery query);
 
     Task<IEnumerable<UserByOwnerDto>> GetListUserAsync(GetListUserQuery query);
-    Task<bool> UpdateRatioUserAsync(UpdateRatioUserCommand command); 
+    Task<bool> UpdateRatioUserAsync(UpdateRatioUserCommand command);
+    Task<ResultXYDto> GetResultAsync(GetDataFromStringQuery query, CancellationToken cancellationToken);
+    Task<bool> CreateMailTMAsync(CreateMailTMCommand command, CancellationToken cancellationToken);
+    Task<string> GetTokenAsync(string userName, string password, CancellationToken cancellationToken);
+    Task<string> GetCodeMailTMAsync(GetCodeMailTMQuery command, CancellationToken cancellationToken);
 }

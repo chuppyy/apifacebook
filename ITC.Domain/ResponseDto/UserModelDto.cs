@@ -178,4 +178,24 @@ namespace ITC.Domain.ResponseDto
         public float Ratio { get; set; }
         public string UserId { get; set; }
     }
+
+    public class ResultXYDto {
+        public List<int> X { get; set; }
+        public List<int> Y { get; set; }
+        public int Random {  get; set; }
+        public int AmountX {  get; set; }
+        public int AmountY {  get; set; }
+        public ResultXYDto()
+        {
+            
+        }
+        public ResultXYDto(List<int> x, List<int> y,int random,int amountX,int amountY)
+        {
+            X = x;
+            Y = y;
+            Random = random;
+            AmountX= amountX;
+            AmountY= amountY;
+        }
+    }
 }

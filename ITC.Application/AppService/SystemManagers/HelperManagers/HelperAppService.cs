@@ -18,10 +18,12 @@ using ITC.Domain.Interfaces.CompanyManagers.StaffManagers;
 using ITC.Domain.ResponseDto;
 using NCore.Enums;
 using NCore.Modals;
-using Newtonsoft.Json;
 using static System.Double;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static Org.BouncyCastle.Math.EC.ECCurve;
+using System.Text.Json;
+using NCore.Responses;
+using Newtonsoft.Json.Linq;
+using AutoMapper.Execution;
+using Newtonsoft.Json;
 
 #endregion
 
@@ -48,7 +50,7 @@ public class HelperAppService : IHelperAppService
     /// <param name="mapper"></param>
     /// <param name="bus"></param>
     /// <param name="staffManagerQueries"></param>
-    public HelperAppService(IMapper          mapper,
+    public HelperAppService(IMapper mapper,
                             IMediatorHandler bus, IStaffManagerQueries staffManagerQueries)
     {
         _mapper = mapper;
@@ -56,7 +58,7 @@ public class HelperAppService : IHelperAppService
         _staffManagerQueries = staffManagerQueries;
     }
 
-#endregion
+    #endregion
 
     /// <inheritdoc cref="GetAttackViewCombobox" />
     public async Task<IEnumerable<ComboboxModalInt>> GetAttackViewCombobox()
@@ -83,7 +85,7 @@ public class HelperAppService : IHelperAppService
         await _bus.SendCommand(updateCommand);
         return updateCommand.ResultCommand;
     }
-    
+
     public async Task<ReportGoogleAnalyticsDto> GoogleAnalyticsReportAsync(GoogleAnalyticsReport request, CancellationToken cancellationToken)
     {
         var config = await _staffManagerQueries.GetConfigAnalyticsAsync();
@@ -143,8 +145,6 @@ public class HelperAppService : IHelperAppService
                 }}";
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
-           
-
             // Dữ liệu báo cáo tổng tiền cho domain
             var allReports = new List<ReportData>();
 
@@ -159,7 +159,7 @@ public class HelperAppService : IHelperAppService
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                    var data = JsonConvert.DeserializeObject<RootObject>(responseContent);
+                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<RootObject>(responseContent);
                     if (data.rows != null && data.rows.Any())
                     {
                         foreach (var row in data.rows)
@@ -177,7 +177,7 @@ public class HelperAppService : IHelperAppService
                 }
                 reportData.UserViews = linkViews;
                 #endregion
-                
+
                 #region Wages
 
                 if (!string.IsNullOrEmpty(config.TokenAK))
@@ -227,7 +227,7 @@ public class HelperAppService : IHelperAppService
                     results.Users = results.Users.OrderByDescending(x => x.TotalView).ToList();
                     results.TotalView = domainData.UserViews.Sum(x => x.View);
                 }
-                
+
                 return results;
             }
 
@@ -247,7 +247,7 @@ public class HelperAppService : IHelperAppService
         var dateNow = DateTime.Now;
         request.StartDate = request.StartDate != null ? new DateTime(request.StartDate.Value.Year, request.StartDate.Value.Month, request.StartDate.Value.Day, 00, 00, 00, 000) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 00, 00, 00, 000);
         request.EndDate = request.EndDate != null ? new DateTime(request.EndDate.Value.Year, request.EndDate.Value.Month, request.EndDate.Value.Day, 23, 59, 59, 999) : new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, 23, 59, 59, 999);
-        
+
         // Thông tin người dùng và nhóm
         var userGroup = await _staffManagerQueries.ReportUserGroupNewAsync(request.EndDate);
         var listGroupId = userGroup.Select(x => x.GroupId).Distinct();
@@ -262,7 +262,7 @@ public class HelperAppService : IHelperAppService
         foreach (var user in users)
         {
             var firstGroup = user.FirstOrDefault();
-            if(firstGroup == null) continue;
+            if (firstGroup == null) continue;
 
             var userGroupResponse = new ReportUserGroupResponseDto
             {
@@ -352,7 +352,7 @@ public class HelperAppService : IHelperAppService
         {
             var json = await response.Content.ReadAsStringAsync();
             // Sử dụng thư viện Newtonsoft.Json để chuyển đổi từ JSON sang đối tượng
-            var reportDataArray = JsonConvert.DeserializeObject<ReportData[]>(json);
+            var reportDataArray = Newtonsoft.Json.JsonConvert.DeserializeObject<ReportData[]>(json);
             return reportDataArray.ToList();
         }
 
@@ -369,5 +369,372 @@ public class HelperAppService : IHelperAppService
     {
         var listUser = await _staffManagerQueries.UpdateRatioAsync(command.UserIds, command.Ratio);
         throw new NotImplementedException();
+    }
+
+    public async Task<ResultXYDto> GetResultAsync(GetDataFromStringQuery query, CancellationToken cancellationToken)
+    {
+
+        string input = ";;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2;-2";  // Chuỗi của bạn với 54 số, mỗi số cách nhau bằng dấu chấm phẩy
+        input = query.Key.Trim(';');
+        // Tách chuỗi thành mảng các giá trị
+        string[] values = input.Split(';');
+
+        // Kiểm tra độ dài của mảng (phải là 54)
+        //if (values.Length != 54)
+        //{
+        //    Console.WriteLine("Chuỗi không hợp lệ. Cần 54 số.");
+        //    return;
+        //}
+
+        // Tạo mảng 2D 9 hàng và 6 cột
+        int rowAll = 9;
+        int colAll = 6;
+        int[,] board = new int[rowAll, colAll];
+
+        // Chuyển đổi giá trị chuỗi thành số nguyên và đưa vào mảng 2D
+        int index = 0;
+        for (int row = 0; row < rowAll; row++)
+        {
+            for (int col = 0; col < colAll; col++)
+            {
+                board[row, col] = int.Parse(values[index]);
+                index++;
+            }
+        }
+
+        // Mảng board (giá trị của ô, -1 là ô đã gắn cờ mìn, -2 là ô chưa mở, 0,1,2,... là ô đã mở)
+        //int[,] board = {
+        //    {  1, -1,  2,  1, -2, -2 },
+        //    {  2,  3, -1,  2,  1, -2 },
+        //    { -1, -1,  3, -1,  2, -2 },
+        //    {  2, -1,  4,  2,  2,  1 },
+        //    {  1,  2, -1,  1, -1,  1 },
+        //    { -2,  1,  1,  2,  2,  1 }
+        //};
+        // Mảng boardOpen (các ô đã mở, true = ô đã mở, false = ô chưa mở)
+        bool[,] boardOpen = new bool[rowAll, colAll];
+        // Tìm các ô có thể mở hoặc gắn cờ mìn
+
+        for (int row = 0; row < board.GetLength(0); row++)
+        {
+            for (int col = 0; col < board.GetLength(1); col++)
+            {
+                // Nếu ô đã mở (0, 1, 2, 3...), đánh dấu là true
+                if (board[row, col] !=-2)
+                {
+                    boardOpen[row, col] = true;
+                }
+            }
+        }
+
+
+        var listX = new List<int>();
+        var listY = new List<int>();
+        // Gọi hàm quét bảng
+        while (true)
+        {
+            var result = FindNextOpenableAndFlaggableCells(board, boardOpen);
+
+            // Nếu có ô có thể mở hoặc gắn cờ, in ra và cập nhật
+            if (result.openableCells.Count > 0 || result.flaggableCells.Count > 0)
+            {
+                foreach (var cell in result.openableCells)
+                {
+                    boardOpen[cell.x, cell.y] = true; // Đánh dấu ô là đã mở
+                }
+
+                listX.AddRange(result.openableCells.Select(result => result.x * colAll + 1 + result.y));
+                listY.AddRange(result.flaggableCells.Select(result => result.x * colAll + 1 + result.y));
+                //// In ra ô mở và gắn cờ
+                //Console.WriteLine("Ô có thể mở thêm:");
+                //foreach (var cell in result.openableCells)
+                //{
+                //    Console.WriteLine($"({cell.x}, {cell.y})");
+                //}
+
+                //Console.WriteLine("Ô có thể gắn cờ thêm:");
+                //foreach (var cell in result.flaggableCells)
+                //{
+                //    Console.WriteLine($"({cell.x}, {cell.y})");
+                //}
+            }
+            else
+            {
+
+                break; // Thoát khỏi vòng lặp
+            }
+        }
+        if (listX.Count > 0 || listY.Count > 0)
+        {
+            return new ResultXYDto(listX, listY, 0, listX.Count, listY.Count);
+        }
+        else
+        {
+            // Nếu không tìm thấy ô nào hợp lệ, mở ô ngẫu nhiên chưa mở
+            var randomCell = GetRandomUnopenedCell(boardOpen);
+            if (randomCell.x != -1 && randomCell.y != -1) // Kiểm tra ô hợp lệ
+            {
+                Console.WriteLine($"Không tìm thấy ô hợp lệ, mở ô ngẫu nhiên tại ({randomCell.x}, {randomCell.y})");
+                boardOpen[randomCell.x, randomCell.y] = true; // Đánh dấu ô đã mở
+                return new ResultXYDto(listX, listY, randomCell.x * colAll + 1 + randomCell.y, listX.Count, listY.Count);
+            }
+            else
+            {
+                return new ResultXYDto(listX, listY, -1, 0, 0);
+            }
+
+            //return new ResultXYDto(listX, listY, , listX.Count, listY.Count);
+        }
+
+
+
+
+        // Xử lý ở đây nha anh
+        //return new ResultXYDto((result.x* colAll +1+ result.y), flag);
+    }
+
+    #region Coin
+    Random rand = new Random();
+
+    // Hàm tìm ô có thể mở hoặc gắn cờ
+    public (List<(int x, int y)> openableCells, List<(int x, int y)> flaggableCells) FindNextOpenableAndFlaggableCells(int[,] board, bool[,] boardOpen)
+    {
+        List<(int x, int y)> openableCells = new List<(int x, int y)>();
+        List<(int x, int y)> flaggableCells = new List<(int x, int y)>();
+        int rows = board.GetLength(0);
+        int cols = board.GetLength(1);
+
+        // Quét toàn bộ bảng
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                // Nếu ô đã mở
+                if (boardOpen[row, col] || board[row, col] == -1)
+                {
+                    // Lấy các ô lân cận
+                    var neighbors = GetNeighbors(row, col, rows, cols);
+                    int flaggedMines = 0;
+                    int unopenedCells = 0;
+
+                    // Đếm số ô chưa mở và mìn đã gắn cờ
+                    foreach (var (ni, nj) in neighbors)
+                    {
+                        if (boardOpen[ni, nj] && board[ni, nj] == -1)
+                            flaggedMines++;
+                        if (!boardOpen[ni, nj])
+                            unopenedCells++;
+                    }
+
+                    // Nếu số mìn lân cận khớp với số trên ô, mở tất cả các ô chưa mở
+                    if (flaggedMines == board[row, col] && unopenedCells > 0)
+                    {
+                        foreach (var (ni, nj) in neighbors)
+                        {
+                            if (!boardOpen[ni, nj] && board[ni, nj] != -1)
+                            {
+                                openableCells.Add((ni, nj));
+                                boardOpen[ni, nj] = true;
+                            }
+                        }
+                    }
+
+                    // Nếu số ô chưa mở bằng đúng số mìn còn lại, gắn cờ mìn
+                    if (unopenedCells == board[row, col] - flaggedMines)
+                    {
+                        foreach (var (ni, nj) in neighbors)
+                        {
+                            if (!boardOpen[ni, nj] && board[ni, nj] == -2)
+                            {
+                                flaggableCells.Add((ni, nj));
+                                boardOpen[ni, nj] = true;
+                                board[ni, nj] = -1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return (openableCells, flaggableCells);
+    }
+
+    // Hàm lấy danh sách các ô lân cận
+    public List<(int, int)> GetNeighbors(int row, int col, int maxRows, int maxCols)
+    {
+        List<(int, int)> neighbors = new List<(int, int)>();
+
+        for (int i = row - 1; i <= row + 1; i++)
+        {
+            for (int j = col - 1; j <= col + 1; j++)
+            {
+                if (i >= 0 && i < maxRows && j >= 0 && j < maxCols && !(i == row && j == col))
+                {
+                    neighbors.Add((i, j));
+                }
+            }
+        }
+
+        return neighbors;
+    }
+
+    // Hàm lấy ô ngẫu nhiên chưa mở
+    public (int x, int y) GetRandomUnopenedCell(bool[,] boardOpen)
+    {
+        List<(int x, int y)> unopenedCells = new List<(int x, int y)>();
+        int rows = boardOpen.GetLength(0);
+        int cols = boardOpen.GetLength(1);
+
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < cols; col++)
+            {
+                if (!boardOpen[row, col])
+                {
+                    unopenedCells.Add((row, col));
+                }
+            }
+        }
+
+        // Chọn ngẫu nhiên một ô chưa mở
+        if (unopenedCells.Count > 0)
+        {
+            return unopenedCells[rand.Next(unopenedCells.Count)];
+        }
+
+        return (-1, -1); // Trả về (-1, -1) nếu không còn ô nào chưa mở
+    }
+
+    #endregion
+
+    public async Task<bool> CreateMailTMAsync(CreateMailTMCommand command, CancellationToken cancellationToken)
+    {
+        using HttpClient client = new HttpClient();
+        var url = "https://api.mail.tm/accounts";
+
+        var requestBody = new
+        {
+            address = command.Address,
+            password = command.Password
+        };
+
+        var json = System.Text.Json.JsonSerializer.Serialize(requestBody);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync(url, content, cancellationToken);
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        if (response.StatusCode == System.Net.HttpStatusCode.OK ||
+            response.StatusCode == System.Net.HttpStatusCode.Created)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public async Task<string> GetTokenAsync(string userName, string password, CancellationToken cancellationToken)
+    {
+        using var client = new HttpClient();
+
+        var url = "https://api.mail.tm/token";
+
+        var requestBody = new
+        {
+            address = userName,
+            password = password
+        };
+
+        var json = System.Text.Json.JsonSerializer.Serialize(requestBody);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync(url, content, cancellationToken);
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            var tokenResponse = System.Text.Json.JsonSerializer.Deserialize<MailTMTokenResponse>(responseContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            return tokenResponse.Token;
+        }
+
+        // Có thể log lỗi tại đây nếu cần
+        return null;
+    }
+
+    public async Task<string> GetCodeMailTMAsync(GetCodeMailTMQuery command, CancellationToken cancellationToken)
+    {
+        var tokenInfo = await GetTokenAsync(command.Address, command.Password, cancellationToken);
+
+        var result = "";
+        if (string.IsNullOrEmpty(tokenInfo))
+        {
+            return result;
+        }
+
+        using var client = new HttpClient();
+
+        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokenInfo);
+
+        var response = await client.GetAsync("https://api.mail.tm/messages", cancellationToken);
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseDto = JsonConvert.DeserializeObject<MessageCollection>(responseContent);
+            var intro = "";
+            if (responseDto?.Members != null)
+            {
+                responseDto.Members = responseDto.Members.OrderByDescending(x => x.CreatedAt).ToList();
+
+                if (!string.IsNullOrEmpty(command.Email))
+                {
+                    var members = responseDto.Members.Where(x => x.From.Address == command.Email).ToList();
+
+                    if (members != null && members.Any())
+                    {
+                        if (!string.IsNullOrEmpty(command.Title))
+                        {
+                            var message = members.FirstOrDefault(x => x.Subject?.IndexOf(command.Title, StringComparison.OrdinalIgnoreCase) >= 0);
+                            if (message != null)
+                            {
+                                intro = message.Intro;
+                            }
+                        }
+                        else
+                        {
+                            intro = members.FirstOrDefault()?.Intro;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(command.Title))
+                    {
+                        var message = responseDto.Members.FirstOrDefault(x => x.Subject?.IndexOf(command.Title, StringComparison.OrdinalIgnoreCase) >= 0);
+                        if (message != null)
+                        {
+                            intro = message.Intro;
+                        }
+                    }
+                    else
+                    {
+                        intro = responseDto.Members.FirstOrDefault()?.Intro;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(intro))
+            {
+                if (!string.IsNullOrEmpty(intro) && intro.Length >= 6)
+                {
+                    result = intro[^6..];
+                }
+            }
+            return result;
+        }
+        return result;
     }
 }

@@ -138,6 +138,11 @@ public interface INewsContentAppService
     Task<NewsMainModel> GetDetailBasic(string id);
 
     /// <summary>
+    /// Dữ liệu chi tiết Thread
+    /// </summary>
+    /// <returns></returns>
+    Task<NewsThreadModel> GetDetailThread(string profileId, string categoryId, int position,int top);
+    /// <summary>
     /// Danh sách bài viết theo nhóm tin
     /// </summary>
     /// <returns></returns>

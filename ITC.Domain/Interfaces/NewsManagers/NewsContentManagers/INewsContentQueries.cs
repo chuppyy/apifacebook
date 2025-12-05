@@ -21,7 +21,7 @@ public interface INewsContentQueries
     ///     [Phân trang] Trả về danh sách bài viết
     /// </summary>
     /// <returns></returns>
-    Task<IEnumerable<NewsContentPagingDto>> GetPaging(NewsContentPagingModel model, List<Guid> newsGroupId, List<Guid> userIds = null);
+    Task<IEnumerable<NewsContentPagingDto>> GetPaging(NewsContentPagingModel model, List<Guid> newsGroupId, List<string> userIds = null);
     /// <summary>
     ///     [Phân trang] Trả về danh sách bài viết
     /// </summary>
@@ -76,6 +76,10 @@ public interface INewsContentQueries
     /// <returns></returns>
     Task<NewsMainModel> GetDetailBasic(string id);
 
+    Task<NewsThreadModel> GetDetailThread(string categoryId, int position);
+    Task<bool> UpdateThread(string profile);
+    Task<int> GetPositionThread(string profile);
+    
     /// <summary>
     /// Danh sách bài viết theo nhóm tin
     /// </summary>

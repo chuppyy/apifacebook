@@ -515,6 +515,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ITC.Service.API.Controllers.GoogleAnalyticsController.GetDataFromStringAsync(ITC.Domain.Commands.GoogleAnalytics.Models.GetDataFromStringQuery,System.Threading.CancellationToken)">
+            <summary>
+            Báo cáo
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ITC.Service.API.Controllers.HomeManagers.NewsController">
             <inheritdoc />
         </member>
@@ -548,6 +554,12 @@
         <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.NewsLife(System.String)">
             <summary>
                 Danh sách bài viết từ cơ sở dữ liệu khác
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.GetNewsDetailThread(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+                Dữ liệu chi tiết bài viết
             </summary>
             <returns></returns>
         </member>

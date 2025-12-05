@@ -12,6 +12,7 @@ public class NewsMainModel
     public string UserCode { get; set; }
     public              string   Content       { get; set; }
     public              string   AvatarLink    { get; set; }
+    public string UrlRootLink { get; set; }
     public bool   IsDeleted    { get; set; }
     [JsonIgnore] public bool     AvatarLocal   { get; set; }
     public              DateTime DateTimeStart { get; set; }
@@ -56,4 +57,17 @@ public class HomeNewsLifeModel
     public string IDPage     { get; set; }
     public string IdQC       { get; set; }
     public string Token      { get; set; }
+}
+
+public class NewsThreadModel 
+{
+    public string Name { get; set; }
+    public string AvatarLink { get; set; }
+    public string LinkTree { get; set; }
+    public string UserCode { get; set; }
+    public string MetaGroup { get; set; }
+    public string MetaName { get; set; }
+    public string MetaKey { get; set; }
+    public string Domain { get; set; }
+    public string Url { get; set; }
 }
