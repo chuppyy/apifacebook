@@ -24,6 +24,7 @@ using NCore.Responses;
 using Newtonsoft.Json.Linq;
 using AutoMapper.Execution;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 #endregion
 
@@ -86,18 +87,174 @@ public class HelperAppService : IHelperAppService
         return updateCommand.ResultCommand;
     }
 
-    public async Task<ReportGoogleAnalyticsDto> GoogleAnalyticsReportAsync(GoogleAnalyticsReport request, CancellationToken cancellationToken)
-    {
-        var config = await _staffManagerQueries.GetConfigAnalyticsAsync();
+    //public async Task<ReportGoogleAnalyticsDto> GoogleAnalyticsReportAsync(GoogleAnalyticsReport request, CancellationToken cancellationToken)
+    //{
 
-        if (config == null)
+
+    //    var config = await _staffManagerQueries.GetConfigAnalyticsAsync();
+
+    //    if (config == null)
+    //    {
+    //        return null;
+    //    }
+
+    //    var serviceAccountEmail = config.Email;
+    //    var privateKey = config.PrivateKey?.Replace("\\n", "\n");
+
+    //    var credential = new ServiceAccountCredential(
+    //        new ServiceAccountCredential.Initializer(serviceAccountEmail)
+    //        {
+    //            Scopes = new[] { "https://www.googleapis.com/auth/analytics.readonly" }
+    //        }.FromPrivateKey(privateKey));
+
+    //    var accessToken = await credential.GetAccessTokenForRequestAsync(cancellationToken: cancellationToken);
+
+    //    if (string.IsNullOrEmpty(accessToken))
+    //    {
+    //        return null;
+    //    }
+
+    //    var domains = await _staffManagerQueries.GetListInfoWebAsync(request.DomainIds);
+
+    //    if (domains == null || !domains.Any())
+    //    {
+    //        return null;
+    //    }
+
+    //    using (var client = new HttpClient())
+    //    {
+    //        var convertStartDate = request.StartDate != null ? request.StartDate.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
+    //        var convertEndDate = request.EndDate != null ? request.EndDate.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
+    //        var json = $@"{{
+    //                ""dateRanges"": [
+    //                    {{
+    //                        ""startDate"": ""{convertStartDate}"",
+    //                        ""endDate"": ""{convertEndDate}""
+    //                    }}
+    //                ],
+    //                ""dimensions"": [
+    //                    {{
+    //                        ""name"": ""unifiedPagePathScreen""
+    //                    }}
+    //                ],
+    //                ""metrics"": [
+    //                    {{
+    //                        ""name"": ""screenPageViews""
+    //                    }}
+    //                ],
+    //                ""metricAggregations"": [
+    //                    ""TOTAL""
+    //                ]
+    //            }}";
+    //        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+
+    //        // Dữ liệu báo cáo tổng tiền cho domain
+    //        var allReports = new List<ReportData>();
+
+    //        foreach (var domain in domains)
+    //        {
+    //            var reportData = new ReportData();
+    //            #region View
+    //            // Dữ liệu báo cáo lượt view
+    //            var linkViews = new List<UserViewDto>();
+    //            var url = $"https://analyticsdata.googleapis.com/v1beta/properties/{domain.IdAnalytic}:runReport";
+    //            var response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"), cancellationToken);
+    //            if (response.IsSuccessStatusCode)
+    //            {
+    //                var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+    //                var data = Newtonsoft.Json.JsonConvert.DeserializeObject<RootObject>(responseContent);
+    //                if (data.rows != null && data.rows.Any())
+    //                {
+    //                    foreach (var row in data.rows)
+    //                    {
+    //                        var link = row.dimensionValues?.FirstOrDefault();
+    //                        var viewString = row.metricValues?.FirstOrDefault();
+
+    //                        if (link != null && viewString != null)
+    //                        {
+    //                            TryParse(viewString.value, out var view);
+    //                            linkViews.Add(new UserViewDto(link.value, view));
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //            reportData.UserViews = linkViews;
+    //            #endregion
+
+    //            #region Wages
+
+    //            if (!string.IsNullOrEmpty(config.TokenAK))
+    //            {
+    //                var wages = await ApiGetWagesAsync(config.TokenAK, domain.TokenAK, convertStartDate, convertEndDate);
+    //                if (wages != null && wages.Any())
+    //                {
+    //                    reportData.Wages=wages.FirstOrDefault()?.Wages;
+    //                }
+    //            }
+
+    //            #endregion
+    //            reportData.IdDomain = domain.Id;
+    //            allReports.Add(reportData);
+    //        }
+
+    //        var users = await _staffManagerQueries.GetUserCodeAsync();
+    //        if (users != null && users.Any())
+    //        {
+    //            var results = new ReportGoogleAnalyticsDto
+    //            {
+    //                Users = new List<UserReportDto>(),
+    //                TotalView = 0
+    //            };
+
+    //            foreach (var domainData in allReports)
+    //            {
+    //                foreach (var user in users)
+    //                {
+    //                    if (string.IsNullOrEmpty(user.UserCode))
+    //                    {
+    //                        results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
+    //                        continue;
+    //                    }
+    //                    var byUser = domainData.UserViews.Where(x => x.Link.Contains(user.UserCode));
+    //                    if (byUser.Any())
+    //                    {
+    //                        var totalView = byUser.Sum(x => x.View);
+    //                        results.Users.Add(new UserReportDto(user.Name, user.UserCode, totalView));
+    //                    }
+    //                    else
+    //                    {
+    //                        results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
+    //                    }
+    //                }
+
+    //                results.Users = results.Users.OrderByDescending(x => x.TotalView).ToList();
+    //                results.TotalView = domainData.UserViews.Sum(x => x.View);
+    //            }
+
+    //            return results;
+    //        }
+
+    //        return null;
+    //    }
+    //}
+
+    public async Task<ReportSummary> GoogleAnalyticsReportAsync(
+GoogleAnalyticsReport request,
+CancellationToken cancellationToken = default)
+    {
+       
+        // === Lấy config (email + private key) ===
+        var config =  await _staffManagerQueries.GetConfigAnalyticsAsync();
+        if (config.Email == null || config.PrivateKey == null)
         {
+            Console.WriteLine("Config rỗng.");
             return null;
         }
 
         var serviceAccountEmail = config.Email;
-        var privateKey = config.PrivateKey?.Replace("\\n", "\n");
+        var privateKey = config.PrivateKey.Replace("\\n", "\n");
 
+        // === Tạo credential & lấy access token ===
         var credential = new ServiceAccountCredential(
             new ServiceAccountCredential.Initializer(serviceAccountEmail)
             {
@@ -108,132 +265,258 @@ public class HelperAppService : IHelperAppService
 
         if (string.IsNullOrEmpty(accessToken))
         {
+            Console.WriteLine("Access token rỗng.");
             return null;
         }
 
+        // === Lấy danh sách domain ===
         var domains = await _staffManagerQueries.GetListInfoWebAsync(request.DomainIds);
-
         if (domains == null || !domains.Any())
         {
+            Console.WriteLine("Không có domain nào.");
             return null;
         }
 
-        using (var client = new HttpClient())
+        // === Lấy danh sách nhân viên (Name + UserCode) ===
+        var users = await _staffManagerQueries.GetUserCodeAsync();
+        if (users == null || !users.Any())
         {
-            var convertStartDate = request.StartDate != null ? request.StartDate.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
-            var convertEndDate = request.EndDate != null ? request.EndDate.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
+            Console.WriteLine("Không có nhân viên.");
+            return null;
+        }
+
+        var allDomainReports = new List<(int DomainId, string DomainName, List<UserViewDto> Views)>();
+        var vnTimeZone = TimeSpan.FromHours(7);
+        using (var client = new HttpClient())
+        {           
+
+            // StartDate
+            var convertStartDate = request.StartDate != null
+                ? request.StartDate.Value.Add(vnTimeZone).ToString("yyyy-MM-dd")
+                : DateTime.UtcNow.Add(vnTimeZone).ToString("yyyy-MM-dd");
+
+            // EndDate
+            var convertEndDate = request.EndDate != null
+                ? request.EndDate.Value.Add(vnTimeZone).ToString("yyyy-MM-dd")
+                : DateTime.UtcNow.Add(vnTimeZone).ToString("yyyy-MM-dd");
+
             var json = $@"{{
-                    ""dateRanges"": [
-                        {{
-                            ""startDate"": ""{convertStartDate}"",
-                            ""endDate"": ""{convertEndDate}""
-                        }}
-                    ],
-                    ""dimensions"": [
-                        {{
-                            ""name"": ""unifiedPagePathScreen""
-                        }}
-                    ],
-                    ""metrics"": [
-                        {{
-                            ""name"": ""screenPageViews""
-                        }}
-                    ],
-                    ""metricAggregations"": [
-                        ""TOTAL""
-                    ]
-                }}";
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+  ""dateRanges"": [
+    {{
+      ""startDate"": ""{convertStartDate}"",
+      ""endDate"": ""{convertEndDate}""
+    }}
+  ],
+  ""dimensions"": [
+    {{
+      ""name"": ""landingPage""
+    }}
+  ],
+  ""metrics"": [
+    {{
+      ""name"": ""sessions""
+    }}
+  ],
+  ""metricAggregations"": [
+    ""TOTAL""
+  ]
+}}";
+//            var json = $@"{{
+//  ""dateRanges"": [
+//    {{
+//      ""startDate"": ""{convertStartDate}"",
+//      ""endDate"": ""{convertEndDate}""
+//    }}
+//  ],
+//  ""dimensions"": [
+//    {{
+//      ""name"": ""unifiedPagePathScreen""
+//    }}
+//  ],
+//  ""metrics"": [
+//    {{
+//      ""name"": ""screenPageViews""
+//    }}
+//  ],
+//  ""metricAggregations"": [
+//    ""TOTAL""
+//  ]
+//}}";
 
-            // Dữ liệu báo cáo tổng tiền cho domain
-            var allReports = new List<ReportData>();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", accessToken);
 
+            // Gọi GA4 cho từng domain (property)
             foreach (var domain in domains)
             {
-                var reportData = new ReportData();
-                #region View
-                // Dữ liệu báo cáo lượt view
                 var linkViews = new List<UserViewDto>();
+
                 var url = $"https://analyticsdata.googleapis.com/v1beta/properties/{domain.IdAnalytic}:runReport";
-                var response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"), cancellationToken);
+
+                var response = await client.PostAsync(
+                    url,
+                    new StringContent(json, Encoding.UTF8, "application/json"),
+                    cancellationToken);
+
+                var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                //Console.WriteLine("GA4 response:");
+                //Console.WriteLine(responseContent);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
-                    var data = Newtonsoft.Json.JsonConvert.DeserializeObject<RootObject>(responseContent);
-                    if (data.rows != null && data.rows.Any())
+                    var data = JsonConvert.DeserializeObject<RootObject>(responseContent);
+                    if (data?.rows != null && data.rows.Any())
                     {
                         foreach (var row in data.rows)
                         {
                             var link = row.dimensionValues?.FirstOrDefault();
                             var viewString = row.metricValues?.FirstOrDefault();
 
-                            if (link != null && viewString != null)
+                            if (link != null && viewString != null &&
+                                int.TryParse(viewString.value, out var view))
                             {
-                                TryParse(viewString.value, out var view);
                                 linkViews.Add(new UserViewDto(link.value, view));
                             }
                         }
                     }
                 }
-                reportData.UserViews = linkViews;
-                #endregion
-
-                #region Wages
-
-                if (!string.IsNullOrEmpty(config.TokenAK))
+                else
                 {
-                    var wages = await ApiGetWagesAsync(config.TokenAK, domain.TokenAK, convertStartDate, convertEndDate);
-                    if (wages != null && wages.Any())
-                    {
-                        reportData.Wages=wages.FirstOrDefault()?.Wages;
-                    }
+                    Console.WriteLine($"GA4 lỗi: {(int)response.StatusCode} - {response.ReasonPhrase}");
                 }
 
-                #endregion
-                reportData.IdDomain = domain.Id;
-                allReports.Add(reportData);
+                // GIẢ ĐỊNH: domain.DomainName tồn tại – nếu tên property khác thì sửa lại
+                allDomainReports.Add((domain.Id, domain.Name, linkViews));
             }
-
-            var users = await _staffManagerQueries.GetUserCodeAsync();
-            if (users != null && users.Any())
-            {
-                var results = new ReportGoogleAnalyticsDto
-                {
-                    Users = new List<UserReportDto>(),
-                    TotalView = 0
-                };
-
-                foreach (var domainData in allReports)
-                {
-                    foreach (var user in users)
-                    {
-                        if (string.IsNullOrEmpty(user.UserCode))
-                        {
-                            results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
-                            continue;
-                        }
-                        var byUser = domainData.UserViews.Where(x => x.Link.Contains(user.UserCode));
-                        if (byUser.Any())
-                        {
-                            var totalView = byUser.Sum(x => x.View);
-                            results.Users.Add(new UserReportDto(user.Name, user.UserCode, totalView));
-                        }
-                        else
-                        {
-                            results.Users.Add(new UserReportDto(user.Name, user.UserCode, 0));
-                        }
-                    }
-
-                    results.Users = results.Users.OrderByDescending(x => x.TotalView).ToList();
-                    results.TotalView = domainData.UserViews.Sum(x => x.View);
-                }
-
-                return results;
-            }
-
-            return null;
         }
+
+        // ==============================
+        // 1. Tính thống kê theo domain
+        // ==============================
+
+        var domainStats = new List<DomainAll>();
+        var totalViewAllDomains = 0;
+
+        foreach (var dr in allDomainReports)
+        {
+            var traffic = (int)dr.Views.Sum(v => v.View);
+            totalViewAllDomains += traffic;
+
+            domainStats.Add(new DomainAll
+            {
+                Id=dr.DomainId,
+                DomainName = dr.DomainName,
+                Traffic = traffic
+                // Ratio sẽ tính sau khi biết tổng view
+            });
+        }
+
+        // ==============================
+        // 2. Tính thống kê theo user
+        // ==============================
+
+        var userViewList = new List<UserView>();
+
+        foreach (var user in users)
+        {
+            if (user.Name == "Sa")
+            {
+                var x = 1;
+            }
+            var userCode = user.UserCode;
+            var userName = user.Name;
+
+            var domainViews = new List<DomainView>();
+            var totalViewUser = 0;
+
+            foreach (var dr in allDomainReports)
+            {
+                var viewOnDomain = 0;
+
+                if (!string.IsNullOrEmpty(userCode))
+                {
+                    var userCodeFull = "-" + userCode + "-";
+                    viewOnDomain =(int) dr.Views
+                        .Where(x => !string.IsNullOrEmpty(x.Link) &&
+                                    x.Link.Contains(userCodeFull, StringComparison.OrdinalIgnoreCase))
+                        .Sum(x => x.View);
+                }
+
+                totalViewUser += viewOnDomain;
+
+                domainViews.Add(new DomainView
+                {
+                    Id = dr.DomainId.ToString(),
+                    Domain = dr.DomainName,
+                    View = viewOnDomain
+                });
+            }
+
+            userViewList.Add(new UserView
+            {
+                User = userName,
+                TotalView = totalViewUser,
+                DomainViews = domainViews
+                // Rank sẽ gán sau
+            });
+        }
+        userViewList= userViewList.Where(x => x.TotalView > 0).ToList();
+        // Gán Rank cho user theo TotalView desc
+        var orderedUsers = userViewList
+            .OrderByDescending(u => u.TotalView)
+            .ToList();
+
+        for (int i = 0; i < orderedUsers.Count; i++)
+        {
+            orderedUsers[i].Rank = i + 1;
+        }
+
+        // ==============================
+        // 3. Tính Ratio & TopDomain/TopUser
+        // ==============================
+
+        if (totalViewAllDomains > 0)
+        {
+            foreach (var d in domainStats)
+            {
+                // Ratio dạng 0–1; muốn % thì nhân 100
+                d.Ratio = (double)d.Traffic / totalViewAllDomains;
+            }
+        }
+        else
+        {
+            foreach (var d in domainStats)
+            {
+                d.Ratio = 0;
+            }
+        }
+
+        var topDomain = domainStats
+            .OrderByDescending(d => d.Traffic)
+            .FirstOrDefault();
+
+        var topUser = orderedUsers
+            .OrderByDescending(u => u.TotalView)
+            .FirstOrDefault();
+
+        var summary = new ReportSummary
+        {
+            TotalView = totalViewAllDomains,
+            // Nếu muốn tính tất cả user thì dùng orderedUsers.Count
+            // nếu chỉ tính user có view > 0 thì:
+            TotalUser = orderedUsers.Count(u => u.TotalView > 0),
+            TopDomain = topDomain?.DomainName,
+            TopUser = topUser?.User,
+            Domains = domainStats
+                .OrderByDescending(d => d.Traffic)
+                .ToList(),
+            Users = orderedUsers
+        };
+
+        return summary;
     }
+
+
 
     public async Task<List<ComboboxIdNameDto>> GetComboboxAsync()
     {

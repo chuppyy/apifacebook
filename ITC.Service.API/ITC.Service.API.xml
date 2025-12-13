@@ -1877,6 +1877,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ITC.Service.API.Controllers.WebController.CreateMailTMAsync(ITC.Domain.Commands.GoogleAnalytics.Models.CreateMailTMCommand,System.Threading.CancellationToken)">
+            <summary>
+            Tạo mail TM
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.WebController.GetMailTMAsync(ITC.Domain.Commands.GoogleAnalytics.Models.GetCodeMailTMQuery,System.Threading.CancellationToken)">
+            <summary>
+            Lấy mã code mail TM
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ITC.Service.API.Extensions.AutoMapperSetup">
             <summary>
             </summary>

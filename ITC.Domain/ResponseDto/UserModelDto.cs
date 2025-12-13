@@ -86,7 +86,28 @@ namespace ITC.Domain.ResponseDto
     {
         public List<UserReportDto> Users { get; set; }
         public double TotalView { get; set; }
+
     }
+
+    public class ReportSummary { public int TotalView { get; set; } public int TotalUser { get; set; } public string TopDomain { get; set; } public string TopUser { get; set; } public List<DomainAll> Domains { get; set; } public List<UserView> Users { get; set; } }
+    public class DomainAll {
+        public int Id { get; set; }
+        public string DomainName { get; set; } public int Traffic { get; set; } public double Ratio { get; set; } }
+    public class UserView { public string User { get; set; } public int Rank { get; set; } public int TotalView { get; set; } public List<DomainView> DomainViews { get; set; } }
+    public class DomainView { public string Id { get; set; } public string Domain { get; set; } public int View { get; set; } }
+
+    //public class UserViewDto
+    //{
+    //    public string Link { get; set; }
+    //    public int View { get; set; }
+
+    //    public UserViewDto(string link, int view)
+    //    {
+    //        Link = link;
+    //        View = view;
+    //    }
+    //}
+
 
     public class ComboboxIdNameDto
     {

@@ -38,7 +38,7 @@ public interface IHelperAppService
     /// <param name="model"></param>
     Task<bool> CheckTime(CheckTimeModel model);
 
-    Task<ReportGoogleAnalyticsDto> GoogleAnalyticsReportAsync(GoogleAnalyticsReport query, CancellationToken cancellationToken);
+    Task<ReportSummary> GoogleAnalyticsReportAsync(GoogleAnalyticsReport query, CancellationToken cancellationToken);
     Task<List<ComboboxIdNameDto>> GetComboboxAsync();
 
     Task<List<ReportUserGroupResponseDto>> ReportUserGroupNewAsync(ReportUserPostQuery query);

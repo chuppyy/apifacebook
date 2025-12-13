@@ -1209,8 +1209,7 @@ public class NewsContentAppService : INewsContentAppService
     }
 
 
-    /// <inheritdoc cref="ListContentByGroup"/>
-    public async Task<IEnumerable<HomeMainGroupModel>> ListContentByGroup(List<Guid> groupModel, int numberOf)
+   
     /// <inheritdoc cref="GetDetail"/>
     public async Task<NewsThreadModel> GetDetailThread(string profileId, string categoryId, int position,int top)
     {
@@ -1233,7 +1232,7 @@ public class NewsContentAppService : INewsContentAppService
             var host = new NCoreHelperV2023().ReturnHostWebsite();
             groupModel ??= new List<Guid>();
             var typeWeb = 2;
-            var typeWeb = 4;
+           
             if (groupModel.Count == 0)
             {
                 //groupModel.Add(new Guid("ff3e877d-cfed-4bc5-bb3b-7b2d27980b3d"));
