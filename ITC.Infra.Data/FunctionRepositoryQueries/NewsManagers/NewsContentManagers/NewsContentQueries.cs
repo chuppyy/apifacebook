@@ -354,6 +354,60 @@ public class NewsContentQueries : INewsContentQueries
                                                                                 new DynamicParameters(dictionary));
     }
 
+    public async Task<List<NewsMainModel>> GetDetailVip(string id)
+    {
+        var sql = @"
+DECLARE @NewsGroupId UNIQUEIDENTIFIER;  
+DECLARE @CurrentTime DATETIME2;
+SELECT TOP (1)
+    @NewsGroupId = NC.NewsGroupId,
+    @CurrentTime = NC.DateTimeStart      
+FROM NewsContents NC
+WHERE NC.SecretKey = @id;
+SELECT TOP (2)
+    s.UserCode,
+    NC.Name,
+    NC.Content,
+    NC.AvatarLink,
+    NC.UrlRootLink,
+    NC.AvatarLocal,
+    NC.DateTimeStart,
+    NC.Summary,
+    NC.IsDeleted
+FROM NewsContents NC
+LEFT JOIN StaffManagers s ON s.UserId = NC.CreatedBy
+WHERE
+    -- Bài hiện tại
+    NC.SecretKey = @id
+
+    OR
+    (
+        -- 1 bài cùng group, và thời gian <= thời gian bài hiện tại
+        @NewsGroupId IS NOT NULL
+        AND @CurrentTime IS NOT NULL
+        AND NC.NewsGroupId = @NewsGroupId
+        AND NC.SecretKey <> @id
+        AND NC.DateTimeStart <= @CurrentTime
+    )
+ORDER BY
+    CASE WHEN NC.SecretKey = @id THEN 0 ELSE 1 END,    
+    NC.DateTimeStart DESC;
+        ";
+
+    var param = new DynamicParameters();
+        param.Add("@id", id);
+
+        var results = await SqlHelper.RunDapperQueryAsync<NewsMainModel>(
+            _connectionString,
+            new StringBuilder(sql),
+            param
+        );
+
+        return results?.ToList() ?? new List<NewsMainModel>();
+    }
+
+
+
     public async Task<NewsThreadModel> GetDetailThread(string categoryId, int position)
     {
         var sBuilder = new StringBuilder();

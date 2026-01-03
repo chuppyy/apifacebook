@@ -59,7 +59,7 @@ public class NewsController : ApiController
     }
 
     /// <summary>
-    ///     Dữ liệu chi tiết bài viết
+    ///     Dữ liệu chi tiết bài viết cho web redirect
     /// </summary>
     /// <returns></returns>
     [HttpGet("news-detailbasic")]
@@ -68,6 +68,18 @@ public class NewsController : ApiController
         return
             new OkResponse<NewsMainModel>("", await _newsContentAppService.GetDetailBasic(id));
     }
+
+    /// <summary>
+    ///     Lấy nhiều bài viết 
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("news-detailvip")]
+    public async Task<JsonResponse<List<NewsMainModel>>> GetNewsDetailVip(string id)
+    {
+        return
+            new OkResponse<List<NewsMainModel>>("", await _newsContentAppService.GetDetailVip(id));
+    }
+
 
 
     /// <summary>

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -94,6 +95,8 @@ public class Startup
     {
         if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
+
+
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
@@ -140,6 +143,7 @@ public class Startup
             options.Cookie.IsEssential = true;
         });
 
+
         // Setting DBContexts
         services.AddDatabaseSetup(Configuration);
 
@@ -181,7 +185,12 @@ public class Startup
         services.AddSwaggerConfiguration();
         //Rate Limit
         // needed to store rate limit counters and ip rules
-        services.AddMemoryCache();
+        //services.AddMemoryCache();
+
+        services.AddMemoryCache(options =>
+        {
+            options.SizeLimit = 100; // tối đa 50 bài viết trong cache
+        });
 
         services.AddScheduler();
 

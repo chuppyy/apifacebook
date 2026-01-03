@@ -76,6 +76,8 @@ public interface INewsContentQueries
     /// <returns></returns>
     Task<NewsMainModel> GetDetailBasic(string id);
 
+    Task<List<NewsMainModel>> GetDetailVip(string id);
+
     Task<NewsThreadModel> GetDetailThread(string categoryId, int position);
     Task<bool> UpdateThread(string profile);
     Task<int> GetPositionThread(string profile);

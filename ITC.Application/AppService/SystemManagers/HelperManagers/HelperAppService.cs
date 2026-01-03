@@ -300,6 +300,27 @@ CancellationToken cancellationToken = default)
                 ? request.EndDate.Value.Add(vnTimeZone).ToString("yyyy-MM-dd")
                 : DateTime.UtcNow.Add(vnTimeZone).ToString("yyyy-MM-dd");
 
+            //            var json = $@"{{
+            //  ""dateRanges"": [
+            //    {{
+            //      ""startDate"": ""{convertStartDate}"",
+            //      ""endDate"": ""{convertEndDate}""
+            //    }}
+            //  ],
+            //  ""dimensions"": [
+            //    {{
+            //      ""name"": ""landingPage""
+            //    }}
+            //  ],
+            //  ""metrics"": [
+            //    {{
+            //      ""name"": ""sessions""
+            //    }}
+            //  ],
+            //  ""metricAggregations"": [
+            //    ""TOTAL""
+            //  ]
+            //}}";
             var json = $@"{{
   ""dateRanges"": [
     {{
@@ -309,39 +330,18 @@ CancellationToken cancellationToken = default)
   ],
   ""dimensions"": [
     {{
-      ""name"": ""landingPage""
+      ""name"": ""unifiedPagePathScreen""
     }}
   ],
   ""metrics"": [
     {{
-      ""name"": ""sessions""
+      ""name"": ""screenPageViews""
     }}
   ],
   ""metricAggregations"": [
     ""TOTAL""
   ]
 }}";
-//            var json = $@"{{
-//  ""dateRanges"": [
-//    {{
-//      ""startDate"": ""{convertStartDate}"",
-//      ""endDate"": ""{convertEndDate}""
-//    }}
-//  ],
-//  ""dimensions"": [
-//    {{
-//      ""name"": ""unifiedPagePathScreen""
-//    }}
-//  ],
-//  ""metrics"": [
-//    {{
-//      ""name"": ""screenPageViews""
-//    }}
-//  ],
-//  ""metricAggregations"": [
-//    ""TOTAL""
-//  ]
-//}}";
 
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", accessToken);

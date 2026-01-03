@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Autofac.Features.Indexed;
 using AutoMapper;
+using Coravel.Cache.Interfaces;
 using Hangfire;
 using HtmlAgilityPack;
 using ITC.Application.AppService.NewsManagers.NewsGroupManagers;
@@ -31,6 +32,7 @@ using ITC.Domain.Interfaces.NewsManagers.NewsDomainManagers;
 using ITC.Domain.Interfaces.NewsManagers.NewsGroupManagers;
 using ITC.Domain.Models.NewsManagers;
 using ITC.Infra.CrossCutting.Identity.Migrations;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using NCore.Actions;
 using NCore.Enums;
@@ -82,7 +84,7 @@ public class NewsContentAppService : INewsContentAppService
                                      IUser user,
                                      INewsDomainRepository newsDomainRepository,
                                      INewsGroupRepository newsGroupRepository,
-                                     INewsContentRepository newsContentRepository)
+                                     INewsContentRepository newsContentRepository, IMemoryCache cache)
     {
         _mapper = mapper;
         _queries = queries;
@@ -99,6 +101,7 @@ public class NewsContentAppService : INewsContentAppService
         _newsDomainRepository = newsDomainRepository;
         _newsGroupRepository = newsGroupRepository;
         _newsContentRepository = newsContentRepository;
+        _cache = cache;
     }
 
     #endregion
@@ -120,6 +123,7 @@ public class NewsContentAppService : INewsContentAppService
     private readonly ILogger<NewsContentAppService> _logger;
     private readonly INewsGroupRepository _newsGroupRepository;
     private readonly INewsContentRepository _newsContentRepository;
+    private readonly IMemoryCache _cache;
 
     #endregion
 
@@ -1066,39 +1070,88 @@ public class NewsContentAppService : INewsContentAppService
         var detail = await _queries.GetDetail(id);
 
         // Danh sách quảng cáo của bạn (dùng trực tiếp)
+        //    var ads = new List<string>
+        //{
+        //    @"<div class=""adsconex-banner-parallax"" data-ad-placement=""banner20"" id=""div_ub_inpage20""></div>",        
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner2"" id=""ub-banner2""></div>",
+        //    @"<div class=""adsconex-banner-parallax"" data-ad-placement=""banner21"" id=""div_ub_inpage21""></div>",
+        //    @"<div id=""qctaboo-mid""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner3"" id=""ub-banner3""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner4"" id=""ub-banner4""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner5"" id=""ub-banner5""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner6"" id=""ub-banner6""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner7"" id=""ub-banner7""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner8"" id=""ub-banner8""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner9"" id=""ub-banner9""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner10"" id=""ub-banner10""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner11"" id=""ub-banner-11""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner12"" id=""ub-banner-12""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner13"" id=""ub-banner-13""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner14"" id=""ub-banner-14""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner15"" id=""ub-banner-15""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner18n"" id=""ub-banner18""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner19"" id=""ub-banner19""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner20n"" id=""ub-banner20""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner21n"" id=""ub-banner21""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner22"" id=""ub-banner22""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner23"" id=""ub-banner23""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner24"" id=""ub-banner24""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner25"" id=""ub-banner25""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner26"" id=""ub-banner26""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner27"" id=""ub-banner27""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner16"" id=""ub-banner1-300x600""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner17"" id=""ub-banner2-300x600""></div>",
+        //    @"<div class=""adsconex-banner"" data-ad-placement=""banner18"" id=""ub-banner3-300x600""></div>"
+        //};
+
+
+        // Danh sách quảng cáo mới của bạn
         var ads = new List<string>
-    {
-        @"<div class=""adsconex-banner-parallax"" data-ad-placement=""banner20"" id=""div_ub_inpage20""></div>",        
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner2"" id=""ub-banner2""></div>",
-        @"<div class=""adsconex-banner-parallax"" data-ad-placement=""banner21"" id=""div_ub_inpage21""></div>",
-        @"<div id=""qctaboo-mid""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner3"" id=""ub-banner3""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner4"" id=""ub-banner4""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner5"" id=""ub-banner5""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner6"" id=""ub-banner6""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner7"" id=""ub-banner7""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner8"" id=""ub-banner8""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner9"" id=""ub-banner9""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner10"" id=""ub-banner10""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner11"" id=""ub-banner-11""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner12"" id=""ub-banner-12""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner13"" id=""ub-banner-13""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner14"" id=""ub-banner-14""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner15"" id=""ub-banner-15""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner18n"" id=""ub-banner18""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner19"" id=""ub-banner19""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner20n"" id=""ub-banner20""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner21n"" id=""ub-banner21""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner22"" id=""ub-banner22""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner23"" id=""ub-banner23""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner24"" id=""ub-banner24""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner25"" id=""ub-banner25""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner26"" id=""ub-banner26""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner27"" id=""ub-banner27""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner16"" id=""ub-banner1-300x600""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner17"" id=""ub-banner2-300x600""></div>",
-        @"<div class=""adsconex-banner"" data-ad-placement=""banner18"" id=""ub-banner3-300x600""></div>"
-    };
+{
+             @"<div id=""js_adsconex_parallax_1"" class="""" data-type=""parallax"">
+      <div class=""adsconex-parallax_wrapper"" style=""display: block;"">
+        <div class=""adsconex-parallax_ad-wrapper"">
+          <div class=""adsconex-parallax_ad"" align=""center"">
+            <div id=""div_adsconex_inpage_1""></div>
+          </div>
+        </div>
+      </div>
+    </div>",
+             @"<div id=""div_adsconex_banner_responsive_2""></div>",
+    // --- Inpage / Parallax 2 ---
+    @"<div id=""js_adsconex_parallax_2"" class="""" data-type=""parallax"">
+      <div class=""adsconex-parallax_wrapper"" style=""display: block;"">
+        <div class=""adsconex-parallax_ad-wrapper"">
+          <div class=""adsconex-parallax_ad"" align=""center"">
+            <div id=""div_adsconex_inpage_2""></div>
+          </div>
+        </div>
+      </div>
+    </div>",
+    // --- Các banner Responsive (1 đến 18) ---
+    @"<div id=""qctaboo-mid""></div>",
+    
+    @"<div id=""div_adsconex_banner_responsive_3""></div>",
+    @"<div id=""div_adsconex_banner_responsive_4""></div>",
+    @"<div id=""div_adsconex_banner_responsive_5""></div>",
+    @"<div id=""div_adsconex_banner_responsive_6""></div>",
+    @"<div id=""div_adsconex_banner_responsive_7""></div>",
+    @"<div id=""div_adsconex_banner_responsive_8""></div>",
+    @"<div id=""div_adsconex_banner_responsive_9""></div>",
+    @"<div id=""div_adsconex_banner_responsive_11""></div>",
+    @"<div id=""div_adsconex_banner_responsive_12""></div>",
+    @"<div id=""div_adsconex_banner_responsive_13""></div>",
+    @"<div id=""div_adsconex_banner_responsive_14""></div>",
+    @"<div id=""div_adsconex_banner_responsive_15""></div>",
+    @"<div id=""div_adsconex_banner_responsive_16""></div>",
+    @"<div id=""div_adsconex_banner_responsive_17""></div>",
+    @"<div id=""div_adsconex_banner_responsive_18""></div>",
+
+    // --- Inpage / Parallax 1 ---
+   
+};
+
+
 
         const int threshold = 40; // ngưỡng 40 từ
         int accumulated = 0;
@@ -1208,8 +1261,155 @@ public class NewsContentAppService : INewsContentAppService
 
     }
 
+    //Lấy 2 bài viết theo Id và cùng chủ đề
+    /// <inheritdoc cref="GetDetailVip"/>
+    public async Task<List<NewsMainModel>> GetDetailVip(string id)
+    {
+        var cacheKey = $"news:detailvip:{id}";
+        // 1) Cache hit -> trả luôn, không đọc DB, không xử lý lại
+        if (_cache.TryGetValue(cacheKey, out List<NewsMainModel> cached) && cached != null && cached.Count > 0)
+        {
+            _logger.LogInformation("Cache HIT: {CacheKey}", cacheKey);
+            return cached;
+        }
 
-   
+        _logger.LogInformation("Cache MISS: {CacheKey}", cacheKey);
+
+        var host = new NCoreHelperV2023().ReturnHostWebsite();
+
+        var details = await _queries.GetDetailVip(id);
+
+        if (details == null || details.Count == 0)
+            return details ?? new List<NewsMainModel>();
+
+        // Danh sách quảng cáo của bạn (dùng trực tiếp)
+        var ads = new List<string>
+    {
+        @"<div class=""adsconex-banner-parallax"" data-ad-placement=""banner20"" id=""div_ub_inpage20""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner2"" id=""ub-banner2""></div>",
+        @"<div class=""adsconex-banner-parallax"" data-ad-placement=""banner21"" id=""div_ub_inpage21""></div>",
+        @"<div id=""qctaboo-mid""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner3"" id=""ub-banner3""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner4"" id=""ub-banner4""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner5"" id=""ub-banner5""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner6"" id=""ub-banner6""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner7"" id=""ub-banner7""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner8"" id=""ub-banner8""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner9"" id=""ub-banner9""></div>",
+        //@"<div class=""adsconex-banner"" data-ad-placement=""banner10"" id=""ub-banner10""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner11"" id=""ub-banner-11""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner12"" id=""ub-banner-12""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner13"" id=""ub-banner-13""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner14"" id=""ub-banner-14""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner15"" id=""ub-banner-15""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner18n"" id=""ub-banner18""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner19"" id=""ub-banner19""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner20n"" id=""ub-banner20""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner21n"" id=""ub-banner21""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner22"" id=""ub-banner22""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner23"" id=""ub-banner23""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner24"" id=""ub-banner24""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner25"" id=""ub-banner25""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner26"" id=""ub-banner26""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner27"" id=""ub-banner27""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner16"" id=""ub-banner1-300x600""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner17"" id=""ub-banner2-300x600""></div>",
+        @"<div class=""adsconex-banner"" data-ad-placement=""banner18"" id=""ub-banner3-300x600""></div>"
+    };
+
+        const int threshold = 40; // ngưỡng 40 từ
+
+        // ===== Biến dùng chung cho TOÀN BỘ LIST (để quảng cáo không lặp lại theo từng bài) =====
+        int accumulated = 0;
+        int adIndex = 0;
+
+        foreach (var detail in details)
+        {
+            if (detail == null || string.IsNullOrEmpty(detail.Content))
+                continue;
+
+            // 1) Chèn ads theo số từ (DÙNG CHUNG adIndex/accumulated)
+            var paragraphs = detail.Content.Split("<p>", StringSplitOptions.RemoveEmptyEntries);
+            var sb = new StringBuilder();
+
+            foreach (var paragraph in paragraphs)
+            {
+                int wordCount = paragraph.Split(new[] { ' ', '\t', '\n', '\r' },
+                                    StringSplitOptions.RemoveEmptyEntries).Length;
+
+                accumulated += wordCount;
+
+                sb.Append("<p>").Append(paragraph);
+
+                if (accumulated >= threshold && adIndex < ads.Count)
+                {
+                    sb.Append(ads[adIndex]);
+                    adIndex++;
+                    accumulated = 0; // reset sau mỗi lần chèn quảng cáo (giữ logic bạn đang dùng)
+                }
+            }
+
+            var result = sb.ToString();
+
+            // 2) Chèn <div id="qcImg"> trước figure/img đầu tiên
+            try
+            {
+                var htmlDocument = new HtmlDocument();
+                htmlDocument.LoadHtml(result);
+
+                var figureNodes = htmlDocument.DocumentNode.SelectNodes("//figure");
+                if (figureNodes != null && figureNodes.Count > 0)
+                {
+                    var divNode = HtmlNode.CreateNode("<div id=\"qcImg\"> </div>");
+                    figureNodes[0].ParentNode.InsertBefore(divNode, figureNodes[0]);
+                }
+                else
+                {
+                    var imgNodes = htmlDocument.DocumentNode.SelectNodes("//img");
+                    if (imgNodes != null && imgNodes.Count > 0)
+                    {
+                        var divNode = HtmlNode.CreateNode("<div id=\"qcImg\"> </div>");
+                        imgNodes[0].ParentNode.InsertBefore(divNode, imgNodes[0]);
+                    }
+                }
+
+                result = htmlDocument.DocumentNode.OuterHtml;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi xử lý HTML để chèn qcImg cho bài {Id}", detail.Id);
+                throw;
+            }
+
+            // 3) Gán lại content
+            detail.Content = result;
+
+            // 4) Xử lý avatar
+            if (string.IsNullOrEmpty(detail.AvatarLink))
+            {
+                detail.AvatarLink = "https://apinews.sportsandtravelonline.com/Uploads/Img//638521374628029939.png";
+                _logger.LogInformation("=====Anh null===========:" + id);
+                _logger.LogInformation("=====Anh id baiviet===========:" + detail.Id);
+                _logger.LogInformation("=====Anh local===========:" + detail.AvatarLocal);
+                _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+            }
+            else if (detail.AvatarLocal)
+            {
+                detail.AvatarLink = host + "" + detail.AvatarLink;
+                _logger.LogInformation("=====Lỗi tieu de: ===========:" + detail.Name);
+            }
+        }
+        
+        _cache.Set(cacheKey, details, new MemoryCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(30),
+            Priority = CacheItemPriority.High,
+            Size = 1
+        });
+
+        return details;
+    }
+
     /// <inheritdoc cref="GetDetail"/>
     public async Task<NewsThreadModel> GetDetailThread(string profileId, string categoryId, int position,int top)
     {

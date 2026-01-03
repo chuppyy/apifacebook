@@ -541,7 +541,13 @@
         </member>
         <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.GetNewsDetailBasic(System.String)">
             <summary>
-                Dữ liệu chi tiết bài viết
+                Dữ liệu chi tiết bài viết cho web redirect
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ITC.Service.API.Controllers.HomeManagers.NewsController.GetNewsDetailVip(System.String)">
+            <summary>
+                Lấy nhiều bài viết 
             </summary>
             <returns></returns>
         </member>
