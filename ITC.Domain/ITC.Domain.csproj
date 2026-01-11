@@ -17,11 +17,13 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="AWSSDK.S3" Version="4.0.16.2" />
         <PackageReference Include="Google.Apis.Auth" Version="1.67.0" />
         <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
         <PackageReference Include="NCore" Version="2.2.0.8" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="OAuth" Version="1.0.3" />
+        <PackageReference Include="SkiaSharp" Version="3.119.1" />
         <PackageReference Include="TweetinviAPI" Version="5.0.4" />
     </ItemGroup>
 

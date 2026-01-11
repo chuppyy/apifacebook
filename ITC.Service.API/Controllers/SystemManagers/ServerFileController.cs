@@ -1,10 +1,5 @@
 ﻿#region
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using ITC.Application.AppService.SystemManagers.ServerFileManagers;
 using ITC.Application.Helpers;
 using ITC.Domain.Core.Bus;
@@ -17,10 +12,18 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using MyR2Project.Utils;
 using NCore.Enums;
 using NCore.Modals;
 using NCore.Responses;
 using NCore.Systems;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 #endregion
 
@@ -37,6 +40,7 @@ public class ServerFileController : ApiController
     #region Fields
 
     private readonly IServerFileAppService _serverFileAppService;
+    private readonly IConfiguration _configuration;
 
     #endregion
 
@@ -50,10 +54,13 @@ public class ServerFileController : ApiController
     /// <param name="mediator"></param>
     public ServerFileController(IServerFileAppService                    serverFileAppService,
                                 INotificationHandler<DomainNotification> notifications,
-                                IMediatorHandler                         mediator) :
+                                IMediatorHandler                         mediator,
+                                IConfiguration configuration
+                                ) :
         base(notifications, mediator)
     {
         _serverFileAppService = serverFileAppService;
+        _configuration = configuration;
     }
 
     #endregion
@@ -110,7 +117,7 @@ public class ServerFileController : ApiController
     /// </summary>
     /// <param name="files">Tên file và dữ liệu upload</param>
     /// <returns></returns>
-    [HttpPost("upload-file")]
+    [HttpPost("upload-file-old")]
     [RequestFormLimits(MultipartBodyLengthLimit = DocHelper.SizeLimit)]
     [RequestSizeLimit(DocHelper.SizeLimit)]
     public async Task<IActionResult> UploadServerFile(IFormCollection files)
@@ -143,6 +150,84 @@ public class ServerFileController : ApiController
             Link = idFile
         });
     }
+
+    [HttpPost("upload-file")] // Đảm bảo route đúng
+    [RequestFormLimits(MultipartBodyLengthLimit = DocHelper.SizeLimit)]
+    [RequestSizeLimit(DocHelper.SizeLimit)]
+    public async Task<IActionResult> UploadServerFileNews(IFormCollection files)
+    {
+        if (!ModelState.IsValid)
+        {
+            // NotifyModelStateErrors(); // Hàm này của bên bạn
+            return BadRequest(new { status = false, message = "Invalid Data" });
+        }
+
+        // 1. Kiểm tra tham số isR2 từ Client gửi lên
+        bool isR2 = true;
+        if (files.ContainsKey("isR2"))
+        {
+            bool.TryParse(files["isR2"], out isR2);
+        }
+
+        // 2. Lấy danh sách file
+        var lFile = files.Files.ToList();
+        if (lFile.Count == 0) return BadRequest("Không có file nào được gửi lên.");
+
+        // --- LOGIC MỚI: NẾU LÀ R2 ---
+        if (isR2)
+        {
+            // Lấy cấu hình R2 từ appsettings (hoặc inject IConfiguration vào Controller để lấy)
+            // Giả sử bạn đã Inject _configuration vào Constructor
+            var r2Config = _configuration.GetSection("CloudflareR2").Get<R2Config>();
+
+            var uploadedLinks = new List<string>();
+
+            foreach (var file in lFile)
+            {
+                if (file.Length > 0)
+                {
+                    using var stream = file.OpenReadStream();
+                    // Upload lên R2 vào thư mục "uploads" (hoặc thư mục tùy chọn)
+                    
+                    var r2Link = await R2Uploader.UploadFromFormFile(stream, file.FileName, file.ContentType, r2Config);
+
+                    if (!string.IsNullOrEmpty(r2Link))
+                    {
+                        uploadedLinks.Add(r2Link);
+                    }
+                }
+            }
+
+            // Trả về link file đầu tiên (hoặc list tùy logic bên bạn)
+            // Giữ nguyên format trả về là UploadFileDto để Client không bị lỗi
+            return Ok(new UploadFileDto()
+            {
+                Link = uploadedLinks.FirstOrDefault() ?? ""
+            });
+        }
+
+        // --- LOGIC CŨ: NẾU KHÔNG PHẢI R2 (Giữ nguyên) ---
+        var model = new UploadFileEventModel
+        {
+            Link = "",
+            Name = files["name"],
+            Description = files["description"],
+            ParentId = files["ParentId"],
+            FileType = Convert.ToInt32(files["fileType"]),
+            VideoType = Convert.ToInt32(files["videoType"]),
+            IsLocal = true,
+            FileModels = lFile
+        };
+
+        var idFile = await _serverFileAppService.UploadServerFile(model);
+        return Ok(new UploadFileDto()
+        {
+            Link = idFile
+        });
+    }
+
+
+
 
     /// <summary>
     ///     Upload file đính kèm

@@ -1591,7 +1591,7 @@
                 Sever-File
             </summary>
         </member>
-        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.#ctor(ITC.Application.AppService.SystemManagers.ServerFileManagers.IServerFileAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler)">
+        <member name="M:ITC.Service.API.Controllers.SystemManagers.ServerFileController.#ctor(ITC.Application.AppService.SystemManagers.ServerFileManagers.IServerFileAppService,MediatR.INotificationHandler{ITC.Domain.Core.Notifications.DomainNotification},ITC.Domain.Core.Bus.IMediatorHandler,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
                 Hàm dựng
             </summary>

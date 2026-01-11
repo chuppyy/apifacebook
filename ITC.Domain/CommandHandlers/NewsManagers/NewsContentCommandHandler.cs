@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Aspose.Pdf.Forms;
 using HtmlAgilityPack;
 using ITC.Domain.Commands.NewsManagers.NewsContentManagers;
 using ITC.Domain.Core.Bus;
 using ITC.Domain.Core.Events;
 using ITC.Domain.Core.Notifications;
 using ITC.Domain.Extensions;
+using MyR2Project.Utils;
 using ITC.Domain.Interfaces;
 using ITC.Domain.Interfaces.NewsManagers.NewsContentManagers;
 using ITC.Domain.Interfaces.NewsManagers.NewsDomainManagers;
@@ -16,11 +14,17 @@ using ITC.Domain.Interfaces.StudyManagers.MinusWord;
 using ITC.Domain.Interfaces.SystemManagers.SystemLogs;
 using ITC.Domain.Models.NewsManagers;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using NCore.Actions;
 using NCore.Enums;
 using NCore.Helpers;
 using NCore.Modals;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ITC.Domain.CommandHandlers.NewsManagers;
 
@@ -33,7 +37,21 @@ public class NewsContentCommandHandler : CommandHandler,
                                          IRequestHandler<DeleteNewsContentCommand, bool>,
                                          IRequestHandler<UpdateTimeAutoPostNewsContentCommand, bool>
 {
-#region Constructors
+
+    #region Fields
+
+    private readonly INewsContentRepository _repository;
+    private readonly INewsContentQueries _queries;
+    private readonly IMinusWordQueries _minusWordQueries;
+    private readonly ISystemLogRepository _systemLogRepository;
+    private readonly INewsGroupRepository _newsGroupRepository;
+    private readonly INewsDomainQueries _newsDomainQueries;
+    private readonly INewsDomainRepository _newsDomainRepository;
+    private readonly IUser _user;
+    private readonly IConfiguration _configuration;
+
+    #endregion
+    #region Constructors
 
     /// <summary>
     ///     Hàm dựng với tham số
@@ -49,6 +67,7 @@ public class NewsContentCommandHandler : CommandHandler,
     /// <param name="uow"></param>
     /// <param name="bus"></param>
     /// <param name="notifications"></param>
+    /// <param name="config"></param>
     public NewsContentCommandHandler(IUser                                    user,
                                      INewsContentRepository                   newsContentRepository,
                                      INewsContentQueries                      newsContentQueries,
@@ -59,7 +78,9 @@ public class NewsContentCommandHandler : CommandHandler,
                                      INewsDomainRepository                    newsDomainRepository,
                                      IUnitOfWork                              uow,
                                      IMediatorHandler                         bus,
-                                     INotificationHandler<DomainNotification> notifications) :
+                                     IConfiguration configuration,
+                                     INotificationHandler<DomainNotification> notifications
+                                     ) :
         base(uow, bus, notifications)
     {
         _user                 = user;
@@ -70,6 +91,8 @@ public class NewsContentCommandHandler : CommandHandler,
         _newsGroupRepository  = newsGroupRepository;
         _newsDomainQueries    = newsDomainQueries;
         _newsDomainRepository = newsDomainRepository;
+        _configuration        = configuration;
+
     }
 
 #endregion
@@ -103,23 +126,84 @@ public class NewsContentCommandHandler : CommandHandler,
         }
         var doc = new HtmlDocument();
         doc.LoadHtml(command.Content);
+        //if (command.Content.Contains("base64"))
+        //{
+        //    NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
+        //    return await Task.FromResult(false);
+
+        //    /*// Select all img elements with a base64 src attribute
+        //    var imgElements = doc.DocumentNode.SelectNodes("//img[starts-with(@src, 'data:image/')]");
+
+        //    if (imgElements != null)
+        //    {
+        //        foreach (var imgElement in imgElements)
+        //        {
+        //            // Remove the img element
+        //            imgElement.Remove();
+        //        }
+        //    }*/
+        //}
+        #region UPFILE R2
         if (command.Content.Contains("base64"))
         {
-            NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
-            return await Task.FromResult(false);
-            
-            /*// Select all img elements with a base64 src attribute
-            var imgElements = doc.DocumentNode.SelectNodes("//img[starts-with(@src, 'data:image/')]");
+            #region Xử lý base 64
+            // 2. XỬ LÝ NỘI DUNG HTML
+            // Danh sách các Task (công việc) cần chạy song song
+            var tasks = new List<Task>();
+            var imgNodes = doc.DocumentNode.SelectNodes("//img");
+            var _config = _configuration.GetSection("CloudflareR2").Get<R2Config>();
+            // List lưu cặp: (Node HTML, Task Upload) để sau này thay thế lại
+            var contentImageJobs = new List<(HtmlNode Node, Task<string> UploadTask)>();
 
-            if (imgElements != null)
+            if (imgNodes != null)
             {
-                foreach (var imgElement in imgElements)
+                foreach (var img in imgNodes)
                 {
-                    // Remove the img element
-                    imgElement.Remove();
+                    var src = img.GetAttributeValue("src", "");
+                    if (string.IsNullOrEmpty(src)) continue;
+
+                    Task<string> task = null;
+
+                    // Case A: Ảnh Base64
+                    if (src.StartsWith("data:image"))
+                    {
+                        task = R2Uploader.UploadFromBase64Async(src, _config, "content");
+                    }
+                    // Case B: Ảnh URL (không phải ảnh của mình)
+                    else if (src.StartsWith("http") && !src.Contains(_config.PublicDomain))
+                    {
+                        task = R2Uploader.UploadFromUrlAsync(src, _config, "content");
+                    }
+
+                    if (task != null)
+                    {
+                        contentImageJobs.Add((img, task));
+                        tasks.Add(task); // Thêm vào danh sách chờ chung
+                    }
                 }
-            }*/
+            }
+
+            // --- QUAN TRỌNG: CHỜ TẤT CẢ UPLOAD CÙNG LÚC ---
+            await Task.WhenAll(tasks);
+            // Cập nhật HTML
+            foreach (var job in contentImageJobs)
+            {
+                var newUrl = job.UploadTask.Result; // Lấy kết quả
+                if (!string.IsNullOrEmpty(newUrl))
+                {
+                    job.Node.SetAttributeValue("src", newUrl);
+                    // Xóa các attribute rác thường gặp
+                    job.Node.Attributes.Remove("data-src");
+                }
+            }
+
+            #endregion
         }
+        #endregion
+
+
+
+
         //Thêm thuộc tính cho thẻ img
         var imgTags = doc.DocumentNode.SelectNodes("//img");
 
@@ -328,23 +412,83 @@ public class NewsContentCommandHandler : CommandHandler,
         }
         var doc = new HtmlDocument();
         doc.LoadHtml(command.Content);
+        //if (command.Content.Contains("base64"))
+        //{
+        //    NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
+        //    return await Task.FromResult(false);
+            
+        //    // Select all img elements with a base64 src attribute
+        //    var imgElements = doc.DocumentNode.SelectNodes("//img[starts-with(@src, 'data:image/')]");
+
+        //    if (imgElements != null)
+        //    {
+        //        foreach (var imgElement in imgElements)
+        //        {
+        //            // Remove the img element
+        //            imgElement.Remove();
+        //        }
+        //    }
+        //}
+
         if (command.Content.Contains("base64"))
         {
-            NotifyValidationErrors("Không hỗ trợ xử lý hình ảnh base64");
-            return await Task.FromResult(false);
-            
-            // Select all img elements with a base64 src attribute
-            var imgElements = doc.DocumentNode.SelectNodes("//img[starts-with(@src, 'data:image/')]");
+            #region Xử lý base 64
+            // 2. XỬ LÝ NỘI DUNG HTML
+            // Danh sách các Task (công việc) cần chạy song song
+            var tasks = new List<Task>();
+            var imgNodes = doc.DocumentNode.SelectNodes("//img");
+            var _config = _configuration.GetSection("CloudflareR2").Get<R2Config>();
+            // List lưu cặp: (Node HTML, Task Upload) để sau này thay thế lại
+            var contentImageJobs = new List<(HtmlNode Node, Task<string> UploadTask)>();
 
-            if (imgElements != null)
+            if (imgNodes != null)
             {
-                foreach (var imgElement in imgElements)
+                foreach (var img in imgNodes)
                 {
-                    // Remove the img element
-                    imgElement.Remove();
+                    var src = img.GetAttributeValue("src", "");
+                    if (string.IsNullOrEmpty(src)) continue;
+
+                    Task<string> task = null;
+
+                    // Case A: Ảnh Base64
+                    if (src.StartsWith("data:image"))
+                    {
+                        task = R2Uploader.UploadFromBase64Async(src, _config, "content");
+                    }
+                    // Case B: Ảnh URL (không phải ảnh của mình)
+                    else if (src.StartsWith("http") && !src.Contains(_config.PublicDomain))
+                    {
+                        task = R2Uploader.UploadFromUrlAsync(src, _config, "content");
+                    }
+
+                    if (task != null)
+                    {
+                        contentImageJobs.Add((img, task));
+                        tasks.Add(task); // Thêm vào danh sách chờ chung
+                    }
                 }
             }
+
+            // --- QUAN TRỌNG: CHỜ TẤT CẢ UPLOAD CÙNG LÚC ---
+            await Task.WhenAll(tasks);
+            // Cập nhật HTML
+            foreach (var job in contentImageJobs)
+            {
+                var newUrl = job.UploadTask.Result; // Lấy kết quả
+                if (!string.IsNullOrEmpty(newUrl))
+                {
+                    job.Node.SetAttributeValue("src", newUrl);
+                    // Xóa các attribute rác thường gặp
+                    job.Node.Attributes.Remove("data-src");
+                }
+            }
+
+            #endregion
         }
+
+
+
+
 
         //Thêm thuộc tính cho thẻ img
         var imgTags = doc.DocumentNode.SelectNodes("//img");
@@ -596,16 +740,5 @@ public class NewsContentCommandHandler : CommandHandler,
         return listMinusWord.Aggregate(result, (current, items) => current.Replace(items.Root, items.Replace));
     }
 
-#region Fields
-
-    private readonly INewsContentRepository _repository;
-    private readonly INewsContentQueries    _queries;
-    private readonly IMinusWordQueries      _minusWordQueries;
-    private readonly ISystemLogRepository   _systemLogRepository;
-    private readonly INewsGroupRepository   _newsGroupRepository;
-    private readonly INewsDomainQueries     _newsDomainQueries;
-    private readonly INewsDomainRepository  _newsDomainRepository;
-    private readonly IUser                  _user;
-
-    #endregion
+    
 }
